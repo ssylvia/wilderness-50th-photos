@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9,IE=10">
+
+	<title><%= data.config.metaTitle ? data.config.metaTitle : data.advancedSettings.appName + " | An Esri Story Maps" %></title>
+
+	<meta name="author" content="<%= data.config.metaAuthor ? data.config.metaAuthor : "Esri" %>">
+	<meta name="keywords" content="<%= data.config.metaKeywords ? data.config.metaKeywords : "Story Map" %>">
+	<meta name="description" content="<%= data.config.metaDescription ? data.config.metaDescription : data.config.subtitle %>">
+
+	<!--Facebook Open Graph-->
+	<meta property="og:title" content="<%= data.config.title ? data.config.title : data.advancedSettings.appName + " | An Esri Story Map" %>" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="<%= data.config.metaSocialURL ? data.config.metaSocialURL : "" %>" />
+	<meta property="og:image" content="<%= data.config.metaThumbnailURL ? data.config.metaThumbnailURL : "" %>" />
+	<meta property="og:site_name" content="<%= data.config.metaSiteName ? data.config.metaSiteName : "" %>" />
+	<meta property="og:description" content="<%= data.config.metaDescription ? data.config.metaDescription : data.config.subtitle %>"/>
+	<meta property="fb:app_id" content="<%= data.advancedSettings.FacebookAppId ? data.advancedSettings.FacebookAppId : "" %>" />
+	<!--End Facebook-->
+
+	<!--Twitter Card Data-->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@<%= data.config.metaTwitterHandle ? data.config.metaTwitterHandle : "EsriStoryMaps" %>">
+	<meta name="twitter:url" content="<%= data.config.metaSocialURL ? data.config.metaSocialURL : "" %>">
+	<meta name="twitter:title" content="<%= data.config.metaTitle ? data.config.metaTitle : data.advancedSettings.appName + " | An Esri Story Maps" %>">
+	<meta name="twitter:description" content="<%= data.config.metaDescription ? data.config.metaDescription : data.config.subtitle %>">
+	<meta name="twitter:image" content="<%= data.config.metaThumbnailURL ? data.config.metaThumbnailURL : "" %>">
+	<!--Twitter Card Data-->
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+	<link type="image/ico" rel="shortcut icon" href="<%= data.config.metaShortcutURL ? data.config.metaShortcutURL : "//resources.esri.com/favicon.ico" %>">
+	<link type="image/ico" rel="icon" href="<%= data.config.metaFaviconURL ? data.config.metaFaviconURL : "//resources.esri.com/favicon.ico" %>">
+
+	<!-- load Avenir from fonts.com  this is will only work on localhost, arcgis.com or esri.com domains -->
+	<%= stylesheet_link_tag "//fast.fonts.com/cssapi/4a60d16b-c9e4-404d-89d3-809adb97d65c.css" %>
+	<% if data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme %>
+	<%= stylesheet_link_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/js/dojo/dijit/themes/" + data.advancedSettings.dijitsTheme + "/" + data.advancedSettings.dijitsTheme + ".css" %>
+	<% end %>
+	<%= stylesheet_link_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/js/esri/css/esri.css" %>
+	<%= stylesheet_link_tag "app" %>
+
+	<!--[if lt IE 9]>
+	<script src="lib/selectivizr-min.js" type="text/javascript"></script>
+	<script src="lib/html5shiv.js" type="text/javascript"></script>
+	<![endif]-->
+
+	<script type="text/javascript">
+		var dojoConfig = {
+			parseOnLoad: true,
+			isDebug: false,
+			useDeferredInstrumentation: true,
+			packages: [
+			{
+				name: 'storymaps',
+				location: location.pathname.replace(/\/[^/]+$/, '/') + 'app/javascript'
+			},
+			{
+				name: 'lib',
+				location: location.pathname.replace(/\/[^/]+$/, '/') + 'lib'
+			}//,
+			// {
+			// 	name: 'esriTemplate',
+			// 	location: location.pathname.replace(/\/[^/]+$/, '/') + 'resources'
+			// }
+			]
+		};
+	</script>
+
+</head>
+<body class="<%= data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme ? data.advancedSettings.dijitsTheme : "" %>">
+	
+	<div id="app-load-screen">
+		<div id="loader"></div>
+		<h4 id="loading-message">Loading <%= data.advancedSettings.appName %></h4>
+	</div>
+
+	<div id="bitly-overlay" class="modal bitly-modal">
+		<a class="icon-close right" onclick="$('.bitly-modal').removeClass('visible');"></a>		
+		<h4>Bitly link to share</h4>
+		<br>
+		<a id="bitly-link" target="_blank"></a>
+		<br>
+		<div id="bitly-copy" class="btn primary" onclick="$('.bitly-modal').removeClass('visible');">Close</div>
+	</div>
+
+	<% if data.advancedSettings.builder %>
+	<%= partial "layouts/builderMenu" %>
+	<% end %>
+
+	<div id="view-content" class="region-center">
+	
+		<div id="banner" class="region-top">
+
+			<div id="header-text" class="region-center">
+				<h1 id="title"><%= data.config.title ? data.config.title : "Add title here" %></h1>
+				<h2 id="subtitle"><%= data.config.subtitle ? data.config.subtitle : "Add subtitle here" %></h2>
+			</div><!--/header-text-->
+
+			<div id="branding-wrapper" class="region-right">
+				<div id="social">
+					<a id="smLink" href="http://storymaps.esri.com" target="_blank">A story map</a>&nbsp;
+					<span class="icon-facebook social-share"></span>
+					<span class="icon-twitter social-share"></span>
+					<span class="icon-share social-share"></span>
+				</div><!--/social-->
+				<div id="logo">
+					<a id="logoLink" href="http://www.esri.com" target="_blank">
+						<img id="logoImg" src="resources/images/esriGlobeLogow.png" alt="Esri - Home">
+					</a><!--/logoLink-->
+				</div><!--/logo-->
+			</div><!--/branding-wrapper-->
+
+		</div><!--/banner-->
+
+		<div id="content" class="region-center">
+			<%= yield %>
+		</div><!--/content-->
+
+	</div><!--/view-content-->	
+	
+	<% if data.config.includeAnalytics && data.config.trackingId %>
+	<!--Google Analytics Start-->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', '<%= data.config.trackingId %>']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	<!--Google Analytics End-->
+	<% end %>
+	<%= javascript_include_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/" %>
+	<script type="text/javascript">
+	<% if isProduction %>
+		require(["app/javascript/<%= data.advancedSettings.appIdentifier %>-viewer.min.js"]);
+	<% else %>
+		require(["storymaps/core/Core"],function(Core){
+			Core.init();
+		});
+
+	<% end %>
+	</script>
+</body>
+</html>
