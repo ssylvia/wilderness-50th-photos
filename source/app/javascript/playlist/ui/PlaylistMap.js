@@ -1,5 +1,5 @@
-define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-construct"], 
-	function(Map,arcgisUtils,Popup,On,domConstruct){
+define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer"], 
+	function(Map,arcgisUtils,Popup,On,domConstruct,PictureMarkerSymbol,UniqueValueRenderer){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -48,6 +48,21 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 						}
 					});
 				}
+			});
+
+			setRenderers();
+		}
+
+		function setRenderers()
+		{
+			dojo.forEach(_pointLayers,function(lyr,i){
+
+				var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/red/NumberIcon1.png", 22, 28).setOffset(3,8);
+				var renderer = new UniqueValueRenderer(defaultSymbol, lyr.objectIdField);
+				dojo.forEach(lyr.graphics,function(grp,i){
+					renderer.addValue(grp.attributes[lyr.objectIdField], new PictureMarkerSymbol("resources/images/markers/red/NumberIcon" + (i + 1) + ".png", 22, 28).setOffset(3,8));
+				});
+				lyr.setRenderer(renderer);
 			});
 		}
 	}
