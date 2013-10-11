@@ -49,28 +49,6 @@
 	<script src="lib/html5shiv.js" type="text/javascript"></script>
 	<![endif]-->
 
-	<script type="text/javascript">
-		var dojoConfig = {
-			parseOnLoad: true,
-			isDebug: false,
-			useDeferredInstrumentation: true,
-			packages: [
-			{
-				name: 'storymaps',
-				location: location.pathname.replace(/\/[^/]+$/, '/') + 'app/javascript'
-			},
-			{
-				name: 'lib',
-				location: location.pathname.replace(/\/[^/]+$/, '/') + 'lib'
-			}//,
-			// {
-			// 	name: 'esriTemplate',
-			// 	location: location.pathname.replace(/\/[^/]+$/, '/') + 'resources'
-			// }
-			]
-		};
-	</script>
-
 </head>
 <body class="<%= data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme ? data.advancedSettings.dijitsTheme : "" %>">
 	
@@ -138,15 +116,55 @@
 		</script>
 	<!--Google Analytics End-->
 	<% end %>
+	<script type="text/javascript">
+		var dojoConfig = {
+			parseOnLoad: true,
+			isDebug: false,
+			useDeferredInstrumentation: true,
+			packages: [
+			{
+				name: 'storymaps',
+				location: location.pathname.replace(/\/[^/]+$/, '/') + 'app/javascript'
+			},
+			{
+				name: 'lib',
+				location: location.pathname.replace(/\/[^/]+$/, '/') + 'lib'
+			}//,
+			// {
+			// 	name: 'esriTemplate',
+			// 	location: location.pathname.replace(/\/[^/]+$/, '/') + 'resources'
+			// }
+			]
+		};
+	</script>
 	<%= javascript_include_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/" %>
 	<script type="text/javascript">
+
+		var configOptions = {
+			//The appid for the configured application
+			appId: "<%= data.config.appId %>",
+			//The web map id
+			webmap: "<%= data.config.webmap %>",
+			//Enter a title, if no title is specified, the webmap's title is used.
+			title: "<%= data.config.title %>",
+			//Enter a subtitle, if not specified the ArcGIS.com web map's summary is used
+			subtitle: "<%= data.config.subtitle %>",
+			//If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
+			bingMapsKey: "<%= data.config.bingMapsKey %>",
+			// Specify a proxy for custom deployment
+			proxyUrl: "<%= data.config.proxyUrl %>",
+			//specify the url to a geometry service
+			geometryServiceUrl: "<%= data.config.geometryServiceUrl %>",
+			//Modify this to point to your sharing service URL if you are using the portal
+			sharingUrl: "<%= data.config.sharingUrl %>"
+		};
+
 	<% if isProduction %>
 		require(["app/javascript/<%= data.advancedSettings.appIdentifier %>-viewer.min.js"]);
 	<% else %>
-		require(["storymaps/core/Core"],function(Core){
+		require(["storymaps/playlist/core/Core"],function(Core){
 			Core.init();
 		});
-
 	<% end %>
 	</script>
 </body>

@@ -1,5 +1,5 @@
 define(["lib/spin.min.js","lib/jquery/jquery-1.10.2.min","storymaps/utils/SocialSharing"], 
-	function(Spinner){
+	function(){
 	/**
 	* Helper
 	* @class Helper
@@ -21,7 +21,7 @@ define(["lib/spin.min.js","lib/jquery/jquery-1.10.2.min","storymaps/utils/Social
 			length: 7, // The length of each line
 			width: 7, // The line thickness
 			radius: 30, // The radius of the inner circle
-			corners: 0, // Corner roundness (0..1)
+			corners: 1, // Corner roundness (0..1)
 			rotate: 0, // The rotation offset
 			direction: 1, // 1: clockwise, -1: counterclockwise
 			color: '#000', // #rgb or #rrggbb or array of colors

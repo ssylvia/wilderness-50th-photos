@@ -1,2 +1,5 @@
-@import "base";
-@import "storymaps";
+@import "base/base";
+@import "base/storymaps";
+
+@import "playlist/ui/sidePane";
+@import "playlist/ui/map";

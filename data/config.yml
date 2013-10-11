@@ -36,3 +36,19 @@ metaShortcutURL: //resources.esri.com/favicon.ico
 title: Playlist
 # App subtitle, leave black to use webmap subtitle
 subtitle: Add a subtitle here!
+
+
+# MAPS AND DATA CONFIGURATION
+
+# The appid for the configured application
+appId: ""
+# The web map id
+webmap: 225d8fdebb1440db80165645dcd16b91
+# If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
+bingMapsKey: ""
+# Specify a proxy for custom deployment
+proxyUrl: ""
+# Specify the url to a geometry service
+geometryServiceUrl: "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
+# Modify this to point to your sharing service URL if you are using the portal
+sharingUrl: http://www.arcgis.com/sharing/rest/content/items
