@@ -27,6 +27,20 @@ module.exports = function(grunt) {
 			}
 		},
 
+		copy: {
+			map: {
+				files: [
+					{
+						expand: true,
+						flatten: true,
+						cwd: '',
+						src: ['source/lib/**/*.map'],
+						dest: 'build/app/javascript/'
+					}
+				]
+			},
+		},
+
 		requirejs: {
 			viewer: {
 				options: {
@@ -53,6 +67,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	// Default task(s).
 	grunt.registerTask('default', [
@@ -66,7 +81,8 @@ module.exports = function(grunt) {
 		* - concat those .js with lib's JS
 		* - perform production mode replacement in JS files
 		*/
-		'requirejs'
+		'requirejs',
+		'copy'
 
 	]);
 

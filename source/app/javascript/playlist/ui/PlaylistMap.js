@@ -1,5 +1,5 @@
 define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer"], 
-	function(Map,arcgisUtils,Popup,On,domConstruct,PictureMarkerSymbol,UniqueValueRenderer){
+	function(Map,arcgisUtils,Popup,on,domConstruct,PictureMarkerSymbol,UniqueValueRenderer){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -29,14 +29,14 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 
 				getPointLayers(response.itemInfo.itemData.operationalLayers);
 
-				On.once(_map,"update-end",function(){
+				on.once(_map,"update-end",function(){
 					if(onLoad){
 						onLoad(response.itemInfo.item);
 					}
 				});
 
 			});
-		}
+		};
 
 		function getPointLayers(layers)
 		{
@@ -57,7 +57,7 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 
 		function setRenderers()
 		{
-			dojo.forEach(_playlistLayers,function(lyr,i){
+			dojo.forEach(_playlistLayers,function(lyr){
 
 				// Get Color Attribute
 				var colorAttr;
@@ -116,18 +116,18 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 
 		function addLayerEvents(layer)
 		{
-			On(layer,"mouse-over",function(event){
+			on(layer,"mouse-over",function(event){
 				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(27).setHeight(34).setOffset(3,10);
 				event.graphic.setSymbol(newSym);
 				_map.setCursor("pointer");
 			});
 
-			On(layer,"mouse-out",function(event){
+			on(layer,"mouse-out",function(event){
 				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(22).setHeight(28).setOffset(3,8);
 				event.graphic.setSymbol(newSym);
 				_map.setCursor("default");
 			});
 		}
-	}
+	};
 
 });

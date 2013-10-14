@@ -12,7 +12,7 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/PlaylistMap","lib/jquery
 
 		var _readyState = {
 			map: false
-		}
+		};
 
 		function init ()
 		{
@@ -38,6 +38,7 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/PlaylistMap","lib/jquery
 				_readyState.map = true;
 				checkReadyState();
 			}).init();
+			console.log(map);
 		}
 
 		function updateText(title,subtitle)
