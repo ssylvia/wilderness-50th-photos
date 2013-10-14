@@ -33,9 +33,9 @@ metaShortcutURL: //resources.esri.com/favicon.ico
 # BANNER CONFIGURATION
 
 # App title, leave black to use webmap title
-title: Playlist
+title: ""
 # App subtitle, leave black to use webmap subtitle
-subtitle: Add a subtitle here!
+subtitle: ""
 
 
 # MAPS AND DATA CONFIGURATION

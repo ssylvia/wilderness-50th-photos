@@ -176,6 +176,10 @@ html, body{
 	}
 }
 
+.map .container{
+	max-width: none;
+}
+
 #legend-wrapper{
 	position: absolute;
 	width: 300px;

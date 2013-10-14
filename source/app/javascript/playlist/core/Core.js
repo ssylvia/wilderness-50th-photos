@@ -33,10 +33,17 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/PlaylistMap","lib/jquery
 		function loadMap()
 		{
 			Helper.updateLoadingMessage("Accessing Maps");
-			var map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",function(){
+			var map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",function(item){
+				updateText(item.title,item.snippet);
 				_readyState.map = true;
 				checkReadyState();
 			}).init();
+		}
+
+		function updateText(title,subtitle)
+		{
+			$("#title").html(configOptions.title || title || "");
+			$("#subtitle").html(configOptions.subtitle || subtitle || "");
 		}
 
 		function checkReadyState()
