@@ -42,7 +42,7 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			},function(graphics){
 				// LAYERS UPDATE EVENT
 				if (_list){
-					updatePlaylist(graphics);
+					// updatePlaylist(graphics);
 				}
 				else {
 					loadPlaylist(graphics);
@@ -52,7 +52,7 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 
 		function loadPlaylist(graphics)
 		{
-			_list = new List("#side-pane").init(graphics);
+			_list = new List("#playlist").init(graphics);
 		}
 
 		function updateText(title,subtitle)

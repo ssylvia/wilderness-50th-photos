@@ -43,7 +43,7 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/Evente
 		this.getPlaylistItems = function()
 		{
 			return _playlistItems;
-		}
+		};
 
 		function getPointLayers(layers)
 		{

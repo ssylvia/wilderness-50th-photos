@@ -5,3 +5,8 @@
 	width: 300px;
 	z-index: 1;
 }
+
+#playlist{
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}

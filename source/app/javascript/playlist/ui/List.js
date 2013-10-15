@@ -1,4 +1,4 @@
-define(["lib/jquery/jquery-1.10.2.min"], 
+define(["lib/jquery/jquery-1.10.2.min","lib/jquery.autoellipsis-1.0.10.min"], 
 	function(){
 	/**
 	* Playlist List
@@ -16,26 +16,35 @@ define(["lib/jquery/jquery-1.10.2.min"],
 		this.init = function(lyrItems)
 		{
 			buildList(lyrItems);
-		}
+		};
 
 		function buildList(lyrItems)
 		{
 			dojo.forEach(lyrItems,function(items){
 				var attr = getAttributeNames(items[0].graphic.attributes);
 				dojo.forEach(items,function(item){
-					var imgStr = "";
+					var itemStr = "";
 					if (attr.thumbnail){
-						imgStr = '<img src=' + item.graphic.attributes[attr.thumbnail] + ' alt="" class="thumbnail" />'
+						itemStr = '\
+							<div class="playlist-item">\
+								<img src=' + item.iconURL + ' alt="" class="marker" />\
+								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + ')"></div>\
+								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+							</div>\
+						';
 					}
-					_listEl.append('\
-						<div class="playlist-item">\
-							<img src=' + item.iconURL + ' alt="" class="marker" />\
-							<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
-							' + imgStr + '\
-						</div>\
-					');
+					else{
+						itemStr = '\
+							<div class="playlist-item no-image">\
+								<img src=' + item.iconURL + ' alt="" class="marker" />\
+								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+							</div>\
+						';
+					}
+					_listEl.append(itemStr);
 				});
 			});
+			$(".item-title").ellipsis();
 		}
 
 		function getAttributeNames(obj)
@@ -48,43 +57,43 @@ define(["lib/jquery/jquery-1.10.2.min"],
 			for (var prop in obj){
 				if (typeof(obj[prop]) === 'string'){
 					if (prop === "title"){
-						attrNames.title = "title"
+						attrNames.title = "title";
 					}
 					else if (prop === "Title"){
-						attrNames.title = "Title"
+						attrNames.title = "Title";
 					}
 					else if (prop === "TITLE"){
-						attrNames.title = "TITLE"
+						attrNames.title = "TITLE";
 					}
 					else if (prop === "name"){
-						attrNames.title = "name"
+						attrNames.title = "name";
 					}
 					else if (prop === "Name"){
-						attrNames.title = "Name"
+						attrNames.title = "Name";
 					}
 					else if (prop === "NAME"){
-						attrNames.title = "NAME"
+						attrNames.title = "NAME";
 					}
 					else if (prop === "thumbnail"){
-						attrNames.thumbnail = "thumbnail"
+						attrNames.thumbnail = "thumbnail";
 					}
 					else if (prop === "Thumbnail"){
-						attrNames.thumbnail = "Thumbnail"
+						attrNames.thumbnail = "Thumbnail";
 					}
 					else if (prop === "thumbnail"){
-						attrNames.thumbnail = "THUMBNAIL"
+						attrNames.thumbnail = "THUMBNAIL";
 					}
 					else if (prop === "thumb_url"){
-						attrNames.thumbnail = "thumb_url"
+						attrNames.thumbnail = "thumb_url";
 					}
 					else if (prop === "Thumb_Url"){
-						attrNames.thumbnail = "Thumb_Url"
+						attrNames.thumbnail = "Thumb_Url";
 					}
 					else if (prop === "Thumb_URL"){
-						attrNames.thumbnail = "Thumb_URL"
+						attrNames.thumbnail = "Thumb_URL";
 					}
 					else if (prop === "THUMB_URL"){
-						attrNames.thumbnail = "THUMB_URL"
+						attrNames.thumbnail = "THUMB_URL";
 					}
 					else if (img.test(obj[prop]) && url.test(obj[prop])){
 						if(!attrNames.thumbnail){
@@ -102,6 +111,6 @@ define(["lib/jquery/jquery-1.10.2.min"],
 			return attrNames;
 		}
 
-	}
+	};
 
 });
