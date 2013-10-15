@@ -1,5 +1,5 @@
-define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer"], 
-	function(Map,arcgisUtils,Popup,on,domConstruct,PictureMarkerSymbol,UniqueValueRenderer){
+define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/Evented","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer"], 
+	function(Map,arcgisUtils,Popup,on,Evented,domConstruct,PictureMarkerSymbol,UniqueValueRenderer){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -7,11 +7,12 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,selector,onLoad)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,selector,onLoad,onListItemRefresh)
 	{
 
 		var _map,
-		_playlistLayers = [];
+		_playlistLayers = [],
+		_playlistItems = [];
 
 		this.init = function(){
 
@@ -19,6 +20,7 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 
 			arcgisUtils.createMap(webmapId,selector,{
 				mapOptions: {
+					sliderPosition: "top-right",
 					infoWindow: popup
 				},
 				geometryServiceURL: geometryServiceURL,
@@ -37,6 +39,11 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 
 			});
 		};
+
+		this.getPlaylistItems = function()
+		{
+			return _playlistItems;
+		}
 
 		function getPointLayers(layers)
 		{
@@ -91,27 +98,39 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 
 				var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/red/NumberIcon1.png", 22, 28).setOffset(3,8);
 				var renderer = new UniqueValueRenderer(defaultSymbol, lyr.objectIdField);
+				var lyrItems = [];
 				dojo.forEach(lyr.graphics,function(grp,i){
 					if (i < 99){
+						var iconURL;
 						if (grp.attributes[colorAttr] && grp.attributes[colorAttr].toLowerCase === "b" || grp.attributes[colorAttr].toLowerCase === "blue"){
-							renderer.addValue(grp.attributes[lyr.objectIdField], new PictureMarkerSymbol("resources/images/markers/blue/NumberIconb" + (i + 1) + ".png", 22, 28).setOffset(3,8));
+							iconURL = "resources/images/markers/blue/NumberIconb" + (i + 1) + ".png";
 						}
 						else if (grp.attributes[colorAttr] && grp.attributes[colorAttr].toLowerCase === "g" || grp.attributes[colorAttr].toLowerCase === "green"){
-							renderer.addValue(grp.attributes[lyr.objectIdField], new PictureMarkerSymbol("resources/images/markers/green/NumberIcong" + (i + 1) + ".png", 22, 28).setOffset(3,8));
+							iconURL = "resources/images/markers/green/NumberIcong" + (i + 1) + ".png";
 						}
 						else if (grp.attributes[colorAttr] && grp.attributes[colorAttr].toLowerCase === "p" || grp.attributes[colorAttr].toLowerCase === "purple"){
-							renderer.addValue(grp.attributes[lyr.objectIdField], new PictureMarkerSymbol("resources/images/markers/purple/IconPurple" + (i + 1) + ".png", 22, 28).setOffset(3,8));
+							iconURL = "resources/images/markers/purple/IconPurple" + (i + 1) + ".png";
 						}
 						else{
-							renderer.addValue(grp.attributes[lyr.objectIdField], new PictureMarkerSymbol("resources/images/markers/red/NumberIcon" + (i + 1) + ".png", 22, 28).setOffset(3,8));
+							iconURL = "resources/images/markers/red/NumberIcon" + (i + 1) + ".png";
 						}
+						renderer.addValue(grp.attributes[lyr.objectIdField], new PictureMarkerSymbol(iconURL, 22, 28).setOffset(3,8));
+						
+						var item = {
+							graphic: grp,
+							iconURL: iconURL
+						};
+
+						lyrItems.push(item);
 					}
 					else{
 						lyr.graphics[i].hide();
 					}
 				});
 				lyr.setRenderer(renderer);
+				_playlistItems.push(lyrItems);
 			});
+			listItemsRefresh();
 		}
 
 		function addLayerEvents(layer)
@@ -119,6 +138,7 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 			on(layer,"mouse-over",function(event){
 				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(27).setHeight(34).setOffset(3,10);
 				event.graphic.setSymbol(newSym);
+				event.graphic.getDojoShape().moveToFront();
 				_map.setCursor("pointer");
 			});
 
@@ -127,6 +147,11 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/dom-co
 				event.graphic.setSymbol(newSym);
 				_map.setCursor("default");
 			});
+		}
+
+		function listItemsRefresh()
+		{
+			onListItemRefresh(_playlistItems);
 		}
 	};
 

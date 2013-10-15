@@ -1,5 +1,5 @@
-define(["storymaps/utils/Helper","storymaps/playlist/ui/PlaylistMap","lib/jquery/jquery-1.10.2.min"],
-	function(Helper, Map){
+define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist/ui/List","lib/jquery/jquery-1.10.2.min"],
+	function(Helper, Map, List){
 
 		/**
 		* Core
@@ -12,7 +12,9 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/PlaylistMap","lib/jquery
 
 		var _readyState = {
 			map: false
-		};
+		},
+		_map,
+		_list;
 
 		function init ()
 		{
@@ -27,18 +29,30 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/PlaylistMap","lib/jquery
 			}
 
 			loadMap();
-
 		}
 
 		function loadMap()
 		{
 			Helper.updateLoadingMessage("Accessing Maps");
-			var map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",function(item){
+			_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",function(item){
+				// LOAD EVENT
 				updateText(item.title,item.snippet);
 				_readyState.map = true;
 				checkReadyState();
+			},function(graphics){
+				// LAYERS UPDATE EVENT
+				if (_list){
+					updatePlaylist(graphics);
+				}
+				else {
+					loadPlaylist(graphics);
+				}
 			}).init();
-			console.log(map);
+		}
+
+		function loadPlaylist(graphics)
+		{
+			_list = new List("#side-pane").init(graphics);
 		}
 
 		function updateText(title,subtitle)
