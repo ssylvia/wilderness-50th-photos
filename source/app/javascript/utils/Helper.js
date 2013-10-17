@@ -1,5 +1,5 @@
-define(["lib/spin.min.js","lib/jquery/jquery-1.10.2.min","storymaps/utils/SocialSharing"], 
-	function(){
+define(["dojo/_base/array","lib/spin.min.js","lib/jquery/jquery-1.10.2.min","storymaps/utils/SocialSharing"], 
+	function(array){
 	/**
 	* Helper
 	* @class Helper
@@ -82,7 +82,7 @@ define(["lib/spin.min.js","lib/jquery/jquery-1.10.2.min","storymaps/utils/Social
 
 		syncMaps: function(maps,currentMap,extent)
 		{
-			dojo.forEach(maps,function(map){
+			array.forEach(maps,function(map){
 				if (map !== currentMap){
 					map.setExtent(extent);
 				}

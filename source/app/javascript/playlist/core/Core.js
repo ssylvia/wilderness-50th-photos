@@ -11,10 +11,12 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 		*/
 
 		var _readyState = {
-			map: false
+			map: false,
+			list: false
 		},
-		_map,
-		_list;
+		_layersReady = 0,
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",".playlist-item",onMapLoad,onLayersUpdate,onMarkerOver,onMarkerOut),
+		_list = new List("#playlist",onListLoad);
 
 		function init ()
 		{
@@ -31,28 +33,58 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			loadMap();
 		}
 
+
+		// MAP FUNCTIONS
+		
 		function loadMap()
 		{
 			Helper.updateLoadingMessage("Accessing Maps");
-			_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",function(item){
-				// LOAD EVENT
-				updateText(item.title,item.snippet);
-				_readyState.map = true;
-				checkReadyState();
-			},function(graphics){
-				// LAYERS UPDATE EVENT
-				if (_list){
-					// updatePlaylist(graphics);
-				}
-				else {
-					loadPlaylist(graphics);
-				}
-			}).init();
+			_map.init();
 		}
 
-		function loadPlaylist(graphics)
+		function onMapLoad(item)
 		{
-			_list = new List("#playlist").init(graphics);
+			updateText(item.title,item.snippet);
+			_readyState.map = true;
+			checkReadyState();
+		}
+
+		function onLayersUpdate(graphics)
+		{
+			if (_list){
+				updatePlaylist(graphics);
+			}
+		}
+
+		function onMarkerOver(item)
+		{
+			if(_list){
+				_list.highlight(item);
+			}
+		}
+
+		function onMarkerOut(item)
+		{
+			if(_list){
+				_list.removeHighlight(item);
+			}
+		}
+
+
+		// LIST FUNCTIONS
+
+		function onListLoad()
+		{
+			_layersReady++;
+			if (_layersReady === _map.getLayerCount()){
+				_readyState.list = true;
+				checkReadyState();
+			}
+		}
+
+		function updatePlaylist(graphics)
+		{
+			_list.update(graphics);
 		}
 
 		function updateText(title,subtitle)

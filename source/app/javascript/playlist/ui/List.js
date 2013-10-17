@@ -1,5 +1,5 @@
-define(["lib/jquery/jquery-1.10.2.min","lib/jquery.autoellipsis-1.0.10.min"], 
-	function(){
+define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellipsis-1.0.10.min"], 
+	function(array){
 	/**
 	* Playlist List
 	* @class Playlist List
@@ -9,24 +9,40 @@ define(["lib/jquery/jquery-1.10.2.min","lib/jquery.autoellipsis-1.0.10.min"],
 		* Dependencies: Jquery 1.10.2
 	*/
 
-	return function List(selector)
+	return function List(selector,onLoad)
 	{
 		var _listEl = $(selector);
 
-		this.init = function(lyrItems)
+		this.update = function(lyrItems)
 		{
+			_listEl.empty();
+			$(".playlist-item").unbind("click");
 			buildList(lyrItems);
+
+			onLoad();
 		};
+
+		this.highlight = function(item)
+		{
+			$(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "]").addClass("highlight");
+		};
+
+		this.removeHighlight = function(item)
+		{
+			$(".playlist-item").removeClass("highlight");
+		}
 
 		function buildList(lyrItems)
 		{
-			dojo.forEach(lyrItems,function(items){
+			for (layerId in lyrItems){
+				var items = lyrItems[layerId];
 				var attr = getAttributeNames(items[0].graphic.attributes);
-				dojo.forEach(items,function(item){
+				array.forEach(items,function(item){
+					var objId = item.graphic.attributes[item.objectIdField];
 					var itemStr = "";
 					if (attr.thumbnail){
 						itemStr = '\
-							<div class="playlist-item">\
+							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '">\
 								<img src=' + item.iconURL + ' alt="" class="marker" />\
 								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + ')"></div>\
 								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
@@ -35,16 +51,26 @@ define(["lib/jquery/jquery-1.10.2.min","lib/jquery.autoellipsis-1.0.10.min"],
 					}
 					else{
 						itemStr = '\
-							<div class="playlist-item no-image">\
+							<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '">\
 								<img src=' + item.iconURL + ' alt="" class="marker" />\
 								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
 							</div>\
 						';
 					}
 					_listEl.append(itemStr);
-				});
-			});
+				});			
+			}
 			$(".item-title").ellipsis();
+
+			addSelectEvent();
+		}
+
+		function addSelectEvent()
+		{
+			$(".playlist-item").click(function(){
+				console.log($(this));
+				console.log($(".playlist-item[layer-group=" + $(this).attr("layer-group") + "]"));
+			});
 		}
 
 		function getAttributeNames(obj)
