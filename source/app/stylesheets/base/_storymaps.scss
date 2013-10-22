@@ -219,6 +219,10 @@ html, body{
 	max-height: 150px;
 }
 
+.esriPopup .maximize{
+	display: none;
+}
+
 /* Custom Webkit Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;

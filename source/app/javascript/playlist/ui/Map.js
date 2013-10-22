@@ -1,5 +1,5 @@
-define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/_base/array","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer","esri/tasks/query"], 
-	function(Map,arcgisUtils,Popup,on,array,domConstruct,PictureMarkerSymbol,UniqueValueRenderer,Query){
+define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom-geometry","dojo/on","dojo/_base/array","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer","esri/tasks/query"], 
+	function(Map,arcgisUtils,Popup,query,domGeom,on,array,domConstruct,PictureMarkerSymbol,UniqueValueRenderer,Query){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -7,7 +7,7 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/_base/
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,MapSelector,PlaylistItemSelector,onLoad,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,MapSelector,sidePaneSelector,onLoad,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 
 		var _map,
@@ -18,11 +18,8 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/_base/
 
 			var popup = new Popup(null,domConstruct.create("div"));
 
-			var extent = new esri.geometry.Extent({"xmin":-9904768.056986406,"ymin":2683528.169259358,"xmax":-8339337.7177064195,"ymax":3720625.76903235,"spatialReference":{"wkid":102100}});
-
 			arcgisUtils.createMap(webmapId,MapSelector,{
 				mapOptions: {
-					// extent: extent,
 					sliderPosition: "top-right",
 					infoWindow: popup
 				},
@@ -34,10 +31,23 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/_base/
 
 				getPointLayers(response.itemInfo.itemData.operationalLayers);
 
+				if (map.loaded){
+					_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
+				}
+				else{
+					on(_map,"load",function(){
+						_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
+					});
+				}
+
 				on.once(_map,"update-end",function(){
 					if(onLoad){
 						onLoad(response.itemInfo.item);
 					}
+				});
+
+				on(popup,"hide",function(){
+					onRemoveSelection();
 				});
 
 			});
@@ -52,6 +62,49 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/_base/
 		{
 			return _playlistItems;
 		};
+
+		this.select = function(item)
+		{
+			var layer = _map.getLayer(item.layerId);
+
+			var query = new Query();
+			query.objectIds = [item.objectId];
+			query.outFields = ["*"];
+			query.returnGeometry = true;
+
+			layer.queryFeatures(query,function(result){
+				var graphic = result.features[0];
+
+				if (!graphic.infoTemplate){
+					graphic.infoTemplate = layer.infoTemplate;
+				}
+
+				if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
+					openPopup(graphic);
+				}
+				else{
+					on.once(_map,"extent-change",function(){
+						openPopup(graphic);
+					});
+					panMapToGraphic(graphic.geometry);
+				}
+				
+			});
+		};
+
+
+		function getSidePanelWidth()
+		{
+			return domGeom.position(query(sidePaneSelector)[0]).w;
+		}
+
+		function getOffsetCenter(center)
+		{
+			var offsetX = getSidePanelWidth() * _map.getResolution();
+			center.x = center.x - offsetX;
+
+			return center;
+		}
 
 		function getPointLayers(layers)
 		{
@@ -200,11 +253,62 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/on","dojo/_base/
 
 				onRemoveHighlight(item);
 			});
+
+			on(layer,"click",function(event){
+				var item = {
+					layerId: event.graphic.getLayer().id,
+					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
+				};
+
+				onSelect(item);
+			});
 		}
 
 		function listItemsRefresh()
 		{
 			onListItemRefresh(_playlistItems);
+		}
+
+		function panMapToGraphic(geo)
+		{
+			if (geo.type === "point"){
+				var extent = _map.extent;
+				var sidePaneWidth = getSidePanelWidth() * _map.getResolution();
+				var offsetWidth = (_map.extent.getWidth()/5)*2;
+				var offsetHeight = (_map.extent.getHeight()/5)*2;
+				var offsetX = 0;
+				var offsetY = 0;
+
+				if (geo.x > extent.xmax){
+					offsetX = -offsetWidth;
+				}
+				else if (geo.x < extent.xmin + sidePaneWidth){
+					offsetX = offsetWidth - sidePaneWidth;
+				}
+				else{
+					offsetX = extent.getCenter().x - geo.x;
+				}
+
+				if (geo.y > extent.ymax){
+					offsetY = -offsetHeight;
+				}
+				else if (geo.y < extent.ymin){
+					offsetY = offsetHeight;
+				}
+				else{
+					offsetY = extent.getCenter().y - geo.y;
+				}
+
+				var newPt = geo.offset(offsetX,offsetY);
+
+				_map.centerAt(newPt);
+			}
+		}
+
+		function openPopup(graphic)
+		{
+			_map.infoWindow.setFeatures([graphic]);
+			_map.infoWindow.show(graphic.geometry);
 		}
 	};
 

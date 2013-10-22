@@ -11,6 +11,12 @@
 	background-color: $lightest-gray;
 }
 
+.playlist-item.selected{
+	background-color: $gray;
+	color: $white;
+	pointer: default;
+}
+
 .playlist-item .marker, .playlist-item .thumbnail-container, .playlist-item .item-title{
 	position: absolute;
 	top: 5px;

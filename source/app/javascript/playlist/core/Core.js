@@ -15,8 +15,8 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map",".playlist-item",onMapLoad,onLayersUpdate,onMarkerOver,onMarkerOut),
-		_list = new List("#playlist",onListLoad);
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map","#side-pane",onMapLoad,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+		_list = new List("#playlist",onListLoad,onListSelect);
 
 		function init ()
 		{
@@ -70,6 +70,20 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			}
 		}
 
+		function onMarkerSelect(item)
+		{
+			if(_list){
+				_list.select(item);
+			}
+		}
+
+		function onMarkerRemoveSelection()
+		{
+			if(_list){
+				_list.removeSelection();
+			}
+		}
+
 
 		// LIST FUNCTIONS
 
@@ -82,8 +96,16 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			}
 		}
 
+		function onListSelect(item)
+		{
+			if(_map){
+				_map.select(item);
+			}
+		}
+
 		function updatePlaylist(graphics)
 		{
+			Helper.updateLoadingMessage("Updating Playlist");
 			_list.update(graphics);
 		}
 
