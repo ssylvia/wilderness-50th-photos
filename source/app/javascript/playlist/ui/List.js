@@ -41,7 +41,7 @@ define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellips
 				item.addClass("selected");
 
 				if (itemTop < 0){
-					$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());
+					$(selector).scrollTop($(selector).scrollTop() + itemTop);
 				}
 				else if (itemTop + item.height() > $(selector).height()){
 					$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());

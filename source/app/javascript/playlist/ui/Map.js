@@ -39,7 +39,6 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 				});
 
 				on(popup,"hide",function(){
-					console.log("clearing features");
 					onRemoveSelection();
 				});
 
