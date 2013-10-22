@@ -35,15 +35,17 @@ define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellips
 		this.select = function(item)
 		{
 			var item = $(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "]");
-			var itemTop = item.position().top;
-			$(".playlist-item").removeClass("selected");
-			item.addClass("selected");
+			if (item.length > 0){
+				var itemTop = item.position().top;
+				$(".playlist-item").removeClass("selected");
+				item.addClass("selected");
 
-			if (itemTop < 0){
-				$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());
-			}
-			else if (itemTop + item.height() > $(selector).height()){
-				$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());
+				if (itemTop < 0){
+					$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());
+				}
+				else if (itemTop + item.height() > $(selector).height()){
+					$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());
+				}
 			}
 		};
 

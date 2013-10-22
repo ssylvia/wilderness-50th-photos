@@ -31,24 +31,27 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 
 				getPointLayers(response.itemInfo.itemData.operationalLayers);
 
-				if (map.loaded){
-					_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
-				}
-				else{
-					on(_map,"load",function(){
-						_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
-					});
-				}
-
 				on.once(_map,"update-end",function(){
+					_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 					if(onLoad){
 						onLoad(response.itemInfo.item);
 					}
 				});
 
 				on(popup,"hide",function(){
+					console.log("clearing features");
 					onRemoveSelection();
 				});
+
+				on(popup,"set-features",function(){
+					var graphic = popup.getSelectedFeature();
+					var item = {
+						layerId: graphic.getLayer().id,
+						objectId: graphic.attributes[graphic.getLayer().objectIdField]
+					};
+
+					onSelect(item);
+				})
 
 			});
 		};
@@ -65,6 +68,8 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 
 		this.select = function(item)
 		{
+			_map.infoWindow.hide();
+
 			var layer = _map.getLayer(item.layerId);
 
 			var query = new Query();
@@ -252,15 +257,6 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 				_map.setCursor("default");
 
 				onRemoveHighlight(item);
-			});
-
-			on(layer,"click",function(event){
-				var item = {
-					layerId: event.graphic.getLayer().id,
-					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
-				};
-
-				onSelect(item);
 			});
 		}
 
