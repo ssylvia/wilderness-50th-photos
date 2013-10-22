@@ -44,7 +44,7 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 
 		function onMapLoad(item)
 		{
-			updateText(item.title,item.snippet);
+			updateText(item.title,item.snippet,item.description);
 			_readyState.map = true;
 			checkReadyState();
 		}
@@ -109,10 +109,11 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			_list.update(graphics);
 		}
 
-		function updateText(title,subtitle)
+		function updateText(title,subtitle,description)
 		{
 			$("#title").html(configOptions.title || title || "");
 			$("#subtitle").html(configOptions.subtitle || subtitle || "");
+			$("#description").html(configOptions.description || description || "");
 		}
 
 		function checkReadyState()

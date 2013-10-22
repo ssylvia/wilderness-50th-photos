@@ -6,6 +6,22 @@
 	z-index: 1;
 }
 
+#info-pane{
+	width: 100%;
+	height: 300px;
+	border-bottom: 5px solid $darker-gray;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+#description{	
+	padding: 15px;
+	font: {
+		family: Georgia, serif;
+	}
+	line-height: 1.2;
+}
+
 #playlist{
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;

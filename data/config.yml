@@ -36,6 +36,8 @@ metaShortcutURL: //resources.esri.com/favicon.ico
 title: ""
 # App subtitle, leave black to use webmap subtitle
 subtitle: ""
+# App description, leave black to use webmap description
+description: ""
 
 
 # MAPS AND DATA CONFIGURATION
