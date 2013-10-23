@@ -1,0 +1,15 @@
+@import "compass/css3/border-radius";
+
+.map-tip{
+	display: none;
+	position: absolute;
+	padding: 7px;
+	max-width: 200px;
+	background-color: $darker-gray;
+	color: $white;
+	font: {
+		size: 0.8em;
+	}
+	z-index: 40;
+	 @include border-radius(2px);
+}

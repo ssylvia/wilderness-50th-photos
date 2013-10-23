@@ -1,5 +1,10 @@
-define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist/ui/List","lib/jquery/jquery-1.10.2.min"],
-	function(Helper, Map, List){
+define(["storymaps/utils/Helper",
+	"storymaps/playlist/ui/Map",
+	"storymaps/playlist/ui/List",
+	"lib/jquery/jquery-1.10.2.min"],
+	function(Helper,
+	Map,
+	List){
 
 		/**
 		* Core
@@ -10,16 +15,21 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 		* Dependencies: Jquery 1.10.2
 		*/
 
-		var _readyState = {
+		var _embed = (top != self) ? true : false,
+		_readyState = {
 			map: false,
 			list: false
 		},
 		_layersReady = 0,
 		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map","#side-pane",onMapLoad,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
-		_list = new List("#playlist",onListLoad,onListSelect);
+		_list = new List("#playlist",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight);
 
 		function init ()
 		{
+			if (_embed){
+				$("#banner").hide();
+			}
+
 			Helper.enableRegionLayout();
 
 			if (configOptions.sharingUrl && location.protocol === "https:"){
@@ -96,10 +106,31 @@ define(["storymaps/utils/Helper","storymaps/playlist/ui/Map","storymaps/playlist
 			}
 		}
 
+		function onListGetTitleAttr(titleObj)
+		{
+			if(_map){
+				_map.setTitleAttr(titleObj);
+			}
+		}
+
 		function onListSelect(item)
 		{
 			if(_map){
 				_map.select(item);
+			}
+		}
+
+		function onListHighlight(item)
+		{
+			if(_map){
+				_map.highlight(item);
+			}
+		}
+
+		function onListRemoveHighlight()
+		{
+			if(_map){
+				_map.removeHighlight();
 			}
 		}
 

@@ -1,5 +1,29 @@
-define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom-geometry","dojo/on","dojo/_base/array","dojo/dom-construct","esri/symbols/PictureMarkerSymbol","esri/renderers/UniqueValueRenderer","esri/tasks/query"], 
-	function(Map,arcgisUtils,Popup,query,domGeom,on,array,domConstruct,PictureMarkerSymbol,UniqueValueRenderer,Query){
+define(["esri/map",
+	"esri/arcgis/utils",
+	"esri/dijit/Popup",
+	"dojo/dom",
+	"dojo/dom-style",
+	"dojo/query",
+	"dojo/dom-geometry",
+	"dojo/on",
+	"dojo/_base/array",
+	"dojo/dom-construct",
+	"esri/symbols/PictureMarkerSymbol",
+	"esri/renderers/UniqueValueRenderer",
+	"esri/tasks/query"], 
+	function(Map,
+		arcgisUtils,
+		Popup,
+		dom,
+		domStyle,
+		query,
+		domGeom,
+		on,
+		array,
+		domConstruct,
+		PictureMarkerSymbol,
+		UniqueValueRenderer,
+		Query){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -7,18 +31,24 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,MapSelector,sidePaneSelector,onLoad,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,mapSelector,sidePaneSelector,onLoad,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 
 		var _map,
+		_mapTip,
 		_layerCount = 0,
-		_playlistItems = {};
+		_playlistItems = {},
+		_mapTipEnabled = true,
+		_titleFields = {},
+		_lastHightlighedGraphic;
 
 		this.init = function(){
 
 			var popup = new Popup(null,domConstruct.create("div"));
 
-			arcgisUtils.createMap(webmapId,MapSelector,{
+			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
+
+			arcgisUtils.createMap(webmapId,mapSelector,{
 				mapOptions: {
 					sliderPosition: "top-right",
 					infoWindow: popup
@@ -39,7 +69,13 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 				});
 
 				on(popup,"hide",function(){
+					_mapTipEnabled = true;
 					onRemoveSelection();
+				});
+
+				on(popup,"show",function(){
+					hideMapTip();
+					_mapTipEnabled = false;
 				});
 
 				on(popup,"set-features",function(){
@@ -65,6 +101,11 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 			return _playlistItems;
 		};
 
+		this.setTitleAttr = function(titleObj)
+		{
+			_titleFields[titleObj.layerId] = titleObj.fieldName;
+		};
+
 		this.select = function(item)
 		{
 			_map.infoWindow.hide();
@@ -73,7 +114,6 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 
 			var query = new Query();
 			query.objectIds = [item.objectId];
-			query.outFields = ["*"];
 			query.returnGeometry = true;
 
 			layer.queryFeatures(query,function(result){
@@ -96,6 +136,44 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 			});
 		};
 
+		this.highlight = function(item)
+		{
+			var layer = _map.getLayer(item.layerId);
+			var titleAttr = _titleFields[item.layerId];
+
+			var query = new Query();
+			query.objectIds = [item.objectId];
+			query.outFields = ["*"];
+			query.returnGeometry = true;
+
+			layer.queryFeatures(query,function(result){
+				var graphic = result.features[0];
+				_lastHightlighedGraphic = graphic;
+
+				if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
+					
+					var newSym = layer.renderer.getSymbol(graphic).setWidth(27).setHeight(34).setOffset(3,10);
+					
+					graphic.setSymbol(newSym);
+					graphic.getDojoShape().moveToFront();
+
+					showMapTip(graphic,titleAttr);
+				}
+				
+			});
+		};
+
+		this.removeHighlight = function()
+		{
+			var graphic = _lastHightlighedGraphic;
+			var layer = graphic.getLayer();
+			var newSym = layer.renderer.getSymbol(graphic).setWidth(22).setHeight(28).setOffset(3,8);
+					
+			graphic.setSymbol(newSym);
+			graphic.getDojoShape().moveToFront();
+
+			hideMapTip();
+		};
 
 		function getSidePanelWidth()
 		{
@@ -239,9 +317,12 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 					layerId: event.graphic.getLayer().id,
 					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
 				};
+				var titleAttr = _titleFields[event.graphic.getLayer().id];
 				event.graphic.setSymbol(newSym);
 				event.graphic.getDojoShape().moveToFront();
 				_map.setCursor("pointer");
+
+				showMapTip(event.graphic,titleAttr);
 
 				onHighlight(item);
 			});
@@ -254,6 +335,8 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 				};
 				event.graphic.setSymbol(newSym);
 				_map.setCursor("default");
+
+				hideMapTip();
 
 				onRemoveHighlight(item);
 			});
@@ -304,6 +387,47 @@ define(["esri/map","esri/arcgis/utils","esri/dijit/Popup","dojo/query","dojo/dom
 		{
 			_map.infoWindow.setFeatures([graphic]);
 			_map.infoWindow.show(graphic.geometry);
+		}
+
+		function showMapTip(graphic,titleAttr)
+		{
+			if (_mapTipEnabled){
+				_mapTip.innerHTML = graphic.attributes[titleAttr];
+
+				domStyle.set(_mapTip,{
+					display: "block"
+				});
+
+				var pos = domGeom.position(graphic.getNode());
+				var mapTipPos = domGeom.position(_mapTip);
+				var mapPos = domGeom.position(dom.byId(mapSelector));
+
+				var offsetY = -mapPos.y - mapTipPos.h - 1;
+				var offsetX = -mapPos.x + pos.w + 1;
+
+				if (pos.x > (mapPos.x + mapPos.w - mapTipPos.w - 50)){
+					offsetX = -mapPos.x - mapTipPos.w - 1;
+				}
+				if (pos.y - pos.w - mapPos.y < mapTipPos.h + 50){
+					offsetY = -mapPos.y + pos.h + 1;
+				}
+
+				var mapTipTop = (pos.y + offsetY) + "px";
+				var mapTipLeft = (pos.x + offsetX) + "px";
+
+				domStyle.set(_mapTip,{
+					top: mapTipTop,
+					left: mapTipLeft
+				});
+			}
+		}
+
+		function hideMapTip()
+		{
+			domStyle.set(_mapTip,{
+				display: "none"
+			});
+
 		}
 	};
 

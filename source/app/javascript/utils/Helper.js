@@ -1,4 +1,7 @@
-define(["dojo/_base/array","lib/spin.min.js","lib/jquery/jquery-1.10.2.min","storymaps/utils/SocialSharing"], 
+define(["dojo/_base/array",
+	"lib/spin.min.js",
+	"lib/jquery/jquery-1.10.2.min",
+	"storymaps/utils/SocialSharing"], 
 	function(array){
 	/**
 	* Helper

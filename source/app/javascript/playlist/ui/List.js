@@ -1,4 +1,6 @@
-define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellipsis-1.0.10.min"], 
+define(["dojo/_base/array",
+	"lib/jquery/jquery-1.10.2.min",
+	"lib/jquery.autoellipsis-1.0.10.min"], 
 	function(array){
 	/**
 	* Playlist List
@@ -9,7 +11,7 @@ define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellips
 		* Dependencies: Jquery 1.10.2
 	*/
 
-	return function List(selector,onLoad,onSelect)
+	return function List(selector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight)
 	{
 		var _listEl = $(selector);
 
@@ -59,6 +61,11 @@ define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellips
 			for (layerId in lyrItems){
 				var items = lyrItems[layerId];
 				var attr = getAttributeNames(items[0].graphic.attributes);
+				var titleAttr = {
+					layerId: layerId,
+					fieldName: attr.title
+				};
+				onGetTitleField(titleAttr);
 				array.forEach(items,function(item){
 					var objId = item.graphic.attributes[item.objectIdField];
 					var itemStr = "";
@@ -84,10 +91,10 @@ define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellips
 			}
 			$(".item-title").ellipsis();
 
-			addSelectEvent();
+			addEvents();
 		}
 
-		function addSelectEvent()
+		function addEvents()
 		{
 			$(".playlist-item").click(function(){
 				$(".playlist-item").removeClass("selected");
@@ -97,6 +104,22 @@ define(["dojo/_base/array","lib/jquery/jquery-1.10.2.min","lib/jquery.autoellips
 					objectId: $(this).attr("object-id")
 				}
 				onSelect(item);
+			});
+
+			$(".playlist-item").mouseover(function(){
+				$(".playlist-item").removeClass("highlight");
+				$(this).addClass("highlight");
+				var item = {
+					layerId: $(this).attr("layer-id"),
+					objectId: $(this).attr("object-id")
+				}
+				
+				onHighlight(item);
+			});
+
+			$(selector).mouseout(function(){
+				$(".playlist-item").removeClass("highlight");
+				onRemoveHightlight();
 			});
 		}
 
