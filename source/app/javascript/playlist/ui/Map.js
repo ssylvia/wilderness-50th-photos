@@ -1,5 +1,6 @@
 define(["esri/map",
 	"esri/arcgis/utils",
+	"esri/dijit/Legend",
 	"esri/dijit/Popup",
 	"dojo/dom",
 	"dojo/dom-class",
@@ -14,6 +15,7 @@ define(["esri/map",
 	"esri/tasks/query"], 
 	function(Map,
 		arcgisUtils,
+		Legend,
 		Popup,
 		dom,
 		domClass,
@@ -33,10 +35,11 @@ define(["esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,mapSelector,sidePaneSelector,onLoad,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,mapSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 
 		var _map,
+		_mapResponse,
 		_mapTip,
 		_layerCount = 0,
 		_playlistItems = {},
@@ -59,8 +62,10 @@ define(["esri/map",
 				bingMapsKey: bingMapsKey
 			}).then(function(response){
 				
+				_mapResponse = response;
 				_map = response.map;
 
+				// ADD HOME BUTTON TO ZOOM SLIDER
 				on.once(_map,"extent-change",function(){
 					var homeExtent = _map.extent;
 					array.forEach(query(".esriSimpleSliderIncrementButton"),function(node){
@@ -72,9 +77,10 @@ define(["esri/map",
 				});
 				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 
-				getPointLayers(response.itemInfo.itemData.operationalLayers);
+				on.once(_map,"update-end",function(){
 
-				on.once(_map,"update-end",function(){					
+					getPointLayers(response.itemInfo.itemData.operationalLayers);
+
 					if(onLoad){
 						onLoad(response.itemInfo.item);
 					}
@@ -204,6 +210,7 @@ define(["esri/map",
 
 		function getPointLayers(layers)
 		{
+			var layerIds = [];
 			array.forEach(layers,function(layer){
 				if (layer.featureCollection && layer.featureCollection.layers.length > 0){
 					array.forEach(layer.featureCollection.layers,function(l){
@@ -211,6 +218,7 @@ define(["esri/map",
 							var playlistLyr = l.layerObject;
 							setRenderer(playlistLyr);
 							addLayerEvents(playlistLyr);
+							layerIds.push(playlistLyr.id);
 						}
 					});
 				}
@@ -237,15 +245,17 @@ define(["esri/map",
 						});
 
 					});
+					layerIds.push(playlistLyr.id);
 				}
 			});
+			
+			_layerCount = layerIds.length;
+			buildLegend(layerIds);
 		}
 
 		function setRenderer(lyr)
 		{
 			var layerObj = lyr;
-
-			_layerCount++;
 
 			if(!lyr.setRenderer){
 				layerObj = lyr.layerObject;
@@ -318,9 +328,32 @@ define(["esri/map",
 			});
 
 			layerObj.setRenderer(renderer);
+			layerObj.redraw();
 			_playlistItems[layerObj.id] = lyrItems;
 			listItemsRefresh();
 
+		}
+
+		function buildLegend(layerIds)
+		{
+			var layers = arcgisUtils.getLegendLayers(_mapResponse);
+			var legendLyrs = [];
+
+			array.forEach(layers,function(lyr){
+				if (array.indexOf(layerIds,lyr.layer.id) < 0){
+					legendLyrs.push(lyr);
+				}
+			});
+			if (legendLyrs.length > 0){
+				var legend = new Legend({
+					map: _map,
+					layerInfos: legendLyrs
+				},"legend");
+				legend.startup();
+			}
+			else{
+				onHideLegend();
+			}
 		}
 
 		function addLayerEvents(layer)

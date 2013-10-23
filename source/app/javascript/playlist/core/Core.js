@@ -21,7 +21,7 @@ define(["storymaps/utils/Helper",
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map","#side-pane",onMapLoad,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
 		_list = new List("#playlist",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight);
 
 		function init ()
@@ -56,7 +56,15 @@ define(["storymaps/utils/Helper",
 		{
 			updateText(item.title,item.snippet,item.description);
 			_readyState.map = true;
+			if (_layersReady === _map.getLayerCount()){
+				_readyState.list = true;
+			}
 			checkReadyState();
+		}
+
+		function onMapLegendHide()
+		{
+			$("#legend-wrapper").hide();
 		}
 
 		function onLayersUpdate(graphics)
@@ -163,6 +171,10 @@ define(["storymaps/utils/Helper",
 		{
 			if (ready){
 				Helper.removeLoadScreen();
+
+				$("#legend-toggle").click(function(){
+					$(this).next().slideToggle();
+				});
 			}
 		}
 

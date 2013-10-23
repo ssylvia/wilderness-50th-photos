@@ -184,7 +184,7 @@ html, body{
 	position: absolute;
 	width: 300px;
 	top: 0;
-	right: 25px;
+	right: 150px;
 	z-index: 3;
 }
 
@@ -197,6 +197,7 @@ html, body{
 
 #legend-pane{
 	background-color: #fff;
+	display: none;
 	overflow: hidden;
 	border-right: 2px solid #888;
 	border-bottom: 2px solid #888;
@@ -207,6 +208,10 @@ html, body{
 	padding: 15px;
 	max-height: 300px;
 	overflow: auto;
+}
+
+.legend th, .legend td{
+	padding: 0;
 }
 
 .legend:first-child{
