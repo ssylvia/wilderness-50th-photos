@@ -29,36 +29,36 @@ define(["dojo/_base/array",
 			$(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "]").addClass("highlight");
 		};
 
-		this.removeHighlight = function(item)
+		this.removeHighlight = function()
 		{
 			$(".playlist-item").removeClass("highlight");
 		};
 
 		this.select = function(item)
 		{
-			var item = $(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "]");
-			if (item.length > 0){
-				var itemTop = item.position().top;
-				$(".playlist-item").removeClass("selected");
-				item.addClass("selected");
+			var element = $(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "]");
+			if (element.length > 0){
+				var itemTop = element.position().top;
+				$(".playlist-element").removeClass("selected");
+				element.addClass("selected");
 
 				if (itemTop < 0){
 					$(selector).scrollTop($(selector).scrollTop() + itemTop);
 				}
-				else if (itemTop + item.height() > $(selector).height()){
-					$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + item.height());
+				else if (itemTop + element.height() > $(selector).height()){
+					$(selector).scrollTop($(selector).scrollTop() + itemTop - $(selector).height() + element.height());
 				}
 			}
 		};
 
-		this.removeSelection = function(item)
+		this.removeSelection = function()
 		{
 			$(".playlist-item").removeClass("selected");
 		};
 
 		function buildList(lyrItems)
 		{
-			for (layerId in lyrItems){
+			for (var layerId in lyrItems){
 				var items = lyrItems[layerId];
 				var attr = getAttributeNames(items[0].graphic.attributes);
 				var titleAttr = {
@@ -102,7 +102,7 @@ define(["dojo/_base/array",
 				var item = {
 					layerId: $(this).attr("layer-id"),
 					objectId: $(this).attr("object-id")
-				}
+				};
 				onSelect(item);
 			});
 
@@ -112,7 +112,7 @@ define(["dojo/_base/array",
 				var item = {
 					layerId: $(this).attr("layer-id"),
 					objectId: $(this).attr("object-id")
-				}
+				};
 				
 				onHighlight(item);
 			});

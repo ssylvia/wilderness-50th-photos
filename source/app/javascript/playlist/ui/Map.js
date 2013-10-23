@@ -38,7 +38,7 @@ define(["esri/map",
 		_mapTip,
 		_layerCount = 0,
 		_playlistItems = {},
-		_mapTipEnabled = true,
+		_highlightEnabled = true,
 		_titleFields = {},
 		_lastHightlighedGraphic;
 
@@ -69,13 +69,13 @@ define(["esri/map",
 				});
 
 				on(popup,"hide",function(){
-					_mapTipEnabled = true;
+					_highlightEnabled = true;
 					onRemoveSelection();
 				});
 
 				on(popup,"show",function(){
 					hideMapTip();
-					_mapTipEnabled = false;
+					_highlightEnabled = false;
 				});
 
 				on(popup,"set-features",function(){
@@ -86,7 +86,7 @@ define(["esri/map",
 					};
 
 					onSelect(item);
-				})
+				});
 
 			});
 		};
@@ -138,29 +138,31 @@ define(["esri/map",
 
 		this.highlight = function(item)
 		{
-			var layer = _map.getLayer(item.layerId);
-			var titleAttr = _titleFields[item.layerId];
+			if (_highlightEnabled){
+				var layer = _map.getLayer(item.layerId);
+				var titleAttr = _titleFields[item.layerId];
 
-			var query = new Query();
-			query.objectIds = [item.objectId];
-			query.outFields = ["*"];
-			query.returnGeometry = true;
+				var query = new Query();
+				query.objectIds = [item.objectId];
+				query.outFields = ["*"];
+				query.returnGeometry = true;
 
-			layer.queryFeatures(query,function(result){
-				var graphic = result.features[0];
-				_lastHightlighedGraphic = graphic;
+				layer.queryFeatures(query,function(result){
+					var graphic = result.features[0];
+					_lastHightlighedGraphic = graphic;
 
-				if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
+					if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
+						
+						var newSym = layer.renderer.getSymbol(graphic).setWidth(27).setHeight(34).setOffset(3,10);
+						
+						graphic.setSymbol(newSym);
+						graphic.getDojoShape().moveToFront();
+
+						showMapTip(graphic,titleAttr);
+					}
 					
-					var newSym = layer.renderer.getSymbol(graphic).setWidth(27).setHeight(34).setOffset(3,10);
-					
-					graphic.setSymbol(newSym);
-					graphic.getDojoShape().moveToFront();
-
-					showMapTip(graphic,titleAttr);
-				}
-				
-			});
+				});
+			}
 		};
 
 		this.removeHighlight = function()
@@ -218,7 +220,7 @@ define(["esri/map",
 								type: "Feature Layer",
 								graphics: features,
 								layerObject: playlistLyr
-							}
+							};
 							setRenderer(layer);
 						});
 
@@ -391,7 +393,7 @@ define(["esri/map",
 
 		function showMapTip(graphic,titleAttr)
 		{
-			if (_mapTipEnabled){
+			if (_highlightEnabled){
 				_mapTip.innerHTML = graphic.attributes[titleAttr];
 
 				domStyle.set(_mapTip,{
