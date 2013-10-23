@@ -2,6 +2,7 @@ define(["esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Popup",
 	"dojo/dom",
+	"dojo/dom-class",
 	"dojo/dom-style",
 	"dojo/query",
 	"dojo/dom-geometry",
@@ -15,6 +16,7 @@ define(["esri/map",
 		arcgisUtils,
 		Popup,
 		dom,
+		domClass,
 		domStyle,
 		query,
 		domGeom,
@@ -59,10 +61,20 @@ define(["esri/map",
 				
 				_map = response.map;
 
+				on.once(_map,"extent-change",function(){
+					var homeExtent = _map.extent;
+					array.forEach(query(".esriSimpleSliderIncrementButton"),function(node){
+						var homeButton = domConstruct.place('<div class="esriSimpleSliderIncrementButton homeExtentButton icon-home"></div>', node ,"after");
+						on(homeButton,"click",function(){
+							_map.setExtent(homeExtent);
+						});
+					});
+				});
+				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
+
 				getPointLayers(response.itemInfo.itemData.operationalLayers);
 
-				on.once(_map,"update-end",function(){
-					_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
+				on.once(_map,"update-end",function(){					
 					if(onLoad){
 						onLoad(response.itemInfo.item);
 					}
