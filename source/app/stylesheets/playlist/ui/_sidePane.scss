@@ -14,13 +14,21 @@
 	-webkit-overflow-scrolling: touch;
 }
 
-#description{	
+#description, .playlist-no-layer-message{	
 	padding: 15px;
 	font: {
 		family: Georgia, serif;
 		size: 1em;
 	}
 	line-height: 1.2;
+}
+
+.playlist-no-layer-message{
+	color: $caution;
+	font: {
+		weight: bold;
+		family: $body-font;
+	}
 }
 
 #playlist{
