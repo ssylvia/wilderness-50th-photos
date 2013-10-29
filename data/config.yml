@@ -45,7 +45,7 @@ description: ""
 # The appid for the configured application
 appId: ""
 # The web map id
-webmap: 225d8fdebb1440db80165645dcd16b91
+webmap: a3f234db27f64d8da7035d0a03ed209c
 # If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
 bingMapsKey: ""
 # Specify a proxy for custom deployment

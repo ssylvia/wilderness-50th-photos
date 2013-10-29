@@ -6,6 +6,29 @@
 	z-index: 1;
 }
 
+#side-pane-controls{
+	background-color: $gray;
+	width: 100%;
+	padding: 5px 0;
+}
+
+#side-pane-controls .playlist-control{
+	color: $lightest-gray;
+	padding: 0 15px;
+	font: {
+		size: 25px;
+	}
+	cursor: pointer;
+}
+
+#side-pane-controls .control-right{
+	float: right;
+}
+
+#side-pane-controls .playlist-control:hover{
+	color: $white;
+}
+
 #info-pane{
 	width: 100%;
 	height: 300px;
@@ -34,4 +57,17 @@
 #playlist{
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
+}
+
+.minimized{
+
+	#side-pane-content{
+		display: none;
+	}
+
+	&#side-pane{
+		height: auto;
+		width: 58px;
+	}
+
 }

@@ -175,7 +175,30 @@ define(["storymaps/utils/Helper",
 				$("#legend-toggle").click(function(){
 					$(this).next().slideToggle();
 				});
+
+				addSidePaneEvents();
 			}
+		}
+
+		function addSidePaneEvents()
+		{
+			$("#side-pane-controls .playlist-control").click(function(){
+				if ($(this).hasClass("toggle-side-pane")){
+					toggleSidePane();
+				}
+			});
+		}
+
+		function toggleSidePane()
+		{
+			if ($("#side-pane").hasClass("minimized")){
+				$("#side-pane").removeClass("minimized");
+			}
+			else{
+				$("#side-pane").addClass("minimized");
+			}
+
+			Helper.resetRegionLayout();
 		}
 
 		return {

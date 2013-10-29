@@ -202,7 +202,7 @@ define(["esri/map",
 
 		function getOffsetCenter(center)
 		{
-			var offsetX = getSidePanelWidth() * _map.getResolution();
+			var offsetX = getSidePanelWidth()/2 * _map.getResolution();
 			center.x = center.x - offsetX;
 
 			return center;

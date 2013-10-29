@@ -12,8 +12,7 @@
 }
 
 .playlist-item.selected{
-	background-color: $gray;
-	color: $white;
+	background-color: $lighter-gray;
 	pointer: default;
 }
 
@@ -24,13 +23,13 @@
 
 .playlist-item .marker{
 	width: 22px;
-	left: 5px;
+	left: 15px;
 }
 
 .playlist-item .thumbnail-container{
 	height: 70px;
 	width: 70px;
-	left: 32px;
+	left: 42px;
 	background: {
 		size: cover;
 		repeat: no-repeat;
@@ -40,10 +39,10 @@
 }
 
 .playlist-item .item-title{
-	left: 107px;
+	left: 117px;
 	top: 19px;
 	height: 42px;
-	max-width: 165px;
+	max-width: 155px;
 	font: {
 		weight: bold;
 	}
@@ -56,6 +55,6 @@
 }
 
 .playlist-item.no-image .item-title{
-	left: 32px;
-	max-width: 240px;
+	left: 42px;
+	max-width: 230px;
 }
