@@ -7,8 +7,8 @@ define(["dojo/_base/array",
 	* @class Playlist List
 	* 
 	* Class to define a new item list in the playlist app
-		*
-		* Dependencies: Jquery 1.10.2
+	*
+	* Dependencies: Jquery 1.10.2
 	*/
 
 	return function List(selector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight)

@@ -1,4 +1,4 @@
-define(["esri/map",
+define(["storymaps/playlist/config/MapConfig","esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Legend",
 	"esri/dijit/Popup",
@@ -13,7 +13,8 @@ define(["esri/map",
 	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer",
 	"esri/tasks/query"], 
-	function(Map,
+	function(MapConfig,
+		Map,
 		arcgisUtils,
 		Legend,
 		Popup,
@@ -37,15 +38,18 @@ define(["esri/map",
 
 	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,mapSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
-
-		var _map,
+		var mapConfig = new MapConfig(),
+		_map,
 		_mapResponse,
+		_mapReady = false,
 		_mapTip,
 		_layerCount = 0,
 		_playlistItems = {},
 		_highlightEnabled = true,
 		_titleFields = {},
 		_lastHightlighedGraphic;
+
+		console.log(mapConfig.getMarkerPositionHighlight().height);
 
 		this.init = function(){
 
@@ -61,6 +65,14 @@ define(["esri/map",
 				geometryServiceURL: geometryServiceURL,
 				bingMapsKey: bingMapsKey
 			}).then(function(response){
+
+				setTimeout(function(){
+					if(onLoad && !_mapReady){
+						_mapReady = true;
+						console.log("Timeout error: map did not fully load");
+						onLoad(response.itemInfo.item);
+					}
+				},10000);
 				
 				_mapResponse = response;
 				_map = response.map;
@@ -77,11 +89,18 @@ define(["esri/map",
 				});
 				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 
-				on.once(_map,"update-end",function(){
-
+				if(_map.loaded){
 					getPointLayers(response.itemInfo.itemData.operationalLayers);
+				}
+				else{
+					on(_map,"loaded",function(){
+						getPointLayers(response.itemInfo.itemData.operationalLayers);
+					});
+				}
 
-					if(onLoad){
+				on.once(_map,"update-end",function(){
+					if(onLoad && !_mapReady){
+						_mapReady = true;
 						onLoad(response.itemInfo.item);
 					}
 				});
@@ -171,7 +190,7 @@ define(["esri/map",
 
 					if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
 						
-						var newSym = layer.renderer.getSymbol(graphic).setWidth(27).setHeight(34).setOffset(3,10);
+						var newSym = layer.renderer.getSymbol(graphic).setWidth(mapConfig.getMarkerPositionHighlight().width).setHeight(mapConfig.getMarkerPositionHighlight().height).setOffset(mapConfig.getMarkerPositionHighlight().xOffset,mapConfig.getMarkerPositionHighlight().yOffset);
 						
 						graphic.setSymbol(newSym);
 						graphic.getDojoShape().moveToFront();
@@ -187,7 +206,7 @@ define(["esri/map",
 		{
 			var graphic = _lastHightlighedGraphic;
 			var layer = graphic.getLayer();
-			var newSym = layer.renderer.getSymbol(graphic).setWidth(22).setHeight(28).setOffset(3,8);
+			var newSym = layer.renderer.getSymbol(graphic).setWidth(mapConfig.getMarkerPosition().width).setHeight(mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset);
 					
 			graphic.setSymbol(newSym);
 			graphic.getDojoShape().moveToFront();
@@ -232,7 +251,7 @@ define(["esri/map",
 						query.outFields = ["*"];
 						query.returnGeometry = true;
 						playlistLyr.queryFeatures(query).then(function(results){
-							var features = results.features.slice(0,98);
+							var features = results.features.slice(0,(mapConfig.getMaxAllowablePoints() - 1));
 							playlistLyr.setDefinitionExpression(results.objectIdFieldName + "<=" + (features[features.length - 1].attributes[results.objectIdFieldName]));
 
 							// Create Temporary layer object to get first 99 features from a feature layer
@@ -289,11 +308,11 @@ define(["esri/map",
 					return a[orderAttr] - b[orderAttr];
 				});
 			}
-			var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/red/NumberIcon1.png", 22, 28).setOffset(3,8);
+			var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/red/NumberIcon1.png", mapConfig.getMarkerPosition().width, mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset);
 			var renderer = new UniqueValueRenderer(defaultSymbol, layerObj.objectIdField);
 			var lyrItems = [];
 			array.forEach(lyr.graphics,function(grp,i){
-				if (i < 99){
+				if (i < mapConfig.getMaxAllowablePoints()){
 					var iconURL;
 					if(grp.attributes[colorAttr]){
 						if (grp.attributes[colorAttr].toLowerCase === "b" || grp.attributes[colorAttr].toLowerCase === "blue"){
@@ -312,7 +331,7 @@ define(["esri/map",
 					else{
 						iconURL = "resources/images/markers/red/NumberIcon" + (i + 1) + ".png";
 					}
-					renderer.addValue(grp.attributes[layerObj.objectIdField], new PictureMarkerSymbol(iconURL, 22, 28).setOffset(3,8));
+					renderer.addValue(grp.attributes[layerObj.objectIdField], new PictureMarkerSymbol(iconURL, mapConfig.getMarkerPosition().width, mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset));
 					
 					var item = {
 						layerId: layerObj.id,
@@ -359,7 +378,7 @@ define(["esri/map",
 		function addLayerEvents(layer)
 		{
 			on(layer,"mouse-over",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(27).setHeight(34).setOffset(3,10);
+				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(mapConfig.getMarkerPositionHighlight().width).setHeight(mapConfig.getMarkerPositionHighlight().height).setOffset(mapConfig.getMarkerPositionHighlight().xOffset,mapConfig.getMarkerPositionHighlight().yOffset);
 				var item = {
 					layerId: event.graphic.getLayer().id,
 					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
@@ -375,7 +394,7 @@ define(["esri/map",
 			});
 
 			on(layer,"mouse-out",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(22).setHeight(28).setOffset(3,8);
+				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(mapConfig.getMarkerPosition().width).setHeight(mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset);
 				var item = {
 					layerId: event.graphic.getLayer().id,
 					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
