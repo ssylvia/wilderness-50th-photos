@@ -21,7 +21,7 @@ define(["storymaps/utils/Helper",
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,"map","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
 		_list = new List("#playlist",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight);
 
 		function init ()
@@ -170,11 +170,8 @@ define(["storymaps/utils/Helper",
 		function appReady(ready)
 		{
 			if (ready){
+				Helper.resetRegionLayout();
 				Helper.removeLoadScreen();
-
-				$("#legend-toggle").click(function(){
-					$(this).next().slideToggle();
-				});
 
 				addSidePaneEvents();
 			}
@@ -184,21 +181,36 @@ define(["storymaps/utils/Helper",
 		{
 			$("#side-pane-controls .playlist-control").click(function(){
 				if ($(this).hasClass("toggle-side-pane")){
-					toggleSidePane();
+					$("#side-pane").toggleClass("minimized");
 				}
+				else if ($(this).hasClass("toggle-legend")){
+					$("#info-pane").toggleClass("show-legend");
+					if ($("#info-pane").hasClass("show-description")){
+						$("#info-pane").removeClass("show-description");
+					}
+				}
+				else if ($(this).hasClass("toggle-description")){
+					$("#info-pane").toggleClass("show-description");
+					if ($("#info-pane").hasClass("show-legend")){
+						$("#info-pane").removeClass("show-legend");
+					}
+				}
+				Helper.resetRegionLayout();
 			});
-		}
 
-		function toggleSidePane()
-		{
-			if ($("#side-pane").hasClass("minimized")){
-				$("#side-pane").removeClass("minimized");
-			}
-			else{
-				$("#side-pane").addClass("minimized");
-			}
-
-			Helper.resetRegionLayout();
+			$("#legend-toggle").click(function(){
+				$("#legend-pane").toggle({
+					duration: 0,
+					start: function(){
+						if ($("#description").is(":visible")){
+							$("#description").hide();
+						}
+					},
+					complete: function(){
+						Helper.resetRegionLayout();
+					}
+				});					
+			});
 		}
 
 		return {

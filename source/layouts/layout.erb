@@ -151,6 +151,32 @@
 			subtitle: "<%= data.config.subtitle %>",
 			//Enter a description, if not specified the ArcGIS.com web map's description is used
 			description: "<%= data.config.description %>",
+			// Legend names for playlist markers
+			playlistLegend: {
+				"layerTitle": "<%= data.config.playlistTitle %>",
+				"items": {
+					"redIcon": {
+						"visible": <%= data.config.playlistRedIconVisible %>,
+						"name": "<%= data.config.playlistRedIcon %>",
+						"iconURL": "<%= data.config.playlistRedIconURL %>"
+					},
+					"blueIcon": {
+						"visible": <%= data.config.playlistBlueIconVisible %>,
+						"name": "<%= data.config.playlistBlueIcon %>",
+						"iconURL": "<%= data.config.playlistBlueIconURL %>"
+					},
+					"greenIcon": {
+						"visible": <%= data.config.playlistGreenIconVisible %>,
+						"name": "<%= data.config.playlistGreenIcon %>",
+						"iconURL": "<%= data.config.playlistGreenIconURL %>"
+					},
+					"purpleIcon": {
+						"visible": <%= data.config.playlistPurpleIconVisible %>,
+						"name": "<%= data.config.playlistPurpleIcon %>",
+						"iconURL": "<%= data.config.playlistPurpleIconURL %>"
+					}
+				}
+			},
 			//If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
 			bingMapsKey: "<%= data.config.bingMapsKey %>",
 			// Specify a proxy for custom deployment

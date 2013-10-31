@@ -31,19 +31,53 @@
 
 #info-pane{
 	width: 100%;
-	height: 300px;
+	max-height: 300px;
 	border-bottom: 5px solid $darker-gray;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
 }
 
-#description, .playlist-no-layer-message{	
+#description, .playlist-no-layer-message{
+	display: none;
 	padding: 15px;
 	font: {
 		family: Georgia, serif;
 		size: 1em;
 	}
 	line-height: 1.2;
+}
+
+#info-pane{
+
+	&.show-legend #description{
+		display: block;
+	}
+
+	&.show-description #legend-pane{
+		display: block;
+	}
+
+}
+
+#playlist-legend{
+
+	.esriLegendServiceLabel{
+		margin-bottom: 5px;
+	}
+
+	td{
+		padding: 3px 0;
+	}
+	
+	.marker-cell{
+		width: 35px;
+	}
+
+	.marker{
+		width: 22px;
+		vertical-align: middle;
+	}
+
 }
 
 .playlist-no-layer-message{

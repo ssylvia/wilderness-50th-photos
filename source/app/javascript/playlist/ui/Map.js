@@ -36,9 +36,9 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,mapSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
-		var mapConfig = new MapConfig(),
+		var _mapConfig = new MapConfig(),
 		_map,
 		_mapResponse,
 		_mapReady = false,
@@ -48,8 +48,6 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		_highlightEnabled = true,
 		_titleFields = {},
 		_lastHightlighedGraphic;
-
-		console.log(mapConfig.getMarkerPositionHighlight().height);
 
 		this.init = function(){
 
@@ -190,7 +188,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 					if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
 						
-						var newSym = layer.renderer.getSymbol(graphic).setWidth(mapConfig.getMarkerPositionHighlight().width).setHeight(mapConfig.getMarkerPositionHighlight().height).setOffset(mapConfig.getMarkerPositionHighlight().xOffset,mapConfig.getMarkerPositionHighlight().yOffset);
+						var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
 						
 						graphic.setSymbol(newSym);
 						graphic.getDojoShape().moveToFront();
@@ -206,10 +204,9 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		{
 			var graphic = _lastHightlighedGraphic;
 			var layer = graphic.getLayer();
-			var newSym = layer.renderer.getSymbol(graphic).setWidth(mapConfig.getMarkerPosition().width).setHeight(mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset);
+			var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
 					
 			graphic.setSymbol(newSym);
-			graphic.getDojoShape().moveToFront();
 
 			hideMapTip();
 		};
@@ -251,7 +248,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						query.outFields = ["*"];
 						query.returnGeometry = true;
 						playlistLyr.queryFeatures(query).then(function(results){
-							var features = results.features.slice(0,(mapConfig.getMaxAllowablePoints() - 1));
+							var features = results.features.slice(0,_mapConfig.getMaxAllowablePoints());
 							playlistLyr.setDefinitionExpression(results.objectIdFieldName + "<=" + (features[features.length - 1].attributes[results.objectIdFieldName]));
 
 							// Create Temporary layer object to get first 99 features from a feature layer
@@ -308,36 +305,19 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					return a[orderAttr] - b[orderAttr];
 				});
 			}
-			var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/red/NumberIcon1.png", mapConfig.getMarkerPosition().width, mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset);
-			var renderer = new UniqueValueRenderer(defaultSymbol, layerObj.objectIdField);
+			var renderer = _mapConfig.getRenderer(layerObj);
 			var lyrItems = [];
 			array.forEach(lyr.graphics,function(grp,i){
-				if (i < mapConfig.getMaxAllowablePoints()){
-					var iconURL;
-					if(grp.attributes[colorAttr]){
-						if (grp.attributes[colorAttr].toLowerCase === "b" || grp.attributes[colorAttr].toLowerCase === "blue"){
-							iconURL = "resources/images/markers/blue/NumberIconb" + (i + 1) + ".png";
-						}
-						else if (grp.attributes[colorAttr].toLowerCase === "g" || grp.attributes[colorAttr].toLowerCase === "green"){
-							iconURL = "resources/images/markers/green/NumberIcong" + (i + 1) + ".png";
-						}
-						else if (grp.attributes[colorAttr].toLowerCase === "p" || grp.attributes[colorAttr].toLowerCase === "purple"){
-							iconURL = "resources/images/markers/purple/IconPurple" + (i + 1) + ".png";
-						}
-						else{
-							iconURL = "resources/images/markers/red/NumberIcon" + (i + 1) + ".png";
-						}
-					}
-					else{
-						iconURL = "resources/images/markers/red/NumberIcon" + (i + 1) + ".png";
-					}
-					renderer.addValue(grp.attributes[layerObj.objectIdField], new PictureMarkerSymbol(iconURL, mapConfig.getMarkerPosition().width, mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset));
+				if (i < _mapConfig.getMaxAllowablePoints()){
+					
+					var symbol = _mapConfig.getSymbolForDefaultRenderer(grp,colorAttr,i);
+					renderer.addValue(grp.attributes[layerObj.objectIdField], symbol);
 					
 					var item = {
 						layerId: layerObj.id,
 						objectIdField: layerObj.objectIdField,
 						graphic: grp,
-						iconURL: iconURL
+						iconURL: symbol.url
 					};
 					lyrItems.push(item);
 				}
@@ -373,12 +353,24 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			else{
 				onHideLegend();
 			}
+
+			var playlistStr = '<p class="esriLegendServiceLabel">' + playlistLegendConfig.layerTitle + '</p><table class="esriLayerLegend"><tbody>';
+
+			for (var obj in playlistLegendConfig.items){
+				if (playlistLegendConfig.items[obj].visible){
+					playlistStr = playlistStr + '<tr><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
+				}
+			}
+
+			playlistStr = playlistStr + '</tbody></table>';
+
+			domConstruct.place(playlistStr,dom.byId(playlistLegendSelector),"first");
 		}
 
 		function addLayerEvents(layer)
 		{
 			on(layer,"mouse-over",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(mapConfig.getMarkerPositionHighlight().width).setHeight(mapConfig.getMarkerPositionHighlight().height).setOffset(mapConfig.getMarkerPositionHighlight().xOffset,mapConfig.getMarkerPositionHighlight().yOffset);
+				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
 				var item = {
 					layerId: event.graphic.getLayer().id,
 					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
@@ -394,7 +386,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			});
 
 			on(layer,"mouse-out",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(mapConfig.getMarkerPosition().width).setHeight(mapConfig.getMarkerPosition().height).setOffset(mapConfig.getMarkerPosition().xOffset,mapConfig.getMarkerPosition().yOffset);
+				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
 				var item = {
 					layerId: event.graphic.getLayer().id,
 					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]

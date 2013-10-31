@@ -197,16 +197,12 @@ html, body{
 }
 
 #legend-pane{
-	background-color: $white;
 	display: none;
 	overflow: hidden;
-	border-right: 2px solid $gray;
-	border-bottom: 2px solid $gray;
-	border-left: 2px solid $gray;
 }
 
 .legend{
-	padding: 15px;
+	padding: 15px 15px 0 15px;
 	max-height: 300px;
 	overflow: auto;
 }
@@ -217,6 +213,10 @@ html, body{
 
 .legend:first-child{
 	display: block;
+}
+
+.esriLegendService{
+	padding-bottom: 15px;
 }
 
 // Popup modifications
