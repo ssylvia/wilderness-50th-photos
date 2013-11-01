@@ -47,13 +47,25 @@
 	line-height: 1.2;
 }
 
+#side-pane-controls{
+
+	.toggle-description, .toggle-legend{
+		float: right;
+	}
+
+	.toggle-legend{
+		padding-left: 0;
+	}
+
+}
+
 #info-pane{
 
-	&.show-legend #description{
+	&.show-legend #legend-pane{
 		display: block;
 	}
 
-	&.show-description #legend-pane{
+	&.show-description #description{
 		display: block;
 	}
 
@@ -94,6 +106,10 @@
 }
 
 .minimized{
+
+	.toggle-description, .toggle-legend{
+		display: none;
+	}
 
 	#side-pane-content{
 		display: none;

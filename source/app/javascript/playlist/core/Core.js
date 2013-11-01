@@ -150,9 +150,17 @@ define(["storymaps/utils/Helper",
 
 		function updateText(title,subtitle,description)
 		{
+			var description = configOptions.description || description || "";
 			$("#title").html(configOptions.title || title || "");
 			$("#subtitle").html(configOptions.subtitle || subtitle || "");
-			$("#description").html(configOptions.description || description || "");
+			$("#description").html(description);
+
+			if (description){
+				$("#info-pane").addClass("show-description");
+			}
+			else{
+				$("#side-pane-controls .toggle-description").hide();
+			}
 		}
 
 		function checkReadyState()
@@ -196,20 +204,6 @@ define(["storymaps/utils/Helper",
 					}
 				}
 				Helper.resetRegionLayout();
-			});
-
-			$("#legend-toggle").click(function(){
-				$("#legend-pane").toggle({
-					duration: 0,
-					start: function(){
-						if ($("#description").is(":visible")){
-							$("#description").hide();
-						}
-					},
-					complete: function(){
-						Helper.resetRegionLayout();
-					}
-				});					
 			});
 		}
 
