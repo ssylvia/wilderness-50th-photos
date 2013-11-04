@@ -1,3 +1,6 @@
+@import "compass/css3/box-shadow";
+@import "compass/css3/border-radius";
+
 #side-pane{
 	position: absolute;
 	background-color: $white;
@@ -32,7 +35,6 @@
 #info-pane{
 	width: 100%;
 	max-height: 300px;
-	border-bottom: 5px solid $darker-gray;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
 }
@@ -97,6 +99,49 @@
 	font: {
 		weight: bold;
 		family: $body-font;
+	}
+}
+
+#playlist-controls{
+	background: {
+		color: $gray;
+	}
+	width: 100%;
+	padding: 8px 0;
+
+	#search{
+		background-color: $lighter-gray;
+		height: auto;
+		width: 270px;
+		line-height: 1em;
+		margin: {
+			left: 15px;
+		}
+		color: $dark-gray;
+		font: {
+			size: 12px;
+			weight: bold;
+		}
+		padding: 5px 25px 5px 5px;
+		border: 1px solid $lighter-gray;
+		@include border-radius(3px);
+		@include box-shadow(inset 0px 0px 9px 0px $lighter-gray);
+	}
+
+	#search:focus{
+		background-color: $lightest-gray;
+	}
+
+	#search-submit{
+		position: absolute;
+		top: 8px;
+		right: 15px;
+		padding: 5px;
+		cursor: pointer;	
+	}
+
+	::-webkit-input-placeholder {
+		color: $dark-gray;
 	}
 }
 

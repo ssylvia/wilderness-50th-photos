@@ -73,7 +73,7 @@ define(["dojo/_base/array",
 						itemStr = '\
 							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '">\
 								<img src=' + item.iconURL + ' alt="" class="marker" />\
-								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + ')"></div>\
+								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
 								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
 							</div>\
 						';
