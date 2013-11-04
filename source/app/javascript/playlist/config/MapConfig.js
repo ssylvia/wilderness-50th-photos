@@ -1,6 +1,8 @@
-define(["esri/symbols/PictureMarkerSymbol",
+define(["dojo/_base/array",
+	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer"], 
-	function(PictureMarkerSymbol,
+	function(array,
+		PictureMarkerSymbol,
 		UniqueValueRenderer){
 	/**
 	* Playlist List
@@ -46,7 +48,7 @@ define(["esri/symbols/PictureMarkerSymbol",
 			return markerPostionHighlight;
 		}
 
-		this.getRenderer = function(layer)
+		this.getRenderer = function(layer,features,colorAttr)
 		{
 			if (useDefaultRenderer){
 
@@ -55,6 +57,14 @@ define(["esri/symbols/PictureMarkerSymbol",
 				var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/indexed/red/NumberIcon1.png", markerPostionDefault.width, markerPostionDefault.height).setOffset(markerPostionDefault.xOffset,markerPostionDefault.yOffset);
 				var renderer = new UniqueValueRenderer(defaultSymbol, _tempRendererField);
 
+				array.forEach(features,function(grp,i){
+					if (i < maxAllowablePoints){
+						
+						var symbol = getSymbolForDefaultRenderer(grp,colorAttr,i);
+						renderer.addValue(grp.attributes[_tempRendererField], symbol);
+					}
+				});
+
 				return renderer;
 			}
 			else{
@@ -62,7 +72,7 @@ define(["esri/symbols/PictureMarkerSymbol",
 			}
 		}
 
-		this.getSymbolForDefaultRenderer = function(graphic,colorAttr,index)
+		function getSymbolForDefaultRenderer(graphic,colorAttr,index)
 		{
 			var iconURL;
 

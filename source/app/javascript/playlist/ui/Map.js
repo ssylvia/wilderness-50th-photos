@@ -305,13 +305,13 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					return a[orderAttr] - b[orderAttr];
 				});
 			}
-			var renderer = _mapConfig.getRenderer(layerObj);
+			var renderer = _mapConfig.getRenderer(layerObj,lyr.graphics,colorAttr);
 			var lyrItems = [];
+			var maxPoints = _mapConfig.getMaxAllowablePoints();
 			array.forEach(lyr.graphics,function(grp,i){
-				if (i < _mapConfig.getMaxAllowablePoints()){
+				if (i < maxPoints){
 					
-					var symbol = _mapConfig.getSymbolForDefaultRenderer(grp,colorAttr,i);
-					renderer.addValue(grp.attributes[layerObj.objectIdField], symbol);
+					var symbol = renderer.getSymbol(grp);
 					
 					var item = {
 						layerId: layerObj.id,
