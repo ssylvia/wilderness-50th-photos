@@ -22,7 +22,7 @@ define(["storymaps/utils/Helper",
 		},
 		_layersReady = 0,
 		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
-		_list = new List("#playlist",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight);
+		_list = new List("#playlist","#search",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight);
 
 		function init ()
 		{
