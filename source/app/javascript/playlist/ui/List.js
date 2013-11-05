@@ -65,7 +65,7 @@ define(["dojo/_base/array",
 
 				$(searchSelector).autocomplete({
 					source: function(request,response){
-						regex = new RegExp($.ui.autocomplete.escapeRegex(request.term),"i");
+						var regex = new RegExp($.ui.autocomplete.escapeRegex(request.term),"i");
 
 						response($.grep($(".playlist-item"),function(el){
 							return ($(el).find(".item-title div").html().match(regex));

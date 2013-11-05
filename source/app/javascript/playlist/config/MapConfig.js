@@ -23,30 +23,30 @@ define(["dojo/_base/array",
 			width: 22,
 			xOffset: 3,
 			yOffset: 8
-		}
+		};
 
 		var markerPostionHighlight = {
 			height: 34,
 			width: 27,
 			xOffset: 3,
 			yOffset: 10
-		}
+		};
 
 		var _tempRendererField;
 
 		this.getMaxAllowablePoints = function(){
 			return maxAllowablePoints;
-		}
+		};
 
 		this.getMarkerPosition = function()
 		{
 			return markerPostionDefault;
-		}
+		};
 
 		this.getMarkerPositionHighlight = function()
 		{
 			return markerPostionHighlight;
-		}
+		};
 
 		this.getRenderer = function(layer,features,colorAttr)
 		{
@@ -70,7 +70,7 @@ define(["dojo/_base/array",
 			else{
 				// Add custom renderer
 			}
-		}
+		};
 
 		function getSymbolForDefaultRenderer(graphic,colorAttr,index)
 		{

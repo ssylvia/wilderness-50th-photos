@@ -150,12 +150,12 @@ define(["storymaps/utils/Helper",
 
 		function updateText(title,subtitle,description)
 		{
-			var description = configOptions.description || description || "";
+			var descriptionText = configOptions.description || description || "";
 			$("#title").html(configOptions.title || title || "");
 			$("#subtitle").html(configOptions.subtitle || subtitle || "");
-			$("#description").html(description);
+			$("#description").html(descriptionText);
 
-			if (description){
+			if (descriptionText){
 				$("#info-pane").addClass("show-description");
 			}
 			else{
