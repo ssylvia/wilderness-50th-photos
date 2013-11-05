@@ -47,7 +47,9 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		_playlistItems = {},
 		_highlightEnabled = true,
 		_titleFields = {},
-		_lastHightlighedGraphic;
+		_lastHightlighedGraphic,
+		_tempLayerId,
+		_tempObjectId;
 
 		this.init = function(){
 
@@ -116,8 +118,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				on(popup,"set-features",function(){
 					var graphic = popup.getSelectedFeature();
 					var item = {
-						layerId: graphic.getLayer().id,
-						objectId: graphic.attributes[graphic.getLayer().objectIdField]
+						layerId: (graphic.getLayer() ? graphic.getLayer().id : _tempLayerId),
+						objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId)
 					};
 
 					onSelect(item);
@@ -144,6 +146,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		this.select = function(item)
 		{
 			_map.infoWindow.hide();
+			_tempLayerId = item.layerId;
+			_tempObjectId = item.objectId;
 
 			var layer = _map.getLayer(item.layerId);
 
@@ -163,11 +167,11 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				}
 				else{
 					on.once(_map,"extent-change",function(){
+						_map.infoWindow.hide();
 						openPopup(graphic);
 					});
 					panMapToGraphic(graphic.geometry);
-				}
-				
+				}				
 			});
 		};
 
@@ -204,10 +208,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		{
 			var graphic = _lastHightlighedGraphic;
 			var layer = graphic.getLayer();
-			var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
-					
-			graphic.setSymbol(newSym);
-
+			if (layer){
+				var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
+				graphic.setSymbol(newSym);
+			}
 			hideMapTip();
 		};
 
@@ -376,6 +380,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
 				};
 				var titleAttr = _titleFields[event.graphic.getLayer().id];
+				_lastHightlighedGraphic = event.graphic;
 				event.graphic.setSymbol(newSym);
 				event.graphic.getDojoShape().moveToFront();
 				_map.setCursor("pointer");
