@@ -51,12 +51,16 @@
 
 #side-pane-controls{
 
-	.toggle-description, .toggle-legend{
+	.icon-push-left{
 		float: right;
 	}
 
 	.toggle-legend{
 		padding-left: 0;
+	}
+
+	.icon-push-right{
+		display: none;
 	}
 
 }
@@ -155,13 +159,21 @@
 		display: none;
 	}
 
+	.icon-push-left{
+		display: none;
+	}
+
+	.icon-push-right{
+		display: block !important;
+	}
+
 	#side-pane-content{
 		display: none;
 	}
 
 	&#side-pane{
 		height: auto;
-		width: 58px;
+		width: 56px;
 	}
 
 }
