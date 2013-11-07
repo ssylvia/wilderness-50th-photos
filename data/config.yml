@@ -69,6 +69,8 @@ playlistPurpleIconURL: resources/images/markers/indexed/purple/IconPurple1.png
 appId: ""
 # The web map id
 webmap: ed2d4a0f93584ca58398eb7ea048a7ca
+# Choose filter field
+filterField: Template
 # If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
 bingMapsKey: ""
 # Specify a proxy for custom deployment

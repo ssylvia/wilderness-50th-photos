@@ -36,7 +36,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,filterField,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -207,10 +207,12 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		this.removeHighlight = function()
 		{
 			var graphic = _lastHightlighedGraphic;
-			var layer = graphic.getLayer();
-			if (layer){
-				var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
-				graphic.setSymbol(newSym);
+			if (graphic){
+				var layer = graphic.getLayer();
+				if (layer){
+					var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
+					graphic.setSymbol(newSym);
+				}
 			}
 			hideMapTip();
 		};
@@ -321,7 +323,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						layerId: layerObj.id,
 						objectIdField: layerObj.objectIdField,
 						graphic: grp,
-						iconURL: symbol.url
+						iconURL: symbol.url,
+						filter: grp.attributes[filterField]
 					};
 					lyrItems.push(item);
 				}

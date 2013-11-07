@@ -12,9 +12,11 @@ define(["dojo/_base/array",
 	* Dependencies: Jquery 1.10.2
 	*/
 
-	return function List(selector,searchSelector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight)
+	return function List(selector,searchSelector,filterSelector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight)
 	{
-		var _listEl = $(selector);
+		var _listEl = $(selector),
+		_filterSet = [],
+		_searchResults;
 
 		addSearchEvents();
 
@@ -67,25 +69,45 @@ define(["dojo/_base/array",
 					source: function(request,response){
 						var regex = new RegExp($.ui.autocomplete.escapeRegex(request.term),"i");
 
-						response($.grep($(".playlist-item"),function(el){
+						var result = $.grep($(".playlist-item"),function(el){
 							return ($(el).find(".item-title div").html().match(regex));
-						}));
+						});
+						_searchResults = result;
+
+						response(result);
 					},
 					response: function(event,ui){
-						$(".playlist-item").hide();
-						$.each(ui.content,function(i,el){
-							$(el).show();
+						$(".playlist-item").addClass("hidden-search");
+						$(_searchResults).each(function(){
+							$(this).removeClass("hidden-search");
 						});
+						$("#search-submit").addClass("icon-close").removeClass("icon-search");						
 					},
 					close: function(){
 						if ($(searchSelector).val() === ""){
-							$(".playlist-item").show();
+							$(".playlist-item").removeClass("hidden-search");
+							$("#search-submit").addClass("icon-search").removeClass("icon-close");	
 						}
 					},
 					change: function(){
 						if ($(searchSelector).val() === ""){
-							$(".playlist-item").show();
+							$(".playlist-item").removeClass("hidden-search");
+							$("#search-submit").addClass("icon-search").removeClass("icon-close");
 						}
+					}
+				});
+
+				$(searchSelector).blur(function(){					
+					if ($(searchSelector).val() === ""){
+						$(".playlist-item").removeClass("hidden-search");
+						$("#search-submit").addClass("icon-search").removeClass("icon-close");
+					}
+				});
+
+				$("#search-submit").click(function(){
+					if ($(this).hasClass("icon-close")){
+						$(searchSelector).val("");
+						$(this).addClass("icon-search").removeClass("icon-close");	
 					}
 				});
 			}
@@ -106,7 +128,7 @@ define(["dojo/_base/array",
 					var itemStr = "";
 					if (attr.thumbnail){
 						itemStr = '\
-							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '">\
+							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
 								<img src=' + item.iconURL + ' alt="" class="marker" />\
 								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
 								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
@@ -115,11 +137,14 @@ define(["dojo/_base/array",
 					}
 					else{
 						itemStr = '\
-							<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '">\
+							<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
 								<img src=' + item.iconURL + ' alt="" class="marker" />\
 								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
 							</div>\
 						';
+					}
+					if ($.inArray(item.filter,_filterSet) < 0){
+						addNewFilter(item.filter);
 					}
 					_listEl.append(itemStr);
 				});			
@@ -127,6 +152,21 @@ define(["dojo/_base/array",
 			$(".item-title").ellipsis();
 
 			addEvents();
+		}
+
+		function addNewFilter(filter)
+		{
+			_filterSet.push(filter);
+
+			$(filterSelector).append('<label class="filter-select">' + filter + '<input type="checkbox" checked></label>');
+			$(".filter-select").last().click(function(){
+				if ($(this).find("input").prop("checked")){
+					$(".playlist-item[data-filter='" + filter + "']").removeClass("hidden-filter");
+				}
+				else{
+					$(".playlist-item[data-filter='" + filter + "']").addClass("hidden-filter");
+				}
+			});
 		}
 
 		function addEvents()
@@ -155,6 +195,18 @@ define(["dojo/_base/array",
 			$(selector).mouseout(function(){
 				$(".playlist-item").removeClass("highlight");
 				onRemoveHightlight();
+			});
+
+			$(".select-all").click(function(){
+				if ($(this).find("input").prop("checked")){
+					$(".filter-select input").prop("checked", true);
+					$(".playlist-item").removeClass("hidden-filter");
+
+				}
+				else{
+					$(".filter-select input").prop("checked", false);
+					$(".playlist-item").addClass("hidden-filter");
+				}
 			});
 		}
 

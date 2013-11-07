@@ -6,7 +6,7 @@
 	background-color: $white;
 	height: 100%;
 	width: 300px;
-	z-index: 1;
+	z-index: 100;
 }
 
 #side-pane-controls{
@@ -114,9 +114,10 @@
 	padding: 8px 0;
 
 	#search{
+		position: relative;
 		background-color: $lighter-gray;
 		height: auto;
-		width: 270px;
+		width: 240px;
 		line-height: 1em;
 		margin: {
 			left: 15px;
@@ -130,6 +131,7 @@
 		border: 1px solid $lighter-gray;
 		@include border-radius(3px);
 		@include box-shadow(inset 0px 0px 9px 0px $lighter-gray);
+		z-index: 1;;
 	}
 
 	#search:focus{
@@ -139,8 +141,61 @@
 	#search-submit{
 		position: absolute;
 		top: 8px;
-		right: 15px;
-		padding: 5px;	
+		right: 45px;
+		padding: 5px;
+		z-index: 2;	
+	}
+
+	#search-submit.icon-close{
+		cursor: pointer;
+	}
+
+	#filter-wrapper{
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		max-width: 300px;
+	}
+
+	#filter-toggle{
+		margin: 0;
+		line-height: 1em;
+		font-size: 1em;
+		padding: 13px 15px;	
+		color: $lightest-gray;
+		cursor: pointer;
+		float: right;
+	}
+
+	#filter-wrapper:hover #filter-toggle{
+		color: $white;
+	}
+
+	#filter-content{
+		display: none;
+		position: absolute;
+		background-color: $lightest-gray;
+		top: 100%;
+		right: 5px;
+		width: 246px;
+		padding: 15px 5px;
+		border: 1px solid $lighter-gray;
+		z-index: 1;
+		@include border-radius(3px);
+		@include box-shadow(1px 1px 3px 0px $darker-gray);
+
+		label{
+			margin: 5px 15px;
+		}
+
+		hr{
+			margin: 0;
+			border-top-color: $lighter-gray;
+		}
+	}
+
+	#filter-wrapper:hover #filter-content{
+		display: block;
 	}
 
 	::-webkit-input-placeholder {

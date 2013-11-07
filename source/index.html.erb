@@ -23,7 +23,18 @@
 			</div><!--info-pane-->
 			<div id="playlist-pane" class="region-center">
 				<div id="playlist-controls" class="region-top">
-					<input id="search" type="text" id="playlist-search" name="Search" placeholder="Type to search..."><span id="search-submit" class="icon-search"></span>
+					<input id="search" type="text" id="playlist-search" name="Search" placeholder="Type to search...">
+					<span id="search-submit" class="icon-search"></span>
+					<div id="filter-wrapper">
+						<p id="filter-toggle" class="icon-filter"></p>
+						<div id="filter-content">
+							<h5 class="filter-title">Choose items to filter:</h5>
+							<label class="select-all">Select All
+								<input type="checkbox" checked>
+							</label>
+							<hr>
+						</div>
+					</div>					
 				</div>
 				<div id="playlist" class="region-center">
 					<div class="playlist-no-layer-message">
