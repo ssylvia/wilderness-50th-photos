@@ -54,12 +54,14 @@ define(["storymaps/utils/Helper",
 
 		function onMapLoad(item)
 		{
-			updateText(item.title,item.snippet,item.description);
-			_readyState.map = true;
-			if (_layersReady === _map.getLayerCount()){
-				_readyState.list = true;
+			if (!_readyState.map){
+				updateText(item.title,item.snippet,item.description);
+				_readyState.map = true;
+				if (_layersReady === _map.getLayerCount()){
+					_readyState.list = true;
+				}
+				checkReadyState();
 			}
-			checkReadyState();
 		}
 
 		function onMapLegendHide()
@@ -107,10 +109,12 @@ define(["storymaps/utils/Helper",
 
 		function onListLoad()
 		{
-			_layersReady++;
-			if (_layersReady === _map.getLayerCount()){
-				_readyState.list = true;
-				checkReadyState();
+			if (!_readyState.list){
+				_layersReady++;
+				if (_layersReady === _map.getLayerCount()){
+					_readyState.list = true;
+					checkReadyState();
+				}
 			}
 		}
 
@@ -179,6 +183,7 @@ define(["storymaps/utils/Helper",
 					ready = false;
 				}
 			}
+			console.log(ready);
 			appReady(ready);
 		}
 
