@@ -60,6 +60,8 @@ define(["dojo/_base/array",
 				"width" : $(this).parent().outerWidth() - x
 			});
 		});
+
+		$("#filter-content").css("max-height", $("#playlist").height() - 50);
 	}
 
 	return {

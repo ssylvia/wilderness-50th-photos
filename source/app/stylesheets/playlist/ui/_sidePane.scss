@@ -55,8 +55,8 @@
 		float: right;
 	}
 
-	.toggle-legend{
-		padding-left: 0;
+	.toggle-description{
+		padding-right: 0;
 	}
 
 	.icon-push-right{
@@ -117,7 +117,7 @@
 		position: relative;
 		background-color: $lighter-gray;
 		height: auto;
-		width: 240px;
+		width: 270px;
 		line-height: 1em;
 		margin: {
 			left: 15px;
@@ -141,7 +141,7 @@
 	#search-submit{
 		position: absolute;
 		top: 8px;
-		right: 45px;
+		right: 15px;
 		padding: 5px;
 		z-index: 2;	
 	}
@@ -151,6 +151,7 @@
 	}
 
 	#filter-wrapper{
+		display: none;
 		position: absolute;
 		top: 0px;
 		right: 0px;
@@ -181,6 +182,7 @@
 		padding: 15px 5px;
 		border: 1px solid $lighter-gray;
 		z-index: 1;
+		overflow: auto;
 		@include border-radius(3px);
 		@include box-shadow(1px 1px 3px 0px $darker-gray);
 

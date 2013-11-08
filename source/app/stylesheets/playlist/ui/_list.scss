@@ -16,6 +16,10 @@
 	pointer: default;
 }
 
+.playlist-item.hidden-search, .playlist-item.hidden-filter{
+	display: none;
+}
+
 .playlist-item .marker, .playlist-item .thumbnail-container, .playlist-item .item-title{
 	position: absolute;
 	top: 5px;

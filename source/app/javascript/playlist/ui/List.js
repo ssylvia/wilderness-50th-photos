@@ -12,7 +12,7 @@ define(["dojo/_base/array",
 	* Dependencies: Jquery 1.10.2
 	*/
 
-	return function List(selector,searchSelector,filterSelector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight)
+	return function List(selector,searchSelector,filterSelector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight,onSearch)
 	{
 		var _listEl = $(selector),
 		_filterSet = [],
@@ -72,6 +72,7 @@ define(["dojo/_base/array",
 						var result = $.grep($(".playlist-item"),function(el){
 							return ($(el).find(".item-title div").html().match(regex));
 						});
+
 						_searchResults = result;
 
 						response(result);
@@ -81,18 +82,21 @@ define(["dojo/_base/array",
 						$(_searchResults).each(function(){
 							$(this).removeClass("hidden-search");
 						});
-						$("#search-submit").addClass("icon-close").removeClass("icon-search");						
+						$("#search-submit").addClass("icon-close").removeClass("icon-search");
+						setItemResults();						
 					},
 					close: function(){
 						if ($(searchSelector).val() === ""){
 							$(".playlist-item").removeClass("hidden-search");
 							$("#search-submit").addClass("icon-search").removeClass("icon-close");	
+							setItemResults();
 						}
 					},
 					change: function(){
 						if ($(searchSelector).val() === ""){
 							$(".playlist-item").removeClass("hidden-search");
 							$("#search-submit").addClass("icon-search").removeClass("icon-close");
+							setItemResults();
 						}
 					}
 				});
@@ -101,13 +105,16 @@ define(["dojo/_base/array",
 					if ($(searchSelector).val() === ""){
 						$(".playlist-item").removeClass("hidden-search");
 						$("#search-submit").addClass("icon-search").removeClass("icon-close");
+						setItemResults();
 					}
 				});
 
 				$("#search-submit").click(function(){
 					if ($(this).hasClass("icon-close")){
 						$(searchSelector).val("");
-						$(this).addClass("icon-search").removeClass("icon-close");	
+						$(".playlist-item").removeClass("hidden-search");
+						$(this).addClass("icon-search").removeClass("icon-close");
+						setItemResults();	
 					}
 				});
 			}
@@ -166,7 +173,14 @@ define(["dojo/_base/array",
 				else{
 					$(".playlist-item[data-filter='" + filter + "']").addClass("hidden-filter");
 				}
+				setItemResults();
 			});
+
+			if (_filterSet.length > 1){
+				$(searchSelector).css("width",240);
+				$("#search-submit").css("right",45);
+				$("#filter-wrapper").show();
+			}
 		}
 
 		function addEvents()
@@ -207,7 +221,28 @@ define(["dojo/_base/array",
 					$(".filter-select input").prop("checked", false);
 					$(".playlist-item").addClass("hidden-filter");
 				}
+				setItemResults();
 			});
+		}
+
+		function setItemResults()
+		{
+			var items = [];
+			if ($(".playlist-item:hidden").length > 0){
+				if ($(".playlist-item:visible").length > 0){
+					$(".playlist-item:visible").each(function(){
+						var item = {
+							layerId: $(this).attr("layer-id"),
+							objectId: $(this).attr("object-id")
+						};
+						items.push(item);
+					});
+				}
+				else{
+					items = null;
+				}
+			}
+			onSearch(items);
 		}
 
 		function getAttributeNames(obj)

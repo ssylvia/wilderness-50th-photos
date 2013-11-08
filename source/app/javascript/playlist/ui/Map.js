@@ -43,7 +43,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		_mapResponse,
 		_mapReady = false,
 		_mapTip,
-		_layerCount = 0,
+		_playlistLayers = [],
 		_playlistItems = {},
 		_highlightEnabled = true,
 		_titleFields = {},
@@ -130,7 +130,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		this.getLayerCount = function()
 		{
-			return _layerCount;
+			return _playlistLayers.length;
 		};
 
 		this.getPlaylistItems = function()
@@ -217,6 +217,64 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			hideMapTip();
 		};
 
+		this.filterGraphics = function(items)
+		{
+			array.forEach(_playlistLayers,function(lyr){
+				var layerObj = _map.getLayer(lyr.layerId);
+				if (!items){
+					layerObj.hide();
+				}
+				else if (items.length === 0){
+					if (lyr.supportsDefinitionExpression){
+						layerObj.setDefinitionExpression(lyr.defaultExpression);
+					}
+					else{
+						array.forEach(layerObj.graphics,function(g,i){
+							if (i < _mapConfig.getMaxAllowablePoints()){
+								g.show();
+							}
+						});
+					}
+					layerObj.show();
+				}
+				else{
+					if (lyr.supportsDefinitionExpression){
+						var objectIds = "";
+						array.forEach(items,function(item){
+							if (item.layerId === lyr.layerId){
+								if (objectIds === ""){
+									objectIds = objectIds + item.objectId;
+								}
+								else{
+									objectIds = objectIds + "," + item.objectId;
+								}
+							}
+						});
+						var expression = lyr.objectIdField + " IN (" + objectIds + ")";
+						layerObj.setDefinitionExpression(expression);
+					}
+					else{
+						var objectIds = [];
+						array.forEach(items,function(item){
+							if (item.layerId === lyr.layerId){
+								objectIds.push(item.objectId);
+							}
+						});
+
+						array.forEach(layerObj.graphics,function(g){
+							if (array.indexOf(objectIds, g.attributes[lyr.objectIdField]) >= 0){
+								g.show();
+							}
+							else{
+								g.hide();
+							}
+						});
+					}
+					layerObj.show();
+				}
+			});
+		}
+
 		function getSidePanelWidth()
 		{
 			return domGeom.position(query(sidePaneSelector)[0]).w;
@@ -238,6 +296,13 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					array.forEach(layer.featureCollection.layers,function(l){
 						if (l.layerDefinition.geometryType === "esriGeometryPoint" && l.visibility){
 							var playlistLyr = l.layerObject;
+							var lyrProp = {
+								layerId: playlistLyr.id,
+								objectIdField: playlistLyr.objectIdField,
+								supportsDefinitionExpression: false,
+								defaultExpression: false
+							};
+							_playlistLayers.push(lyrProp);
 							setRenderer(playlistLyr);
 							addLayerEvents(playlistLyr);
 							layerIds.push(playlistLyr.id);
@@ -256,6 +321,13 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						playlistLyr.queryFeatures(query).then(function(results){
 							var features = results.features.slice(0,_mapConfig.getMaxAllowablePoints());
 							playlistLyr.setDefinitionExpression(results.objectIdFieldName + "<=" + (features[features.length - 1].attributes[results.objectIdFieldName]));
+							var lyrProp = {
+								layerId: playlistLyr.id,
+								objectIdField: playlistLyr.objectIdField,
+								supportsDefinitionExpression: true,
+								defaultExpression: (results.objectIdFieldName + "<=" + (features[features.length - 1].attributes[results.objectIdFieldName]))
+							};
+							_playlistLayers.push(lyrProp);
 
 							// Create Temporary layer object to get first 99 features from a feature layer
 							var layer = {
@@ -270,8 +342,6 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					layerIds.push(playlistLyr.id);
 				}
 			});
-			
-			_layerCount = layerIds.length;
 			buildLegend(layerIds);
 		}
 

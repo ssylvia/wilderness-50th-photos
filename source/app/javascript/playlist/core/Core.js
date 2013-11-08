@@ -22,7 +22,7 @@ define(["storymaps/utils/Helper",
 		},
 		_layersReady = 0,
 		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.filterField,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
-		_list = new List("#playlist","#search","#filter-content",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight);
+		_list = new List("#playlist","#search","#filter-content",onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 		function init ()
 		{
@@ -139,6 +139,13 @@ define(["storymaps/utils/Helper",
 		{
 			if(_map){
 				_map.removeHighlight();
+			}
+		}
+
+		function onListSearch(items)
+		{
+			if(_map){
+				_map.filterGraphics(items);
 			}
 		}
 
