@@ -256,15 +256,15 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						layerObj.setDefinitionExpression(expression);
 					}
 					else{
-						var objectIds = [];
+						var ids = [];
 						array.forEach(items,function(item){
 							if (item.layerId === lyr.layerId){
-								objectIds.push(item.objectId);
+								ids.push(item.objectId);
 							}
 						});
 
 						array.forEach(layerObj.graphics,function(g){
-							if (array.indexOf(objectIds, g.attributes[lyr.objectIdField]) >= 0){
+							if (array.indexOf(ids, g.attributes[lyr.objectIdField]) >= 0){
 								g.show();
 							}
 							else{
@@ -275,7 +275,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					layerObj.show();
 				}
 			});
-		}
+		};
 
 		function getSidePanelWidth()
 		{
@@ -577,6 +577,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			if (_mapResponse.itemInfo.itemData.widgets && _mapResponse.itemInfo.itemData.widgets.timeSlider){
 				console.log(_mapResponse.itemInfo.itemData.widgets.timeSlider);
 				console.log(layers);
+				console.log(HistogramTimeSlider);
 			}
 		}
 	};

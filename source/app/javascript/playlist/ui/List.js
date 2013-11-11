@@ -77,7 +77,7 @@ define(["dojo/_base/array",
 
 						response(result);
 					},
-					response: function(event,ui){
+					response: function(){
 						$(".playlist-item").addClass("hidden-search");
 						$(_searchResults).each(function(){
 							$(this).removeClass("hidden-search");
