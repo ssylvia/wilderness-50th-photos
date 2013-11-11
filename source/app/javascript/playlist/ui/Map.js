@@ -12,7 +12,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	"dojo/dom-construct",
 	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer",
-	"esri/tasks/query"], 
+	"esri/tasks/query",
+	"esri/dijit/HistogramTimeSlider"], 
 	function(MapConfig,
 		Map,
 		arcgisUtils,
@@ -28,7 +29,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		domConstruct,
 		PictureMarkerSymbol,
 		UniqueValueRenderer,
-		Query){
+		Query,
+		HistogramTimeSlider){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -291,11 +293,13 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		function getPointLayers(layers)
 		{
 			var layerIds = [];
+			var playlistLayers = [];
 			array.forEach(layers,function(layer){
 				if (layer.featureCollection && layer.featureCollection.layers.length > 0){
 					array.forEach(layer.featureCollection.layers,function(l){
 						if (l.layerDefinition.geometryType === "esriGeometryPoint" && l.visibility){
 							var playlistLyr = l.layerObject;
+							playlistLayers.push(playlistLyr);
 							var lyrProp = {
 								layerId: playlistLyr.id,
 								objectIdField: playlistLyr.objectIdField,
@@ -311,6 +315,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				}
 				else if(layer.url && layer.resourceInfo.type === "Feature Layer" && layer.resourceInfo.geometryType === "esriGeometryPoint" && layer.visibility){
 					var playlistLyr = layer.layerObject;
+					playlistLayers.push(playlistLyr);
 					playlistLyr.mode = 0;
 					addLayerEvents(playlistLyr);
 					on.once(playlistLyr, "update-end", function(){
@@ -342,7 +347,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					layerIds.push(playlistLyr.id);
 				}
 			});
-			buildLegend(layerIds);
+			buildLegend(layerIds);			
+			initTime(playlistLayers);
 		}
 
 		function setRenderer(lyr)
@@ -564,6 +570,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				display: "none"
 			});
 
+		}
+
+		function initTime(layers)
+		{
+			if (_mapResponse.itemInfo.itemData.widgets && _mapResponse.itemInfo.itemData.widgets.timeSlider){
+				console.log(_mapResponse.itemInfo.itemData.widgets.timeSlider);
+				console.log(layers);
+			}
 		}
 	};
 

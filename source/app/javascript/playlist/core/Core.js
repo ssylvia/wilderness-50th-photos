@@ -183,7 +183,6 @@ define(["storymaps/utils/Helper",
 					ready = false;
 				}
 			}
-			console.log(ready);
 			appReady(ready);
 		}
 
