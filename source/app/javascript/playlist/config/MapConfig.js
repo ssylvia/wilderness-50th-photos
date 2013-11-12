@@ -48,7 +48,7 @@ define(["dojo/_base/array",
 			return markerPostionHighlight;
 		};
 
-		this.getRenderer = function(layer,features,colorAttr)
+		this.getRenderer = function(layer,features,colorAttr,orderAttr)
 		{
 			if (useDefaultRenderer){
 
@@ -59,6 +59,10 @@ define(["dojo/_base/array",
 
 				array.forEach(features,function(grp,i){
 					if (i < maxAllowablePoints){
+
+						if (!isNaN(grp.attributes[orderAttr]) && isFinite(grp.attributes[orderAttr]) && grp.attributes[orderAttr] % 1 === 0){
+							i = grp.attributes[orderAttr];
+						}
 						
 						var symbol = getSymbolForDefaultRenderer(grp,colorAttr,i);
 						renderer.addValue(grp.attributes[_tempRendererField], symbol);

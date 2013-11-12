@@ -12,7 +12,7 @@ define(["dojo/_base/array",
 	* Dependencies: Jquery 1.10.2
 	*/
 
-	return function List(selector,searchSelector,filterSelector,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight,onSearch)
+	return function List(selector,searchSelector,filterSelector,dataFields,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight,onSearch)
 	{
 		var _listEl = $(selector),
 		_filterSet = [],
@@ -304,6 +304,13 @@ define(["dojo/_base/array",
 						}
 					}
 				}
+			}
+
+			if (dataFields.imageField){
+				attrNames.thumbnail = dataFields.imageField;
+			}
+			if (dataFields.nameField){
+				attrNames.title = dataFields.nameField;
 			}
 
 			return attrNames;

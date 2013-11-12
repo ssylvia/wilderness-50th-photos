@@ -151,8 +151,14 @@
 			subtitle: "<%= data.config.subtitle %>",
 			//Enter a description, if not specified the ArcGIS.com web map's description is used
 			description: "<%= data.config.description %>",
-			// Choose filter field
-			filterField: "<%= data.config.filterField %>",
+			// Choose data fields
+			dataFields: {
+				nameField: "<%= data.config.nameField %>",
+				imageField: "<%= data.config.imageField %>",
+				colorField: "<%= data.config.colorField %>",
+				orderField: "<%= data.config.orderField %>",
+				filterField: "<%= data.config.filterField %>"
+			},
 			// Legend names for playlist markers
 			playlistLegend: {
 				"layerTitle": "<%= data.config.playlistTitle %>",

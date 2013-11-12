@@ -38,7 +38,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,filterField,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,dataFields,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -361,7 +361,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 			// Get Color Attribute
 			var colorAttr;
-			if (lyr.graphics[0] && lyr.graphics[0].attributes.Color){
+			if (dataFields.colorAttr){
+				colorAttr = dataFields.colorAttr;
+			}
+			else if (lyr.graphics[0] && lyr.graphics[0].attributes.Color){
 				colorAttr = "Color";
 			}
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.color){
@@ -373,7 +376,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 			// Get Order Attribute
 			var orderAttr;
-			if (lyr.graphics[0] && lyr.graphics[0].attributes.Order){
+			if (dataFields.orderAttr){
+				colorAttr = dataFields.orderAttr;
+			}
+			else if (lyr.graphics[0] && lyr.graphics[0].attributes.Order){
 				colorAttr = "Order";
 			}
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.order){
@@ -387,7 +393,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					return a[orderAttr] - b[orderAttr];
 				});
 			}
-			var renderer = _mapConfig.getRenderer(layerObj,lyr.graphics,colorAttr);
+			var renderer = _mapConfig.getRenderer(layerObj,lyr.graphics,colorAttr,orderAttr);
 			var lyrItems = [];
 			var maxPoints = _mapConfig.getMaxAllowablePoints();
 			array.forEach(lyr.graphics,function(grp,i){
@@ -400,7 +406,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						objectIdField: layerObj.objectIdField,
 						graphic: grp,
 						iconURL: symbol.url,
-						filter: grp.attributes[filterField]
+						filter: grp.attributes[dataFields.filterField]
 					};
 					lyrItems.push(item);
 				}
