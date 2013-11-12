@@ -14,7 +14,8 @@ module.exports = function(grunt) {
 		clean: {
 
 			build: ['build/app/javascript/*'],
-			jsLib: ['build/lib']
+			jsLib: ['build/lib'],
+			buildTools: ['build/resources/buildTools']
 
 		},
 
@@ -24,6 +25,10 @@ module.exports = function(grunt) {
 		concat: {
 			options: {
 				separator: ';'
+			},
+			libIE: {
+				src: ['source/lib/oldIE/**/*.js'],
+				dest: 'build/app/javascript/oldIE.min.js'
 			}
 		},
 
@@ -75,6 +80,9 @@ module.exports = function(grunt) {
 		'jshint',
 		'clean:build',
 
+		// Concat external libraries
+		'concat:libIE',
+
 		/*
 		* Minify project JS using require.js
 		* - require.js output a .js for with only the viewer and a .js with viewer and builder
@@ -82,7 +90,9 @@ module.exports = function(grunt) {
 		* - perform production mode replacement in JS files
 		*/
 		'requirejs',
-		'copy'
+		'copy',
+		'clean:jsLib',
+		'clean:buildTools'
 
 	]);
 
