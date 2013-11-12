@@ -51,7 +51,7 @@
 
 #side-pane-controls{
 
-	.icon-push-left{
+	.icon-left-arrow{
 		float: right;
 	}
 
@@ -59,7 +59,7 @@
 		padding-right: 0;
 	}
 
-	.icon-push-right{
+	.icon-right-arrow{
 		display: none;
 	}
 
@@ -216,11 +216,11 @@
 		display: none;
 	}
 
-	.icon-push-left{
+	.icon-left-arrow{
 		display: none;
 	}
 
-	.icon-push-right{
+	.icon-right-arrow{
 		display: block !important;
 	}
 
