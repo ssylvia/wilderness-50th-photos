@@ -68,7 +68,7 @@ playlistPurpleIconURL: resources/images/markers/indexed/purple/IconPurple1.png
 # The appid for the configured application
 appId: ""
 # The web map id
-webmap: ed2d4a0f93584ca58398eb7ea048a7ca
+webmap: 225d8fdebb1440db80165645dcd16b91
 # Choose name field
 nameField: ""
 # Choose image field
