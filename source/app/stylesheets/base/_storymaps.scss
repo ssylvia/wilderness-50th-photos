@@ -165,6 +165,9 @@ html, body{
 		size: 1.3em;
 		weight: bold;
 	}
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 #subtitle{
@@ -174,6 +177,7 @@ html, body{
 		family: Georgia, serif;
 		size: 1em;
 	}
+	line-height: 1.2em;
 }
 
 .map .container{
