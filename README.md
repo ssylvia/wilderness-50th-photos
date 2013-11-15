@@ -12,21 +12,21 @@ The playlist app is a storytelling template that organizes point data sets, usua
 **Latest release is version 2.0**, if you want to be informed of new releases, we recommend you to watch this repository.
 
 This help will guide you through the steps for publishing playlist apps like:
-	* [Top 10 National Parks in New South Wales, Australia](http://downloads.esri.com/agol/pub/nsw10/index.html)
-	* [World of Story Maps](http://storymaps.esri.com/stories/2013/storylocator/)
+- [Top 10 National Parks in New South Wales, Australia](http://downloads.esri.com/agol/pub/nsw10/index.html)
+- [World of Story Maps](http://storymaps.esri.com/stories/2013/storylocator/)
 
 ## Help Content
-	* [How to deploy a playlist app](#how-to-deploy-a-playlist-app)
-	* [Data storage options](#data-storage-options)
-	* [FAQ](#faq)
-	* [Tips](#tips)
-	* [What's new](#whats-new)
-	* [Customize the look and feel](#customize-the-look-and-feel)
-	* [Developer guide](#developer-guide)
-	* [Feedback](#feedback)
-	* [Issues](#issues)
-	* [Contributing](#contributing)
-	* [Licensing](#licensing)
+- [How to deploy a playlist app](#how-to-deploy-a-playlist-app)
+- [Data storage options](#data-storage-options)
+- [FAQ](#faq)
+- [Tips](#tips)
+- [What's new](#whats-new)
+- [Customize the look and feel](#customize-the-look-and-feel)
+- [Developer guide](#developer-guide)
+- [Feedback](#feedback)
+- [Issues](#issues)
+- [Contributing](#contributing)
+- [Licensing](#licensing)
 
 ## How to deploy a playlist app
 
@@ -46,27 +46,27 @@ To create a playlist tour follow a few simple steps, outlined below. To successf
 Currently, the playlist supports CSV or feature service layers that have been added to a web map. For detailed instructions, please refer to the **[Readme document](https://github.com/ssyliva/playlist/raw/master/Readme.pdf)**.
 
 To get started, follow these basic instructions:
-	1. Open ArcGIS Online web map viewer
-	2. Create a web map that fits your needs (basemap, additional context layers, etc.)
-	3. Import your playlist data layers into the web map
-	4. Save the web map at the initial extent that you would like your playlist to begin
-	5. **Share your web map with everyone**
-	6. Open **index.html** with a text editor
-	7. Scroll down till you find the **configOptions** settings and edit these options
-		- webmap: unique identifier for the ArcGIS.com map.
-		- dataFields (change only if not following sample data)
-			- nameField: field to be used as playlist text
-			- imageField: field to be used as thumbnail in playlist
-			- colorField: field to determine marker color
-			- orderField: field to determine playlist order
-			- filterField: field to determine what items will added to the search filter (leave blank to remove filter)
-		- playlistLegend
-			- layerTitle: name the playlist layer for display in the map legend
-			- items
-			- visible: choose (true or false) if item is visible in legend
-			- name: add name for item to be displayed in legend
-	8. Optionally remove samples folder and Readme.pdf
-	9. Copy files to your web server root or in a specific folder
+1. Open ArcGIS Online web map viewer
+2. Create a web map that fits your needs (basemap, additional context layers, etc.)
+3. Import your playlist data layers into the web map
+4. Save the web map at the initial extent that you would like your playlist to begin
+5. **Share your web map with everyone**
+6. Open **index.html** with a text editor
+7. Scroll down till you find the **configOptions** settings and edit these options
+	- webmap: unique identifier for the ArcGIS.com map.
+	- dataFields (change only if not following sample data)
+		- nameField: field to be used as playlist text
+		- imageField: field to be used as thumbnail in playlist
+		- colorField: field to determine marker color
+		- orderField: field to determine playlist order
+		- filterField: field to determine what items will added to the search filter (leave blank to remove filter)
+	- playlistLegend
+		- layerTitle: name the playlist layer for display in the map legend
+		- items
+		- visible: choose (true or false) if item is visible in legend
+		- name: add name for item to be displayed in legend
+8. Optionally remove samples folder and Readme.pdf
+9. Copy files to your web server root or in a specific folder
 
 It is crucial for the application performance that your tour points have well-defined thumbnail images. Thumbnail images are used in the side playlist. If you choose to host the pictures yourself, you will have to manually create thumbnails of your pictures. Using the full resolution pictures for the thumbnail will result in poor performance. The recommended thumbnail size is 70x70px.
 
@@ -99,10 +99,10 @@ You can use any point Feature Service or CSV as a playlist data source as long a
 ## Feedback
 
 We would love to hear from you!
-	* [Vist the story maps forum](http://forums.arcgis.com/forums/264-Story-Maps)
-	* [StoryMaps Website](http://storymaps.esri.com/home/)
-	* [@EsriStoryMaps](http://twitter.com/EsriStoryMaps)
-	* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+- [Vist the story maps forum](http://forums.arcgis.com/forums/264-Story-Maps)
+- [StoryMaps Website](http://storymaps.esri.com/home/)
+- [@EsriStoryMaps](http://twitter.com/EsriStoryMaps)
+- [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
 
 ## Issues
 
