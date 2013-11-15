@@ -1,6 +1,5 @@
-storytelling_boilerplate
-========================
-
+Playlist
+========
 
 ### Set up Machine
 
