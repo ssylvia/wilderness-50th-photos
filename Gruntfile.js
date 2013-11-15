@@ -13,9 +13,9 @@ module.exports = function(grunt) {
 
 		clean: {
 
-			build: ['build/app/javascript/*'],
-			jsLib: ['build/lib'],
-			buildTools: ['build/resources/buildTools']
+			build: ['deploy/app/javascript/*'],
+			jsLib: ['deploy/lib'],
+			buildTools: ['deploy/resources/buildTools']
 
 		},
 
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 			},
 			libIE: {
 				src: ['source/lib/oldIE/**/*.js'],
-				dest: 'build/app/javascript/oldIE.min.js'
+				dest: 'deploy/app/javascript/oldIE.min.js'
 			}
 		},
 
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 						flatten: true,
 						cwd: '',
 						src: ['source/lib/**/*.map'],
-						dest: 'build/app/javascript/'
+						dest: 'deploy/app/javascript/'
 					}
 				]
 			},
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 						'lib': 'lib'
 					},
 					name: 'resources/buildTools/config/ConfigViewer',
-					out: 'build/app/javascript/<%= advSettings.appIdentifier %>-viewer.min.js'
+					out: 'deploy/app/javascript/<%= advSettings.appIdentifier %>-viewer.min.js'
 				}
 			}
 		}

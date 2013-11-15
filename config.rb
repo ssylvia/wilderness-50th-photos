@@ -20,6 +20,7 @@ set :js_dir, 'app/javascript'
 set :images_dir, 'resources/images'
 set :fonts_dir, 'resources/fonts'
 set :isProduction, false
+set :build_dir, 'deploy'
 
 configure :build do
 
