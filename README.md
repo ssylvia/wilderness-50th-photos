@@ -46,6 +46,7 @@ To create a playlist tour follow a few simple steps, outlined below. To successf
 Currently, the playlist supports CSV or feature service layers that have been added to a web map. For detailed instructions, please refer to the **[Readme document](https://github.com/ssyliva/playlist/raw/master/Readme.pdf)**.
 
 To get started, follow these basic instructions:
+
 1. Open ArcGIS Online web map viewer
 2. Create a web map that fits your needs (basemap, additional context layers, etc.)
 3. Import your playlist data layers into the web map
@@ -55,16 +56,16 @@ To get started, follow these basic instructions:
 7. Scroll down till you find the **configOptions** settings and edit these options
 	- webmap: unique identifier for the ArcGIS.com map.
 	- dataFields (change only if not following sample data)
-		- nameField: field to be used as playlist text
-		- imageField: field to be used as thumbnail in playlist
-		- colorField: field to determine marker color
-		- orderField: field to determine playlist order
-		- filterField: field to determine what items will added to the search filter (leave blank to remove filter)
+		- **nameField**: field to be used as playlist text
+		- **imageField**: field to be used as thumbnail in playlist
+		- **colorField**: field to determine marker color
+		- **orderField**: field to determine playlist order
+		- **filterField**: field to determine what items will added to the search filter (leave blank to remove filter)
 	- playlistLegend
 		- layerTitle: name the playlist layer for display in the map legend
 		- items
-		- visible: choose (true or false) if item is visible in legend
-		- name: add name for item to be displayed in legend
+			- **visible**: choose (true or false) if item is visible in legend
+			- **name**: add name for item to be displayed in legend
 8. Optionally remove samples folder and Readme.pdf
 9. Copy files to your web server root or in a specific folder
 
