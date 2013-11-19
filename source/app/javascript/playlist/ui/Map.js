@@ -38,7 +38,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,dataFields,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -297,6 +297,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			array.forEach(layers,function(layer){
 				if (layer.featureCollection && layer.featureCollection.layers.length > 0){
 					array.forEach(layer.featureCollection.layers,function(l){
+						console.log(l);
 						if (l.layerDefinition.geometryType === "esriGeometryPoint" && l.visibility){
 							var playlistLyr = l.layerObject;
 							playlistLayers.push(playlistLyr);
@@ -361,8 +362,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 			// Get Color Attribute
 			var colorAttr;
-			if (dataFields.colorAttr){
-				colorAttr = dataFields.colorAttr;
+			if (dataFields.colorField){
+				colorAttr = dataFields.colorField;
 			}
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.Color){
 				colorAttr = "Color";
@@ -376,23 +377,31 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 			// Get Order Attribute
 			var orderAttr;
-			if (dataFields.orderAttr){
-				colorAttr = dataFields.orderAttr;
+			if (dataFields.orderField){
+				orderAttr = dataFields.orderField;
 			}
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.Order){
-				colorAttr = "Order";
+				orderAttr = "Order";
 			}
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.order){
-				colorAttr = "order";
+				orderAttr = "order";
 			}
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.ORDER){
-				colorAttr = "ORDER";
+				orderAttr = "ORDER";
 			}
+			console.log(lyr.graphics);
 			if (lyr.graphics.length > 1 && orderAttr){
 				lyr.graphics.sort(function(a,b){
-					return a[orderAttr] - b[orderAttr];
+					if (a.attributes[orderAttr] < b.attributes[orderAttr]){
+						return -1;
+					}
+					if (a.attributes[orderAttr] > b.attributes[orderAttr]){
+						return 1;
+					}
+					return 0;
 				});
 			}
+			window.test = lyr.graphics;
 			var renderer = _mapConfig.getRenderer(layerObj,lyr.graphics,colorAttr,orderAttr);
 			var lyrItems = [];
 			var maxPoints = _mapConfig.getMaxAllowablePoints();
@@ -439,21 +448,28 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				},"legend");
 				legend.startup();
 			}
-			else{
-				onHideLegend();
+
+			if (displayLegend){
+				var playlistStr = '<p class="esriLegendServiceLabel">' + playlistLegendConfig.layerTitle + '</p><table class="esriLayerLegend"><tbody>';
+
+				for (var obj in playlistLegendConfig.items){
+					if (playlistLegendConfig.items[obj].visible){
+						playlistStr = playlistStr + '<tr><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
+					}
+				}
+
+				playlistStr = playlistStr + '</tbody></table>';
+
+				domConstruct.place(playlistStr,dom.byId(playlistLegendSelector),"first");
 			}
-
-			var playlistStr = '<p class="esriLegendServiceLabel">' + playlistLegendConfig.layerTitle + '</p><table class="esriLayerLegend"><tbody>';
-
-			for (var obj in playlistLegendConfig.items){
-				if (playlistLegendConfig.items[obj].visible){
-					playlistStr = playlistStr + '<tr><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
+			else{
+				domStyle.set(dom.byId(playlistLegendSelector),{
+					display: "none"
+				});
+				if (legendLyrs < 1){
+					onHideLegend();
 				}
 			}
-
-			playlistStr = playlistStr + '</tbody></table>';
-
-			domConstruct.place(playlistStr,dom.byId(playlistLegendSelector),"first");
 		}
 
 		function addLayerEvents(layer)

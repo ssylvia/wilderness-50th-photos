@@ -54,7 +54,7 @@ To get started, follow these basic instructions:
 5. **Share your web map with everyone**
 6. Open **index.html** with a text editor
 7. Scroll down till you find the **configOptions** settings and edit these options
-	- webmap: unique identifier for the ArcGIS.com map.
+	- **webmap**: unique identifier for the ArcGIS.com map.
 	- dataFields (change only if not following sample data)
 		- **nameField**: field to be used as playlist text
 		- **imageField**: field to be used as thumbnail in playlist
@@ -62,7 +62,7 @@ To get started, follow these basic instructions:
 		- **orderField**: field to determine playlist order
 		- **filterField**: field to determine what items will added to the search filter (leave blank to remove filter)
 	- playlistLegend
-		- layerTitle: name the playlist layer for display in the map legend
+		- **layerTitle**: name the playlist layer for display in the map legend
 		- items
 			- **visible**: choose (true or false) if item is visible in legend
 			- **name**: add name for item to be displayed in legend
@@ -74,6 +74,31 @@ It is crucial for the application performance that your tour points have well-de
 ## Data storage options
 
 You can use any point Feature Service or CSV as a playlist data source as long as your layer follow the expected requirements detailed below. To use your layer, simply add it into your webmap through ArcGIS Online web map viewer.
+
+| Fields													| Valid fields names (case insensitive)		|
+| ---------------------------------------------------------	| -----------------------------------------	|
+| Name														| name, title						 	    |
+| Thumbnail													| thumb_url, thumbnail				        |
+| Color												        | color										|
+| Order														| order										|
+
+If your playlist layer has different field attributes, you will need to change the **dataFields** options under the configOptions in the **index.html**.
+
+The playlist template also supports thumbnails which will be displayed along side of item's title and map icon. These thumbnail will be pulled from the **thumbnail** attribute above but requires the images to be hosted on the web. The thumbnail can either be hosted on your organization's web server or on a third party service such as Flickr or Dropbox.
+
+## FAQ
+
+### Is the template compatible with previous version?
+Yes, web map designed for the previous version should continue to work without any modification. Customization and enhancement of the application will require code changes, most of them should be easy to translate into the new application.
+
+### Can I deploy playlist on Portal for ArcGIS?
+Yes, by default the playlist app expects web maps to be saved on ArcGIS.com. If you are using using portal, you will need to modify the **sharingUrl** option in the **index.html**. If you also require a login to the app, see below.
+
+### Can I use private web map or layer?
+Yes, but you will need to install a proxy server on your web server to make sure the login credentioals can be pass securely to ArcGIS Online. For more information, see the **[Using the proxy page](https://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html)** in the ArcGIS JavaScript documentation.
+
+### Can the template be used offline?
+Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, the Map Tour doesn't require any external service to function. But by default the template will still include the header social buttons and template publishers are able to import pictures from the some online pictures hosting services
 
 ### Set up Machine
 

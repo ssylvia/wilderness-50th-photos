@@ -42,6 +42,8 @@ description: ""
 
 # LEGEND AND DESCRIPTION
 
+playlistLegendVisible: false
+
 # Playlist layer title
 playlistTitle: Playlist Layer
 
@@ -78,7 +80,7 @@ colorField: ""
 # Choose order field
 orderField: ""
 # Choose filter field
-filterField: Template
+filterField: ""
 # If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
 bingMapsKey: ""
 # Specify a proxy for custom deployment

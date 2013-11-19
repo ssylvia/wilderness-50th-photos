@@ -61,7 +61,7 @@ define(["dojo/_base/array",
 					if (i < maxAllowablePoints){
 
 						if (!isNaN(grp.attributes[orderAttr]) && isFinite(grp.attributes[orderAttr]) && grp.attributes[orderAttr] % 1 === 0){
-							i = grp.attributes[orderAttr];
+							i = grp.attributes[orderAttr] - 1;
 						}
 						
 						var symbol = getSymbolForDefaultRenderer(grp,colorAttr,i);

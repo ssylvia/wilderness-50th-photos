@@ -21,7 +21,7 @@ define(["storymaps/utils/Helper",
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.dataFields,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.dataFields,configOptions.playlistLegendVisible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
 		_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 		function init ()
@@ -67,6 +67,7 @@ define(["storymaps/utils/Helper",
 		function onMapLegendHide()
 		{
 			$("#legend-wrapper").hide();
+			$(".toggle-legend").hide();
 		}
 
 		function onLayersUpdate(graphics)
