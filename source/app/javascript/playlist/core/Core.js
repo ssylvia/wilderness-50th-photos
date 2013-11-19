@@ -21,7 +21,7 @@ define(["storymaps/utils/Helper",
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.dataFields,configOptions.playlistLegendVisible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegendVisible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
 		_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 		function init ()
@@ -39,6 +39,13 @@ define(["storymaps/utils/Helper",
 			if (configOptions.geometryServiceUrl && location.protocol === "https:"){
 				configOptions.geometryServiceUrl = configOptions.geometryServiceUrl.replace('http:', 'https:');
 			}
+
+			var urlObject = esri.urlToObject(document.location.href);
+			urlObject.query = urlObject.query || {};
+
+			if(urlObject.query.webmap){
+				configOptions.webmap = urlObject.query.webmap;
+			} 
 
 			loadMap();
 		}

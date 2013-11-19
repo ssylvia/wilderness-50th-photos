@@ -19,9 +19,7 @@ This help will guide you through the steps for publishing playlist apps like:
 - [How to deploy a playlist app](#how-to-deploy-a-playlist-app)
 - [Data storage options](#data-storage-options)
 - [FAQ](#faq)
-- [Tips](#tips)
 - [What's new](#whats-new)
-- [Customize the look and feel](#customize-the-look-and-feel)
 - [Developer guide](#developer-guide)
 - [Feedback](#feedback)
 - [Issues](#issues)
@@ -39,11 +37,10 @@ To use the downloadable version, download the [User Download](https://github.com
 | **samples/**			| Sample data to create your web map					|
 | **index.html**		| Application html file (Contains app configuration)	|
 | license.txt			| Application terms of use								|
-| **Readme.pdf**		| Detailed intructions									|
 
 To create a playlist tour follow a few simple steps, outlined below. To successfully publish your story map using this template you’ll need to be able to host the application and the photos you will use on a publicly accessible server and you’ll also need an ArcGIS Online account (public or subscription) to author and save the map used in the playlist. The storytelling playlist app relies on a web map ID from [ArcGIS Online](http://www.arcgis.com/) to get the data.
 
-Currently, the playlist supports CSV or feature service layers that have been added to a web map. For detailed instructions, please refer to the **[Readme document](https://github.com/ssyliva/playlist/raw/master/Readme.pdf)**.
+Currently, the playlist supports CSV or feature service layers that have been added to a web map.
 
 To get started, follow these basic instructions:
 
@@ -100,10 +97,29 @@ Yes, but you will need to install a proxy server on your web server to make sure
 ### Can the template be used offline?
 Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, the Map Tour doesn't require any external service to function. But by default the template will still include the header social buttons and template publishers are able to import pictures from the some online pictures hosting services
 
-### Set up Machine
+## What's new?
 
-1. Install Git, Ruby, Ruby Dev Kit, and Node
+#### Playlist 2.0 released on 11/19/2013
+	- Supports feature layers and shapefiles
+	- Search function with optional filter button
+	- Legend for playlist layers
+	- Toggle for legend and description
+	- Toggle side pane
+	- Banner will be removed when embeded
+	- Various bug fixes
 
+## Developer guide
+
+This developer guide is intended to developer that wants to modify behavior or add new functionalities to the Map Tour application. If you only need to customize look and feel of the Map Tour, you should be able to do so using the User download.
+It requires basic knowledge of HTML, Javascript and CSS languages.
+
+### Developer archive
+
+Download and unzip the [Developer download](https://github.com/Esri/map-tour-storytelling-template-js/archive/master.zip) or clone the repo.
+
+### Set up machine
+
+1. Install [Git](https://help.github.com/articles/set-up-git), [Ruby](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), [Ruby Dev Kit](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), and [Node](http://nodejs.org/)
 
 ### Setup Project Folder
 
@@ -111,16 +127,15 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 2. Run `bundle install`
 3. Run `npm install`
 
-
-### Open Dev Server
+### Preview and test development version
 
 1. Run `bundle exec middleman`
 2. Open [http://localhost:4567/](http://localhost:4567/)
 
-
-### Build Project
+### Build project for deployment
 
 1. Run `bundle exec middleman build`
+2. Copy contents of the **deploy** folder to your web server
 
 ## Feedback
 

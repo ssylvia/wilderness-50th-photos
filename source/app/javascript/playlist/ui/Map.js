@@ -38,7 +38,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -297,8 +297,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			array.forEach(layers,function(layer){
 				if (layer.featureCollection && layer.featureCollection.layers.length > 0){
 					array.forEach(layer.featureCollection.layers,function(l){
-						console.log(l);
-						if (l.layerDefinition.geometryType === "esriGeometryPoint" && l.visibility){
+						if (l.layerDefinition.geometryType === "esriGeometryPoint" && l.visibility && checkExcluded(l.layerObject.name)){
 							var playlistLyr = l.layerObject;
 							playlistLayers.push(playlistLyr);
 							var lyrProp = {
@@ -314,7 +313,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						}
 					});
 				}
-				else if(layer.url && layer.resourceInfo.type === "Feature Layer" && layer.resourceInfo.geometryType === "esriGeometryPoint" && layer.visibility){
+				else if(layer.url && layer.resourceInfo.type === "Feature Layer" && layer.resourceInfo.geometryType === "esriGeometryPoint" && layer.visibility && checkExcluded(layer.layerObject.name)){
 					var playlistLyr = layer.layerObject;
 					playlistLayers.push(playlistLyr);
 					playlistLyr.mode = 0;
@@ -350,6 +349,24 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			});
 			buildLegend(layerIds);			
 			initTime(playlistLayers);
+		}
+
+		function checkExcluded(name)
+		{
+			var excluded = false;
+
+			array.forEach(excludedLayers,function(lyr){
+				if (name.toLowerCase().search(lyr.toLowerCase()) >= 0){
+					excluded = true;
+				}
+			});
+
+			if (excluded){
+				return false;
+			}
+			else{
+				return true;
+			}
 		}
 
 		function setRenderer(lyr)
@@ -389,7 +406,6 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			else if (lyr.graphics[0] && lyr.graphics[0].attributes.ORDER){
 				orderAttr = "ORDER";
 			}
-			console.log(lyr.graphics);
 			if (lyr.graphics.length > 1 && orderAttr){
 				lyr.graphics.sort(function(a,b){
 					if (a.attributes[orderAttr] < b.attributes[orderAttr]){
@@ -401,7 +417,6 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					return 0;
 				});
 			}
-			window.test = lyr.graphics;
 			var renderer = _mapConfig.getRenderer(layerObj,lyr.graphics,colorAttr,orderAttr);
 			var lyrItems = [];
 			var maxPoints = _mapConfig.getMaxAllowablePoints();
