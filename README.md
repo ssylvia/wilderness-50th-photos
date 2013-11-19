@@ -100,6 +100,7 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 ## What's new?
 
 #### Playlist 2.0 released on 11/19/2013
+
 	- Supports feature layers and shapefiles
 	- Search function with optional filter button
 	- Legend for playlist layers
@@ -113,15 +114,13 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 This developer guide is intended to developer that wants to modify behavior or add new functionalities to the Map Tour application. If you only need to customize look and feel of the Map Tour, you should be able to do so using the User download.
 It requires basic knowledge of HTML, Javascript and CSS languages.
 
-### Developer archive
-
 Download and unzip the [Developer download](https://github.com/Esri/map-tour-storytelling-template-js/archive/master.zip) or clone the repo.
 
 ### Set up machine
 
 1. Install [Git](https://help.github.com/articles/set-up-git), [Ruby](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), [Ruby Dev Kit](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), and [Node](http://nodejs.org/)
 
-### Setup Project Folder
+### Setup project folder
 
 1. Open git shell/bash at project folder
 2. Run `bundle install`
