@@ -100,15 +100,15 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 
 ## What's new?
 
-#### Playlist 2.0 released on 11/20/2013
+#### Playlist 2.0 released on 11/22/2013
 
-	- Supports feature layers and shapefiles
-	- Search function with optional filter button
-	- Legend for playlist layers
-	- Toggle for legend and description
-	- Toggle side pane
-	- Banner will be removed when embeded
-	- Various bug fixes
+- Supports feature layers and shapefiles
+- Search function with optional filter button
+- Legend for playlist layers
+- Toggle for legend and description
+- Toggle side pane
+- Banner will be removed when embeded
+- Various bug fixes
 
 ## Developer guide
 
