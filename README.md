@@ -6,8 +6,8 @@ The playlist app is a storytelling template that organizes point data sets, usua
 ![App](https://raw.github.com/esri/playlist-storytelling-template-js/master/playlist-screenshot.png)
 
 [View it live](http://esri.github.io/playlist-storytelling-template-js/deploy/) |
-[User Download (source code not included)](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist.zip) |
-[Developer Download](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist_DeveloperDownload.zip)
+[User Download (source code not included)](http://bit.ly/1cImr14) |
+[Developer Download](http://bit.ly/1h7LzUy)
 
 **Latest release is version 2.0**, if you want to be informed of new releases, we recommend you to watch this repository.
 
@@ -28,7 +28,7 @@ This help will guide you through the steps for publishing playlist apps like:
 
 ## How to deploy a playlist app
 
-To use the downloadable version, download the [User Download](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist.zip); it contains the following files:
+To use the downloadable version, download the [User Download](http://bit.ly/1cImr14); it contains the following files:
 
 | File					| Contains												|
 | --------------------- | ----------------------------------------------------- |
@@ -115,7 +115,7 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 This developer guide is intended to developer that wants to modify behavior or add new functionalities to the Map Tour application. If you only need to customize look and feel of the Map Tour, you should be able to do so using the User download.
 It requires basic knowledge of HTML, Javascript and CSS languages.
 
-Download and unzip the [Developer download](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist_DeveloperDownload.zip) or clone the repo. All changes should be made in the **source/** folder of the source code.
+Download and unzip the [Developer download](http://bit.ly/1h7LzUy) or clone the repo. All changes should be made in the **source/** folder of the source code.
 
 ### Set up machine
 
