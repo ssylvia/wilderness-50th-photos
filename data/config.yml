@@ -42,7 +42,7 @@ description: ""
 
 # LEGEND AND DESCRIPTION
 
-playlistLegendVisible: false
+playlistLegendVisible: true
 
 # Playlist layer title
 playlistTitle: Playlist Layer
@@ -67,8 +67,6 @@ playlistPurpleIconURL: resources/images/markers/indexed/purple/IconPurple1.png
 
 # MAPS AND DATA CONFIGURATION
 
-# The appid for the configured application
-appId: ""
 # The web map id
 webmap: 225d8fdebb1440db80165645dcd16b91
 # Choose name field

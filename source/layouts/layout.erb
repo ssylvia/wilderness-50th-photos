@@ -148,8 +148,6 @@
 	<script type="text/javascript">
 
 		var configOptions = {
-			// The appid for the configured application
-			appId: "<%= data.config.appId %>",
 			// The web map id
 			webmap: "<%= data.config.webmap %>",
 			// Enter a title, if no title is specified, the webmap's title is used.
@@ -160,34 +158,49 @@
 			description: "<%= data.config.description %>",
 			// Choose data fields
 			dataFields: {
+				// Change name field to match data
 				nameField: "<%= data.config.nameField %>",
+				// Change thumbnail field to match data
 				imageField: "<%= data.config.imageField %>",
+				// Change color field to match data
 				colorField: "<%= data.config.colorField %>",
+				// Change order field to match data
 				orderField: "<%= data.config.orderField %>",
+				// Change name filter to match data
 				filterField: "<%= data.config.filterField %>"
 			},
 			// Legend names for playlist markers
 			playlistLegend: {
+				// Add a name for your playlist point layer to be used in the legend.
 				"layerTitle": "<%= data.config.playlistTitle %>",
+				// Choose to display your playlist point layer in the legend (true or false).
 				"visible": <%= data.config.playlistLegendVisible %>,
 				"items": {
 					"redIcon": {
+						// Choose to display icon in the legend (true or false).
 						"visible": <%= data.config.playlistRedIconVisible %>,
+						// Choose the display name in the legend.
 						"name": "<%= data.config.playlistRedIcon %>",
 						"iconURL": "<%= data.config.playlistRedIconURL %>"
 					},
 					"blueIcon": {
+						// Choose to display icon in the legend (true or false).
 						"visible": <%= data.config.playlistBlueIconVisible %>,
+						// Choose the display name in the legend.
 						"name": "<%= data.config.playlistBlueIcon %>",
 						"iconURL": "<%= data.config.playlistBlueIconURL %>"
 					},
 					"greenIcon": {
+						// Choose to display icon in the legend (true or false).
 						"visible": <%= data.config.playlistGreenIconVisible %>,
+						// Choose the display name in the legend.
 						"name": "<%= data.config.playlistGreenIcon %>",
 						"iconURL": "<%= data.config.playlistGreenIconURL %>"
 					},
 					"purpleIcon": {
+						// Choose to display icon in the legend (true or false).
 						"visible": <%= data.config.playlistPurpleIconVisible %>,
+						// Choose the display name in the legend.
 						"name": "<%= data.config.playlistPurpleIcon %>",
 						"iconURL": "<%= data.config.playlistPurpleIconURL %>"
 					}
