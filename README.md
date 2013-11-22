@@ -37,6 +37,7 @@ To use the downloadable version, download the [User Download](https://github.com
 | **samples/**			| Sample data to create your web map					|
 | **index.html**		| Application html file (Contains app configuration)	|
 | license.txt			| Application terms of use								|
+| Readme.pdf			| How to create your first app							|
 
 To create a playlist tour follow a few simple steps, outlined below. To successfully publish your story map using this template you’ll need to be able to host the application and the photos you will use on a publicly accessible server and you’ll also need an ArcGIS Online account (public or subscription) to author and save the map used in the playlist. The storytelling playlist app relies on a web map ID from [ArcGIS Online](http://www.arcgis.com/) to get the data.
 
