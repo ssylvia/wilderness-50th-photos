@@ -1,5 +1,5 @@
-define(["lib/jquery/jquery-1.10.2.min"], 
-	function(){
+define(["dojo/has","lib/ZeroClipboard.min.js","lib/jquery/jquery-1.10.2.min"], 
+	function(Has,ZeroClipboard){
 	/**
 	* Social Sharing
 	* @class Social Sharing
@@ -24,6 +24,24 @@ define(["lib/jquery/jquery-1.10.2.min"],
 		twitterHandle: _page.twitterHandle,
 		hashtags: 'storymap'
 	};
+
+	// Copy bitly link to clipboard
+	if (Has("touch")){
+		$("#bitly-copy").hide();
+		$("#bitly-close").css({
+			"margin-top": 24
+		});
+	}
+	else{
+		var bitlyCopy = new ZeroClipboard($("#bitly-copy"),{
+			moviePath: "resources/tools/ZeroClipboard.swf"
+		});
+
+		bitlyCopy.on("dataRequested",function(client){
+			client.setText($("#bitly-link").attr("href"));
+			$("#bitly-copy").html("Copied");
+		});
+	}
 
 	getBitlyURL();
 
@@ -73,6 +91,7 @@ define(["lib/jquery/jquery-1.10.2.min"],
 		else{
 			$("#bitly-link").attr("href",decodeURIComponent(_shareOptions.url)).html(decodeURIComponent(_shareOptions.url));
 
+			$("#bitly-copy").html("Copy");
 			$(".bitly-modal").addClass("visible");
 		}
 	});
