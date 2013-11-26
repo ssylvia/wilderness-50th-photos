@@ -1,10 +1,14 @@
-define(["storymaps/utils/Helper",
+define(["dojo/has",
+	"storymaps/utils/Helper",
+	"storymaps/playlist/core/mobile/Layout",
 	"storymaps/playlist/ui/Map",
 	"storymaps/playlist/ui/List",
 	"lib/jquery/jquery-1.10.2.min"],
-	function(Helper,
-	Map,
-	List){
+	function(Has,
+		Helper,
+		MobileLayout,
+		Map,
+		List){
 
 		/**
 		* Core
@@ -16,18 +20,22 @@ define(["storymaps/utils/Helper",
 		*/
 
 		var _embed = (top != self) ? true : false,
+		_mobile = Has("touch"),
 		_readyState = {
 			map: false,
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegendVisible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
 		_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 		function init ()
 		{
-			if (_embed){
+			if (_embed || _mobile){
 				$("#banner").hide();
+			}
+			if (_mobile){
+				var mobile = new MobileLayout();
 			}
 
 			Helper.enableRegionLayout();

@@ -136,17 +136,39 @@ define(["dojo/_base/array",
 					if (attr.thumbnail){
 						itemStr = '\
 							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-								<img src=' + item.iconURL + ' alt="" class="marker" />\
-								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
-								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+								<table>\
+									<tbody>\
+										<tr>\
+											<td class="marker-cell">\
+												<img src=' + item.iconURL + ' alt="" class="marker" />\
+											</td>\
+											<td class="thumbnail-cell">\
+												<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
+											</td>\
+											<td class="title-cell">\
+												<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+											</td>\
+										</tr>\
+									</tbody>\
+								</table>\
 							</div>\
 						';
 					}
 					else{
 						itemStr = '\
 							<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-								<img src=' + item.iconURL + ' alt="" class="marker" />\
-								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+								<table>\
+									<tbody>\
+										<tr>\
+											<td class="marker-cell">\
+												<img src=' + item.iconURL + ' alt="" class="marker" />\
+											</td>\
+											<td class="title-cell">\
+												<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+											</td>\
+										</tr>\
+									</tbody>\
+								</table>\
 							</div>\
 						';
 					}
