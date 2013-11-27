@@ -2,58 +2,83 @@
 # Add Page Attributes Here
 ---
 
-<div id="map" class="region-center">
+<div id="content" class="region-center">
 
-	<div id="side-pane">
-		
-		<div id="side-pane-controls" class="region-top">
-			<span class="icon-open-book playlist-control toggle-description" title="Toggle Description"></span>
-			<span class="icon-list-2 playlist-control toggle-legend" title="Toggle Legend"></span>
-			<span class="icon-left-arrow playlist-control toggle-side-pane" title="Minimize list"></span>
-			<span class="icon-right-arrow playlist-control toggle-side-pane" title="Maximize list"></span>
-		</div>
+	<div id="banner" class="region-top">
 
-		<div id="side-pane-content" class="region-center">
-			<div id="info-pane" class="region-top">
-				<div id="description"></div>
-				<div id="legend-pane">
-					<div id="playlist-legend" class="legend"></div>
-					<div id="legend" class="legend"></div>
-				</div>
-			</div><!--info-pane-->
-			<div id="playlist-pane" class="region-center">
-				<div id="playlist-controls" class="region-top">
-					<input id="search" type="text" id="playlist-search" name="Search" placeholder="Type to search...">
-					<span id="search-submit" class="icon-search"></span>
-					<div id="filter-wrapper">
-						<p id="filter-toggle" class="icon-filter"></p>
-						<div id="filter-content">
-							<h5 class="filter-title">Choose items to filter:</h5>
-							<label class="select-all">Select All
-								<input type="checkbox" checked>
-							</label>
-							<hr>
-						</div>
-					</div>					
-				</div>
-				<div id="playlist" class="region-center">
-					<div class="playlist-no-layer-message">
-						The storytelling playlist app is a great template to showcase your map with a corresponding interactive list of points displayed in your map. <a href="http://downloads.esri.com/agol/pub/npstop102012/index.html" target="_blank">See example here.</a>
-						<br>
-						<br>
-						In order to build the intercative playlist, your webmap must include one of the following type of layers:
-						<br>
-						<ul>
-							<li>CSV layer embedded in webmap</li>
-							<li>Feature service layer</li>
-						</ul>
+		<div id="header-text" class="region-center">
+			<h1 id="title"><%= data.config.title ? data.config.title : "Add title here" %></h1>
+			<h2 id="subtitle"><%= data.config.subtitle ? data.config.subtitle : "Add subtitle here" %></h2>
+		</div><!--/header-text-->
+
+		<div id="branding-wrapper" class="region-right">
+			<div id="social">
+				<a id="smLink" href="http://storymaps.esri.com" target="_blank">A story map</a>&nbsp;
+				<span class="icon-facebook social-share"></span>
+				<span class="icon-twitter social-share"></span>
+				<span class="icon-link social-share"></span>
+			</div><!--/social-->
+			<div id="logo">
+				<a id="logoLink" href="http://www.esri.com" target="_blank">
+					<img id="logoImg" src="resources/images/esriGlobeLogow.png" alt="Esri - Home">
+				</a><!--/logoLink-->
+			</div><!--/logo-->
+		</div><!--/branding-wrapper-->
+
+	</div><!--/banner-->
+
+	<div id="map" class="region-center">
+
+		<div id="side-pane">
+			
+			<div id="side-pane-controls" class="region-top">
+				<span class="icon-open-book playlist-control toggle-description" title="Toggle Description"></span>
+				<span class="icon-list-2 playlist-control toggle-legend" title="Toggle Legend"></span>
+				<span class="icon-left-arrow playlist-control toggle-side-pane" title="Minimize list"></span>
+				<span class="icon-right-arrow playlist-control toggle-side-pane" title="Maximize list"></span>
+			</div>
+
+			<div id="side-pane-content" class="region-center">
+				<div id="info-pane" class="region-top">
+					<div id="description"></div>
+					<div id="legend-pane">
+						<div id="playlist-legend" class="legend"></div>
+						<div id="legend" class="legend"></div>
 					</div>
-				</div>
-			</div><!--info-pane-->
-		</div>
+				</div><!--info-pane-->
+				<div id="playlist-pane" class="region-center">
+					<div id="playlist-controls" class="region-top">
+						<input id="search" type="text" id="playlist-search" name="Search" placeholder="Type to search...">
+						<span id="search-submit" class="icon-search"></span>
+						<div id="filter-wrapper">
+							<p id="filter-toggle" class="icon-filter"></p>
+							<div id="filter-content">
+								<h5 class="filter-title">Choose items to filter:</h5>
+								<label class="select-all">Select All
+									<input type="checkbox" checked>
+								</label>
+								<hr>
+							</div>
+						</div>					
+					</div>
+					<div id="playlist" class="region-center">
+						<div class="playlist-no-layer-message">
+							The storytelling playlist app is a great template to showcase your map with a corresponding interactive list of points displayed in your map. <a href="http://downloads.esri.com/agol/pub/npstop102012/index.html" target="_blank">See example here.</a>
+							<br>
+							<br>
+							In order to build the intercative playlist, your webmap must include one of the following type of layers:
+							<br>
+							<ul>
+								<li>CSV layer embedded in webmap</li>
+								<li>Feature service layer</li>
+							</ul>
+						</div>
+					</div>
+				</div><!--info-pane-->
+			</div>
 
-	</div><!--side-pane-->
-	<div id="mobile-slide-toggle" class="desktop-hide icon-right-arrow"></div>
+		</div><!--side-pane-->
 
-</div><!--/map-->
+	</div><!--/map-->
 
+</div><!--/content-->
