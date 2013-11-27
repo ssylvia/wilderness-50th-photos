@@ -67,7 +67,8 @@
 		<br>
 		<a id="bitly-link" target="_blank"></a>
 		<br>
-		<div id="bitly-copy" class="btn primary" onclick="$('.bitly-modal').removeClass('visible');">Close</div>
+		<div id="bitly-copy" class="btn primary">Copy</div>
+		<div id="bitly-close" class="btn primary" onclick="$('.bitly-modal').removeClass('visible');">Close</div>
 	</div>
 
 	
@@ -148,7 +149,8 @@
 			</div><!--info-pane-->
 		</div>
 
-	</div>
+	</div><!--side-pane-->
+	<div id="mobile-slide-toggle" class="desktop-hide icon-right-arrow"></div>
 
 </div><!--/map-->
 
@@ -209,7 +211,7 @@
 				// Add a name for your playlist point layer to be used in the legend.
 				"layerTitle": "Playlist Layer",
 				// Choose to display your playlist point layer in the legend (true or false).
-				"visible": true,
+				"visible": false,
 				"items": {
 					"redIcon": {
 						// Choose to display icon in the legend (true or false).

@@ -1,5 +1,5 @@
 define(["dojo/has","lib/ZeroClipboard.min.js","lib/jquery/jquery-1.10.2.min"], 
-	function(Has,ZeroClipboard){
+	function(has,ZeroClipboard){
 	/**
 	* Social Sharing
 	* @class Social Sharing
@@ -26,7 +26,7 @@ define(["dojo/has","lib/ZeroClipboard.min.js","lib/jquery/jquery-1.10.2.min"],
 	};
 
 	// Copy bitly link to clipboard
-	if (Has("touch")){
+	if (has("touch")){
 		$("#bitly-copy").hide();
 		$("#bitly-close").css({
 			"margin-top": 24

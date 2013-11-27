@@ -4,7 +4,7 @@ define(["dojo/has",
 	"storymaps/playlist/ui/Map",
 	"storymaps/playlist/ui/List",
 	"lib/jquery/jquery-1.10.2.min"],
-	function(Has,
+	function(has,
 		Helper,
 		MobileLayout,
 		Map,
@@ -20,7 +20,7 @@ define(["dojo/has",
 		*/
 
 		var _embed = (top != self) ? true : false,
-		_mobile = Has("touch"),
+		_mobile = has("touch"),
 		_readyState = {
 			map: false,
 			list: false
@@ -35,7 +35,7 @@ define(["dojo/has",
 				$("#banner").hide();
 			}
 			if (_mobile){
-				var mobile = new MobileLayout();
+				new MobileLayout();
 			}
 
 			Helper.enableRegionLayout();

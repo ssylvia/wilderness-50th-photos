@@ -45,7 +45,7 @@ define(["dojo/dom",
 						l: 0,
 						h: 0,
 						w: width
-					}
+					};
 					return bb;
 				}
 			});
@@ -55,40 +55,36 @@ define(["dojo/dom",
 				_swipePane.css({
 					left: topLeft.l - _swipePane.width()
 				});
-			}
+			};
 
 			swipeToggle.onMoveStop = function()
 			{
 				lockSwipePane();
-			}
+			};
 
-			var swipeToggle = new Move.constrainedMoveable(dom.byId("side-pane"),{
+			var swipePane = new Move.constrainedMoveable(dom.byId("side-pane"),{
 				constraints: function(){
 					var bb = {
 						t: 0,
 						l: -width,
 						h: 0,
 						w: width
-					}
+					};
 					return bb;
 				}
 			});
 
-			swipeToggle.onMoved = function(e,topLeft)
+			swipePane.onMoved = function(e,topLeft)
 			{
 				_swipeToggle.css({
 					left: topLeft.l + _swipePane.width()
 				});
-			}
+			};
 
-			swipeToggle.onMoveStop = function()
+			swipePane.onMoveStop = function()
 			{
 				lockSwipePane();
-			}
-
-			// $("#playlist").click(function(){
-			// 	lockSwipePane(true);
-			// });
+			};
 
 			$("#mobile-slide-toggle").click(function(){
 				lockSwipePane(true);
@@ -99,7 +95,7 @@ define(["dojo/dom",
 		function lockSwipePane(fromClick)
 		{
 			var paneWidth = _swipePane.width(),
-			togglePos = _swipeToggle.position().left;
+			togglePos = _swipeToggle.position().left,
 			speed = 100;
 
 			if (fromClick){
