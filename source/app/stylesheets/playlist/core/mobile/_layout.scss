@@ -1,4 +1,9 @@
-#mobile-slide-toggle{
+.touch #side-pane{
+	z-index: 0;
+}
+
+#mobile-swipe-toggle{
+	display: none;
 	position: absolute;
 	bottom: 0;
 	background-color: $white;
@@ -7,4 +12,8 @@
 		size: 20px;
 	}
 	z-index: 1;
+}
+
+.touch #mobile-swipe-toggle{
+	display: block;
 }

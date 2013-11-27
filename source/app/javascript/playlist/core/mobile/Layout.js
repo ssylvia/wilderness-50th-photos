@@ -1,5 +1,5 @@
 define(["lib/snap.min.js"], 
-	function(Snap){
+	function(){
 	/**
 	* Playlist Mobile Layout
 	* @class Layout
@@ -11,8 +11,15 @@ define(["lib/snap.min.js"],
 
 	return function Layout()
 	{
-		
+		$("#app-content").addClass("touch");
 
+		var snapper = new Snap({
+			element: document.getElementById('content'),
+			dragger: document.getElementById('mobile-swipe-toggle'),
+			maxPosition: 300
+		});
+
+		window.snapTest = snapper;
 	};
 
 });

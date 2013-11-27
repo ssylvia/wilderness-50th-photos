@@ -78,7 +78,9 @@
 	<%= partial "layouts/builderMenu" %>
 	<% end %>	
 
-	<%= yield %>	
+	<div id="app-content" class="region-center">
+		<%= yield %>
+	</div>
 	
 	<% if data.config.includeAnalytics && data.config.trackingId %>
 	<!--Google Analytics Start-->
