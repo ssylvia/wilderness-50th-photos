@@ -38,7 +38,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(isMobile,geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -284,8 +284,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		function getOffsetCenter(center)
 		{
-			var offsetX = getSidePanelWidth()/2 * _map.getResolution();
-			center.x = center.x - offsetX;
+			if (!isMobile){
+				var offsetX = getSidePanelWidth()/2 * _map.getResolution();
+				center.x = center.x - offsetX;
+			}
 
 			return center;
 		}
@@ -535,6 +537,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				var offsetHeight = (_map.extent.getHeight()/5)*2;
 				var offsetX = 0;
 				var offsetY = 0;
+
+				if (isMobile){
+					sidePaneWidth = 0;
+				}
 
 				if (geo.x > extent.xmax){
 					offsetX = -offsetWidth;

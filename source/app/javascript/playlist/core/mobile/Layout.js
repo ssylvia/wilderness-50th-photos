@@ -13,13 +13,13 @@ define(["lib/snap.min.js"],
 	{
 		$("#app-content").addClass("touch");
 
-		var snapper = new Snap({
+		new Snap({
 			element: document.getElementById('content'),
+			disable: 'right',
 			dragger: document.getElementById('mobile-swipe-toggle'),
-			maxPosition: 300
+			maxPosition: 300,
+			minPosition: 0
 		});
-
-		window.snapTest = snapper;
 	};
 
 });
