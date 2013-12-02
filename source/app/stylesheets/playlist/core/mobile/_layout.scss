@@ -18,6 +18,14 @@
 }
 
 .touch{
+
+	#banner{
+		height: 43px;
+	}
+
+	#title{
+		margin: 9px 15px;
+	}
 	
 	#content{
 		@include box-shadow(0px 0px 18px 0px $black);
@@ -28,12 +36,27 @@
 		z-index: 0;
 	}
 
-	#side-pane-buffer, #side-pane-controls, #info-pane{
+	#subtitle, #branding-wrapper, #side-pane-buffer, #side-pane-controls, #info-pane{
 		display: none;
 	}
 
 	#mobile-swipe-toggle{
 		display: block;
+	}
+
+	#map-blind{
+		position: absolute;	
+		height: 100%;
+		width: 100%;
+		z-index: 0;
+	}
+
+}
+
+.touch.snapjs-left, .touch.snapjs-right{
+	
+	#map-blind{
+		z-index: 100;
 	}
 
 }

@@ -31,7 +31,8 @@
 		"Hammer": false,
 		"iScroll": false,
 		"self": false,
-		"Snap": false
+		"Snap": false,
+		"ZeroClipboard": false
 	},
 	
 	"expr": true,

@@ -1,4 +1,4 @@
-define(["lib/snap.min.js"], 
+define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"], 
 	function(){
 	/**
 	* Playlist Mobile Layout
@@ -11,15 +11,25 @@ define(["lib/snap.min.js"],
 
 	return function Layout()
 	{
-		$("#app-content").addClass("touch");
+		$("body").addClass("touch");
 
-		new Snap({
-			element: document.getElementById('content'),
-			disable: 'right',
-			dragger: document.getElementById('mobile-swipe-toggle'),
-			maxPosition: 300,
-			minPosition: 0
-		});
+		enableSwipeList();
+
+		function enableSwipeList()
+		{
+			var snapper = new Snap({
+				element: document.getElementById('content'),
+				disable: 'right',
+				dragger: document.getElementById('mobile-swipe-toggle'),
+				maxPosition: 300,
+				minPosition: 0,
+				touchToDrag: false
+			});
+
+			$("#mobile-swipe-toggle").click(function(){
+				snapper.open('left');
+			});
+		}
 	};
 
 });

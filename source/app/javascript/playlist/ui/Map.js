@@ -2,12 +2,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Legend",
 	"esri/dijit/Popup",
+	"esri/dijit/PopupMobile",
 	"dojo/dom",
 	"dojo/dom-class",
 	"dojo/dom-style",
 	"dojo/query",
 	"dojo/dom-geometry",
 	"dojo/on",
+	"dojo/has",
 	"dojo/_base/array",
 	"dojo/dom-construct",
 	"esri/symbols/PictureMarkerSymbol",
@@ -19,12 +21,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		arcgisUtils,
 		Legend,
 		Popup,
+		PopupMobile,
 		dom,
 		domClass,
 		domStyle,
 		query,
 		domGeom,
 		on,
+		has,
 		array,
 		domConstruct,
 		PictureMarkerSymbol,
@@ -55,7 +59,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		this.init = function(){
 
-			var popup = new Popup(null,domConstruct.create("div"));
+			var popup;
+
+			if (has("touch") && domGeom.position(query("body")[0]).w < 768){
+				popup = new PopupMobile(null,domConstruct.create("div"));
+			}
+			else{
+				popup = new Popup(null,domConstruct.create("div"));
+			}
 
 			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
 

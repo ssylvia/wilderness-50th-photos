@@ -31,7 +31,7 @@ define(["dojo/has",
 
 		function init ()
 		{
-			if (_embed || _mobile){
+			if (_embed){
 				$("#banner").hide();
 			}
 			if (_mobile){

@@ -26,3 +26,24 @@
 	z-index: 40;
 	 @include border-radius(2px);
 }
+
+.touch {
+	.esriViewPopup{
+		padding: 10px;
+	}
+
+	.esriMobileNavigationBar{
+		background-color: #444;
+		background-image: none;
+	}
+
+	.esriMobileNavigationItem.right{
+		display: none;
+	}
+
+	.esriMobileNavigationBar .esriMobileNavigationItem.left{
+		left: auto;
+		right: 10px;
+		cursor: pointer;
+	}
+}

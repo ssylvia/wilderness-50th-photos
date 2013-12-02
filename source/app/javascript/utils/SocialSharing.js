@@ -1,5 +1,5 @@
-define(["dojo/has","lib/ZeroClipboard.min.js","lib/jquery/jquery-1.10.2.min"], 
-	function(has,ZeroClipboard){
+define(["dojo/has","lib/ZeroClipboard.min","lib/jquery/jquery-1.10.2.min"], 
+	function(has){
 	/**
 	* Social Sharing
 	* @class Social Sharing
