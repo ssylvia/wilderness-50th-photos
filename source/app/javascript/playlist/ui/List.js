@@ -1,8 +1,10 @@
 define(["dojo/_base/array",
+	"dojo/has",
 	"lib/jquery/jquery-1.10.2.min",
 	"lib/jquery.autoellipsis-1.0.10.min",
 	"lib/jquery-ui-1.10.3.custom.min"], 
-	function(array){
+	function(array,
+		has){
 	/**
 	* Playlist List
 	* @class Playlist List
@@ -217,21 +219,23 @@ define(["dojo/_base/array",
 				onSelect(item);
 			});
 
-			$(".playlist-item").mouseover(function(){
-				$(".playlist-item").removeClass("highlight");
-				$(this).addClass("highlight");
-				var item = {
-					layerId: $(this).attr("layer-id"),
-					objectId: $(this).attr("object-id")
-				};
-				
-				onHighlight(item);
-			});
+			if(!has("touch")){
+				$(".playlist-item").mouseover(function(){
+					$(".playlist-item").removeClass("highlight");
+					$(this).addClass("highlight");
+					var item = {
+						layerId: $(this).attr("layer-id"),
+						objectId: $(this).attr("object-id")
+					};
+					
+					onHighlight(item);
+				});
 
-			$(selector).mouseout(function(){
-				$(".playlist-item").removeClass("highlight");
-				onRemoveHightlight();
-			});
+				$(selector).mouseout(function(){
+					$(".playlist-item").removeClass("highlight");
+					onRemoveHightlight();
+				});
+			}
 
 			$(".select-all").click(function(){
 				if ($(this).find("input").prop("checked")){

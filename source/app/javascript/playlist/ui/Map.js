@@ -502,36 +502,40 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		function addLayerEvents(layer)
 		{
-			on(layer,"mouse-over",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
-				var item = {
-					layerId: event.graphic.getLayer().id,
-					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
-				};
-				var titleAttr = _titleFields[event.graphic.getLayer().id];
-				_lastHightlighedGraphic = event.graphic;
-				event.graphic.setSymbol(newSym);
-				event.graphic.getDojoShape().moveToFront();
-				_map.setCursor("pointer");
+			if(!has("touch")){
+				
+				on(layer,"mouse-over",function(event){
+					var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
+					var item = {
+						layerId: event.graphic.getLayer().id,
+						objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
+					};
+					var titleAttr = _titleFields[event.graphic.getLayer().id];
+					_lastHightlighedGraphic = event.graphic;
+					event.graphic.setSymbol(newSym);
+					event.graphic.getDojoShape().moveToFront();
+					_map.setCursor("pointer");
 
-				showMapTip(event.graphic,titleAttr);
+					showMapTip(event.graphic,titleAttr);
 
-				onHighlight(item);
+					onHighlight(item);
+				});
+
+				on(layer,"mouse-out",function(event){
+					var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
+					var item = {
+						layerId: event.graphic.getLayer().id,
+						objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
+					};
+					event.graphic.setSymbol(newSym);
+					_map.setCursor("default");
+
+					hideMapTip();
+
+					onRemoveHighlight(item);
 			});
 
-			on(layer,"mouse-out",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
-				var item = {
-					layerId: event.graphic.getLayer().id,
-					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
-				};
-				event.graphic.setSymbol(newSym);
-				_map.setCursor("default");
-
-				hideMapTip();
-
-				onRemoveHighlight(item);
-			});
+			}
 		}
 
 		function listItemsRefresh()

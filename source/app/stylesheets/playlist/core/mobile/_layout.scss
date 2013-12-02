@@ -40,6 +40,10 @@
 		display: none;
 	}
 
+	#map{
+		z-index: 1;
+	}
+
 	#mobile-swipe-toggle{
 		display: block;
 	}

@@ -12,6 +12,7 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 	return function Layout()
 	{
 		$("body").addClass("touch");
+		$("#map").attr("data-snap-ignore","true");
 
 		enableSwipeList();
 
@@ -22,8 +23,7 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 				disable: 'right',
 				dragger: document.getElementById('mobile-swipe-toggle'),
 				maxPosition: 300,
-				minPosition: 0,
-				touchToDrag: false
+				minPosition: 0
 			});
 
 			$("#mobile-swipe-toggle").click(function(){
