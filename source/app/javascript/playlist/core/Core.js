@@ -21,6 +21,7 @@ define(["dojo/has",
 
 		var _embed = (top != self) ? true : false,
 		_mobile = has("touch"),
+		_mobileLayout,
 		_readyState = {
 			map: false,
 			list: false
@@ -35,7 +36,7 @@ define(["dojo/has",
 				$("#banner").hide();
 			}
 			if (_mobile){
-				new MobileLayout();
+				_mobileLayout = new MobileLayout();
 			}
 
 			Helper.enableRegionLayout();
@@ -144,10 +145,13 @@ define(["dojo/has",
 			}
 		}
 
-		function onListSelect(item)
+		function onListSelect(item,sameItem)
 		{
-			if(_map){
+			if(_map && !sameItem){
 				_map.select(item);
+			}
+			if(_mobile && sameItem){
+				_mobileLayout.hideList();
 			}
 		}
 
@@ -181,12 +185,13 @@ define(["dojo/has",
 		function updateText(title,subtitle,description)
 		{
 			var descriptionText = configOptions.description || description || "";
-			$("#title").html(configOptions.title || title || "");
-			$("#subtitle").html(configOptions.subtitle || subtitle || "");
+			document.title = configOptions.title || title || "";
+			$(".title-text").html(configOptions.title || title || "");
+			$(".subtitle-text").html(configOptions.subtitle || subtitle || "");
 			$("#description").html(descriptionText);
 
 			if (descriptionText){
-				$("#info-pane").addClass("show-description");
+				$("body").addClass("show-description");
 			}
 			else{
 				$("#side-pane-controls .toggle-description").hide();
@@ -217,20 +222,20 @@ define(["dojo/has",
 
 		function addSidePaneEvents()
 		{
-			$("#side-pane-controls .playlist-control").click(function(){
+			$(".playlist-control").click(function(){
 				if ($(this).hasClass("toggle-side-pane")){
 					$("#side-pane").toggleClass("minimized");
 				}
 				else if ($(this).hasClass("toggle-legend")){
-					$("#info-pane").toggleClass("show-legend");
-					if ($("#info-pane").hasClass("show-description")){
-						$("#info-pane").removeClass("show-description");
+					$("body").toggleClass("show-legend");
+					if ($("body").hasClass("show-description")){
+						$("body").removeClass("show-description");
 					}
 				}
 				else if ($(this).hasClass("toggle-description")){
-					$("#info-pane").toggleClass("show-description");
-					if ($("#info-pane").hasClass("show-legend")){
-						$("#info-pane").removeClass("show-legend");
+					$("body").toggleClass("show-description");
+					if ($("body").hasClass("show-legend")){
+						$("body").removeClass("show-legend");
 					}
 				}
 				Helper.resetRegionLayout();

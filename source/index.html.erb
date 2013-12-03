@@ -17,10 +17,18 @@
 
 		<div id="side-pane-content" class="region-center">
 			<div id="info-pane" class="region-top">
+				<div id="mobile-info">
+					<h3 id="title-info" class="title-text"><%= data.config.title ? data.config.title : "Add title here" %></h3>
+					<h4 id="subtitle-info" class="subtitle-text"><%= data.config.subtitle ? data.config.subtitle : "Add subtitle here" %></h4>
+					<hr>
+				</div>
 				<div id="description"></div>
 				<div id="legend-pane">
 					<div id="playlist-legend" class="legend"></div>
 					<div id="legend" class="legend"></div>
+				</div>
+				<div class="mobile-explore">
+					<button class="btn small back-button">Explore Map</button>
 				</div>
 			</div><!--info-pane-->
 			<div id="playlist-pane" class="region-center">
@@ -63,8 +71,9 @@
 	<div id="banner" class="region-top">
 
 		<div id="header-text" class="region-center">
-			<h1 id="title"><%= data.config.title ? data.config.title : "Add title here" %></h1>
-			<h2 id="subtitle"><%= data.config.subtitle ? data.config.subtitle : "Add subtitle here" %></h2>
+			<h1 class="back-button icon-left-arrow"><span>Explore Map</span></h1>
+			<h1 id="title" class="title-text"><%= data.config.title ? data.config.title : "Add title here" %></h1>
+			<h2 id="subtitle" class="subtitle-text"><%= data.config.subtitle ? data.config.subtitle : "Add subtitle here" %></h2>
 		</div><!--/header-text-->
 
 		<div id="branding-wrapper" class="region-right">
@@ -81,6 +90,12 @@
 			</div><!--/logo-->
 		</div><!--/branding-wrapper-->
 
+		<div id="mobile-controls" class="region-right">
+			<span class="icon-open-book playlist-control toggle-description"></span>
+			<span class="icon-list-2 playlist-control toggle-legend"></span>
+			<span class="icon-share"></span>
+		</div>
+
 	</div><!--/banner-->
 
 	<div id="map-pane" class="region-center">
@@ -88,6 +103,11 @@
 		<div id="map" class="region-center"></div>
 		<div id="mobile-swipe-toggle" class="icon-right-arrow"></div>
 		<div id="map-blind"></div>
+		<div id="mobile-share">
+			<p class="icon-facebook social-share">&nbsp;Facebook</p>
+			<hr>
+			<p class="icon-twitter social-share">&nbsp;Twitter</p>
+		</div>
 
 	</div><!--/map-pane-->
 

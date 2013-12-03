@@ -1,6 +1,53 @@
 @import "compass/css3/box-shadow";
 @import "compass/css3/border-radius";
 
+#mobile-share{
+	display: none;
+	position: absolute;
+	background: {
+		color: $white;
+	}
+	right: 0;
+	border-left: 2px solid $darker-gray;
+	border-bottom: 2px solid $darker-gray;
+	z-index: 101;
+
+	p{
+		color: $darker-gray;
+		line-height: 1em;
+		font: {
+			size: 1em;
+		}
+		margin: 0;
+		padding: 10px;
+	}
+
+	hr{
+		margin: 0;
+	}
+}
+
+#mobile-info{
+	display: none;
+	padding: 15px 15px 0;
+
+	#title-info{
+		margin-bottom: -5px;
+	}
+
+	#subtitle-info{
+		color: $gray;
+		font: {
+			family: $body-font;
+			style: italic;
+		}
+	}
+}
+
+.mobile-explore{
+	text-align: center;
+	display: none;
+}
 
 #mobile-swipe-toggle{
 	display: none;
@@ -17,15 +64,44 @@
 	@include border-bottom-right-radius(2em);
 }
 
-.touch{
+#mobile-controls{
+	display: none;
+	color: $white;
+	font: {
+		size: 1.3em;
+	}
+	line-height: 2;
 
-	#banner{
-		height: 43px;
+	.icon-share{
+		padding: 9px 15px 9px 7px;
 	}
 
-	#title{
-		margin: 9px 15px;
+	.icon-list-2{
+		padding: 9px 7px 9px 7px;
 	}
+
+	.icon-open-book{
+		padding: 9px 7px 9px 7px;
+	}
+}
+
+.back-button{
+	display: none;
+	margin: 9px 15px;
+	color: $white;
+	font: {
+		size: 1.3em;
+	}
+
+	span{
+		font: {
+			size: 0.8em;
+		}
+		vertical-align: top;
+	}
+}
+
+.touch{	
 	
 	#content{
 		@include box-shadow(0px 0px 18px 0px $black);
@@ -36,16 +112,16 @@
 		z-index: 0;
 	}
 
-	#subtitle, #branding-wrapper, #side-pane-buffer, #side-pane-controls, #info-pane{
+	#side-pane-buffer, .toggle-side-pane{
 		display: none;
+	}
+
+	#info-pane{
+		max-height: 200px;
 	}
 
 	#map{
 		z-index: 1;
-	}
-
-	#mobile-swipe-toggle{
-		display: block;
 	}
 
 	#map-blind{
@@ -53,6 +129,51 @@
 		height: 100%;
 		width: 100%;
 		z-index: 0;
+	}
+
+	#mobile-swipe-toggle{
+		display: block;
+	}
+
+	@media all and (max-width: 768px) {
+
+		#banner{
+			height: 43px;
+		}
+
+		#title{
+			margin: 9px 15px;
+			font: {
+				weight: normal;
+			}
+		}
+
+		#subtitle, #branding-wrapper, #side-pane-controls{
+			display: none;
+		}
+
+		#mobile-controls, #mobile-info, .mobile-explore{
+			display: block;
+		}
+
+		#info-pane{
+			display: none;
+			position: absolute;
+			height: 100%;
+			max-height: none;
+			background:{
+				color: $white;
+			}
+			z-index: 100;
+		}
+
+		&.show-description #info-pane, &.show-legend #info-pane, &.show-description .back-button, &.show-legend .back-button{
+			display: block;
+		}
+
+		&.show-description .playlist-control, &.show-legend .playlist-control{
+			display: none;
+		}
 	}
 
 }

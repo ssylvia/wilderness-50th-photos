@@ -210,13 +210,18 @@ define(["dojo/_base/array",
 		function addEvents()
 		{
 			$(".playlist-item").click(function(){
-				$(".playlist-item").removeClass("selected");
-				$(this).addClass("selected");
-				var item = {
-					layerId: $(this).attr("layer-id"),
-					objectId: $(this).attr("object-id")
-				};
-				onSelect(item);
+				if ($(this).hasClass("selected")){
+					onSelect(item,true);
+				}
+				else{
+					$(".playlist-item").removeClass("selected");
+					$(this).addClass("selected");
+					var item = {
+						layerId: $(this).attr("layer-id"),
+						objectId: $(this).attr("object-id")
+					};
+					onSelect(item,false);
+				}
 			});
 
 			if(!has("touch")){

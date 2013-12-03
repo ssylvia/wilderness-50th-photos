@@ -63,7 +63,7 @@ define(["dojo/has","lib/ZeroClipboard.min","lib/jquery/jquery-1.10.2.min"],
 		});
 	}
 
-	$("#social .social-share").click(function(){
+	$(".social-share").click(function(){
 		if ($(this).hasClass("icon-facebook")) {
 			var facebookOptions = '&p[title]=' + _shareOptions.title
 				+ '&p[summary]=' + _shareOptions.summary
