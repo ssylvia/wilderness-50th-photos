@@ -141,6 +141,12 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			});
 		};
 
+		this.resizeMap = function()
+		{
+			_map.resize();
+			_map.reposition();
+		};
+
 		this.getLayerCount = function()
 		{
 			return _playlistLayers.length;

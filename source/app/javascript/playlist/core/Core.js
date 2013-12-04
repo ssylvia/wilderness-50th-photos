@@ -20,7 +20,7 @@ define(["dojo/has",
 		*/
 
 		var _embed = (top != self) ? true : false,
-		_mobile = has("touch"),
+		_mobile = true || has("touch"),
 		_mobileLayout,
 		_readyState = {
 			map: false,
@@ -36,7 +36,7 @@ define(["dojo/has",
 				$("#banner").hide();
 			}
 			if (_mobile){
-				_mobileLayout = new MobileLayout();
+				_mobileLayout = new MobileLayout(onMobileListOpen);
 			}
 
 			Helper.enableRegionLayout();
@@ -180,6 +180,14 @@ define(["dojo/has",
 		{
 			Helper.updateLoadingMessage("Updating Playlist");
 			_list.update(graphics);
+		}
+
+		// Mobile events
+		function onMobileListOpen()
+		{
+			if(_map){
+				_map.resizeMap();
+			}
 		}
 
 		function updateText(title,subtitle,description)

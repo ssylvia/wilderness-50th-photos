@@ -31,20 +31,23 @@
 	.esriViewPopup{
 		padding: 10px;
 	}
+}
 
-	.esriMobileNavigationBar{
-		background-color: $darker-gray;
-		background-image: none;
-		z-index: 101;
-	}
+.esriMobileNavigationBar, .esriMobileInfoView{
+	z-index: 101;
+}
 
-	.esriMobileNavigationItem.right{
-		display: none;
-	}
+.esriMobileNavigationBar{
+	background-color: $darker-gray;
+	background-image: none;
+}
 
-	.esriMobileNavigationBar .esriMobileNavigationItem.left{
-		left: auto;
-		right: 10px;
-		cursor: pointer;
-	}
+.esriMobileNavigationItem.right{
+	display: none;
+}
+
+.esriMobileNavigationBar .esriMobileNavigationItem.left{
+	left: auto;
+	right: 10px;
+	cursor: pointer;
 }

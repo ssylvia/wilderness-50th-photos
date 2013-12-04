@@ -16,7 +16,7 @@
 		color: $darker-gray;
 		line-height: 1em;
 		font: {
-			size: 1em;
+			size: 1.3em;
 		}
 		margin: 0;
 		padding: 10px;
@@ -32,7 +32,7 @@
 	padding: 15px 15px 0;
 
 	#title-info{
-		margin-bottom: -5px;
+		line-height: 1.3em;
 	}
 
 	#subtitle-info{
@@ -47,6 +47,7 @@
 .mobile-explore{
 	text-align: center;
 	display: none;
+	margin: 15px 0;
 }
 
 #mobile-swipe-toggle{
@@ -148,7 +149,7 @@
 			}
 		}
 
-		#subtitle, #branding-wrapper, #side-pane-controls{
+		#subtitle, #branding-wrapper, #side-pane-controls, #side-pane-controls .toggle-legend, #side-pane-controls .toggle-description{
 			display: none;
 		}
 
@@ -169,6 +170,10 @@
 
 		&.show-description #info-pane, &.show-legend #info-pane, &.show-description .back-button, &.show-legend .back-button{
 			display: block;
+		}
+
+		.mobile-explore .btn{
+			display: inline;
 		}
 
 		&.show-description .playlist-control, &.show-legend .playlist-control{

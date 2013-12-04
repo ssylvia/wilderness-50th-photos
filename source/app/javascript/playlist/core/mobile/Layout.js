@@ -1,5 +1,7 @@
-define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"], 
-	function(){
+define(["storymaps/utils/Helper",
+	"lib/snap.min.js",
+	"lib/jquery/jquery-1.10.2.min"], 
+	function(Helper){
 	/**
 	* Playlist Mobile Layout
 	* @class Layout
@@ -9,7 +11,7 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 	* Dependencies: Jquery 1.10.2
 	*/
 
-	return function Layout()
+	return function Layout(onListOpen)
 	{
 		var _snapper;
 
@@ -18,9 +20,10 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 
 		if ($("body").width() <= 768){
 			$("#info-pane").removeClass("region-top");
-			$("#map-pane").append($("#info-pane"));
+			$("#side-pane-content").prepend($("#info-pane"));
 		}
 
+		moveInfo();
 		enableSwipeList();
 		enableMobileEvents();
 
@@ -28,6 +31,19 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 		{
 			_snapper.close('left');
 		};
+
+		function moveInfo()
+		{
+			if ($("body").width() <= 768){
+				$("#info-pane").removeClass("region-top");
+				$("#map-pane").append($("#info-pane"));
+			}
+			else{
+				$("#info-pane").addClass("region-top");
+				$("#side-pane-content").prepend($("#info-pane"));
+			}
+			Helper.resetRegionLayout();
+		}
 
 		function enableSwipeList()
 		{
@@ -39,6 +55,10 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 				minPosition: 0
 			});
 
+			_snapper.on('animated', function(){
+				onListOpen();
+			});
+
 			$("#mobile-swipe-toggle").click(function(){
 				_snapper.open('left');
 			});
@@ -46,12 +66,27 @@ define(["lib/snap.min.js","lib/jquery/jquery-1.10.2.min"],
 
 		function enableMobileEvents()
 		{
+			$(window).resize(function(){
+				moveInfo();
+			});
+
 			$(".back-button").click(function(){
 				$("body").removeClass("show-description").removeClass("show-legend");
+				Helper.resetRegionLayout();
 			});
 
 			$("#mobile-controls .icon-share").click(function(){
-				$("#mobile-share").toggle();
+				$("#mobile-share").toggle({
+					duration: 0,
+					complete: function(){
+						if ($("#mobile-share").is(":visible")){
+							$(".esriSimpleSlider").hide();
+						}
+						else{
+							$(".esriSimpleSlider").show();
+						}
+					}
+				});
 			});
 		}
 	};
