@@ -1,5 +1,11 @@
 @import "compass/css3/border-radius";
 
+#map{
+	background: {
+		color: $white;
+	}
+}
+
 .homeExtentButton{
 	font: {
 		size: 20px !important;
@@ -19,4 +25,29 @@
 	}
 	z-index: 40;
 	 @include border-radius(2px);
+}
+
+.touch {
+	.esriViewPopup{
+		padding: 10px;
+	}
+}
+
+.esriMobileNavigationBar, .esriMobileInfoView{
+	z-index: 101;
+}
+
+.esriMobileNavigationBar{
+	background-color: $darker-gray;
+	background-image: none;
+}
+
+.esriMobileNavigationItem.right{
+	display: none;
+}
+
+.esriMobileNavigationBar .esriMobileNavigationItem.left{
+	left: auto;
+	right: 10px;
+	cursor: pointer;
 }

@@ -1,6 +1,6 @@
 {
   "name": "playlist",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A storytelling template that organizes point data sets from a CSV file embedded in your web map into an organized interactive list.",
   "repository": {
     "type": "git",

@@ -1,8 +1,10 @@
 define(["dojo/_base/array",
+	"dojo/has",
 	"lib/jquery/jquery-1.10.2.min",
 	"lib/jquery.autoellipsis-1.0.10.min",
 	"lib/jquery-ui-1.10.3.custom.min"], 
-	function(array){
+	function(array,
+		has){
 	/**
 	* Playlist List
 	* @class Playlist List
@@ -136,17 +138,39 @@ define(["dojo/_base/array",
 					if (attr.thumbnail){
 						itemStr = '\
 							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-								<img src=' + item.iconURL + ' alt="" class="marker" />\
-								<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
-								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+								<table>\
+									<tbody>\
+										<tr>\
+											<td class="marker-cell">\
+												<img src=' + item.iconURL + ' alt="" class="marker" />\
+											</td>\
+											<td class="thumbnail-cell">\
+												<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
+											</td>\
+											<td class="title-cell">\
+												<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+											</td>\
+										</tr>\
+									</tbody>\
+								</table>\
 							</div>\
 						';
 					}
 					else{
 						itemStr = '\
 							<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-								<img src=' + item.iconURL + ' alt="" class="marker" />\
-								<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+								<table>\
+									<tbody>\
+										<tr>\
+											<td class="marker-cell">\
+												<img src=' + item.iconURL + ' alt="" class="marker" />\
+											</td>\
+											<td class="title-cell">\
+												<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
+											</td>\
+										</tr>\
+									</tbody>\
+								</table>\
 							</div>\
 						';
 					}
@@ -186,30 +210,37 @@ define(["dojo/_base/array",
 		function addEvents()
 		{
 			$(".playlist-item").click(function(){
-				$(".playlist-item").removeClass("selected");
-				$(this).addClass("selected");
-				var item = {
-					layerId: $(this).attr("layer-id"),
-					objectId: $(this).attr("object-id")
-				};
-				onSelect(item);
+				if ($(this).hasClass("selected")){
+					onSelect(item,true);
+				}
+				else{
+					$(".playlist-item").removeClass("selected");
+					$(this).addClass("selected");
+					var item = {
+						layerId: $(this).attr("layer-id"),
+						objectId: $(this).attr("object-id")
+					};
+					onSelect(item,false);
+				}
 			});
 
-			$(".playlist-item").mouseover(function(){
-				$(".playlist-item").removeClass("highlight");
-				$(this).addClass("highlight");
-				var item = {
-					layerId: $(this).attr("layer-id"),
-					objectId: $(this).attr("object-id")
-				};
-				
-				onHighlight(item);
-			});
+			if(!has("touch")){
+				$(".playlist-item").mouseover(function(){
+					$(".playlist-item").removeClass("highlight");
+					$(this).addClass("highlight");
+					var item = {
+						layerId: $(this).attr("layer-id"),
+						objectId: $(this).attr("object-id")
+					};
+					
+					onHighlight(item);
+				});
 
-			$(selector).mouseout(function(){
-				$(".playlist-item").removeClass("highlight");
-				onRemoveHightlight();
-			});
+				$(selector).mouseout(function(){
+					$(".playlist-item").removeClass("highlight");
+					onRemoveHightlight();
+				});
+			}
 
 			$(".select-all").click(function(){
 				if ($(this).find("input").prop("checked")){

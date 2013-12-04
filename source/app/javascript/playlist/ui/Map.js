@@ -2,12 +2,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Legend",
 	"esri/dijit/Popup",
+	"esri/dijit/PopupMobile",
 	"dojo/dom",
 	"dojo/dom-class",
 	"dojo/dom-style",
 	"dojo/query",
 	"dojo/dom-geometry",
 	"dojo/on",
+	"dojo/has",
 	"dojo/_base/array",
 	"dojo/dom-construct",
 	"esri/symbols/PictureMarkerSymbol",
@@ -19,12 +21,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		arcgisUtils,
 		Legend,
 		Popup,
+		PopupMobile,
 		dom,
 		domClass,
 		domStyle,
 		query,
 		domGeom,
 		on,
+		has,
 		array,
 		domConstruct,
 		PictureMarkerSymbol,
@@ -38,7 +42,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(isMobile,geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -55,7 +59,14 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		this.init = function(){
 
-			var popup = new Popup(null,domConstruct.create("div"));
+			var popup;
+
+			if (true || has("touch") && domGeom.position(query("body")[0]).w < 768){
+				popup = new PopupMobile(null,domConstruct.create("div"));
+			}
+			else{
+				popup = new Popup(null,domConstruct.create("div"));
+			}
 
 			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
 
@@ -128,6 +139,12 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				});
 
 			});
+		};
+
+		this.resizeMap = function()
+		{
+			_map.resize();
+			_map.reposition();
 		};
 
 		this.getLayerCount = function()
@@ -284,8 +301,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		function getOffsetCenter(center)
 		{
-			var offsetX = getSidePanelWidth()/2 * _map.getResolution();
-			center.x = center.x - offsetX;
+			if (!isMobile){
+				var offsetX = getSidePanelWidth()/2 * _map.getResolution();
+				center.x = center.x - offsetX;
+			}
 
 			return center;
 		}
@@ -489,36 +508,40 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 		function addLayerEvents(layer)
 		{
-			on(layer,"mouse-over",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
-				var item = {
-					layerId: event.graphic.getLayer().id,
-					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
-				};
-				var titleAttr = _titleFields[event.graphic.getLayer().id];
-				_lastHightlighedGraphic = event.graphic;
-				event.graphic.setSymbol(newSym);
-				event.graphic.getDojoShape().moveToFront();
-				_map.setCursor("pointer");
+			if(!has("touch")){
+				
+				on(layer,"mouse-over",function(event){
+					var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
+					var item = {
+						layerId: event.graphic.getLayer().id,
+						objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
+					};
+					var titleAttr = _titleFields[event.graphic.getLayer().id];
+					_lastHightlighedGraphic = event.graphic;
+					event.graphic.setSymbol(newSym);
+					event.graphic.getDojoShape().moveToFront();
+					_map.setCursor("pointer");
 
-				showMapTip(event.graphic,titleAttr);
+					showMapTip(event.graphic,titleAttr);
 
-				onHighlight(item);
+					onHighlight(item);
+				});
+
+				on(layer,"mouse-out",function(event){
+					var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
+					var item = {
+						layerId: event.graphic.getLayer().id,
+						objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
+					};
+					event.graphic.setSymbol(newSym);
+					_map.setCursor("default");
+
+					hideMapTip();
+
+					onRemoveHighlight(item);
 			});
 
-			on(layer,"mouse-out",function(event){
-				var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPosition().width).setHeight(_mapConfig.getMarkerPosition().height).setOffset(_mapConfig.getMarkerPosition().xOffset,_mapConfig.getMarkerPosition().yOffset);
-				var item = {
-					layerId: event.graphic.getLayer().id,
-					objectId: event.graphic.attributes[event.graphic.getLayer().objectIdField]
-				};
-				event.graphic.setSymbol(newSym);
-				_map.setCursor("default");
-
-				hideMapTip();
-
-				onRemoveHighlight(item);
-			});
+			}
 		}
 
 		function listItemsRefresh()
@@ -535,6 +558,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				var offsetHeight = (_map.extent.getHeight()/5)*2;
 				var offsetX = 0;
 				var offsetY = 0;
+
+				if (isMobile){
+					sidePaneWidth = 0;
+				}
 
 				if (geo.x > extent.xmax){
 					offsetX = -offsetWidth;

@@ -52,7 +52,7 @@ html, body{
 	width: 100%;
 }
 
-#view-content{
+#app-content{
 	b, strong{
 		font-weight: bold;
 	}
@@ -143,6 +143,9 @@ html, body{
 	margin: {
 		top: 24px;
 	}
+	&.zeroclipboard-is-hover{
+		background-color: #E16B17;
+	}
 }
 
 #logo{
@@ -207,7 +210,7 @@ html, body{
 
 .legend{
 	padding: 15px 15px 0 15px;
-}
+}7
 
 .legend th, .legend td{
 	padding: 0;
@@ -232,16 +235,18 @@ html, body{
 }
 
 /* Custom Webkit Scrollbar */
-::-webkit-scrollbar {
-	width: 8px;
-}
+body:not(.touch){
+	::-webkit-scrollbar {
+		width: 8px;
+	}
 
-::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	}
 
-::-webkit-scrollbar-thumb {
-	background: $light-gray;
+	::-webkit-scrollbar-thumb {
+		background: $light-gray;
+	}
 }
 
 // Sign-in Dialog

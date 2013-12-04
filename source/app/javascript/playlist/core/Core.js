@@ -1,10 +1,14 @@
-define(["storymaps/utils/Helper",
+define(["dojo/has",
+	"storymaps/utils/Helper",
+	"storymaps/playlist/core/mobile/Layout",
 	"storymaps/playlist/ui/Map",
 	"storymaps/playlist/ui/List",
 	"lib/jquery/jquery-1.10.2.min"],
-	function(Helper,
-	Map,
-	List){
+	function(has,
+		Helper,
+		MobileLayout,
+		Map,
+		List){
 
 		/**
 		* Core
@@ -16,18 +20,23 @@ define(["storymaps/utils/Helper",
 		*/
 
 		var _embed = (top != self) ? true : false,
+		_mobile = true || has("touch"),
+		_mobileLayout,
 		_readyState = {
 			map: false,
 			list: false
 		},
 		_layersReady = 0,
-		_map = new Map(configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegendVisible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
-		_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
+		_map,
+		_list;
 
 		function init ()
 		{
 			if (_embed){
 				$("#banner").hide();
+			}
+			if (_mobile){
+				_mobileLayout = new MobileLayout(onMobileListOpen);
 			}
 
 			Helper.enableRegionLayout();
@@ -45,7 +54,10 @@ define(["storymaps/utils/Helper",
 
 			if(urlObject.query.webmap){
 				configOptions.webmap = urlObject.query.webmap;
-			} 
+			}
+
+			_map = new Map(_mobile,configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+			_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 			loadMap();
 		}
@@ -133,10 +145,13 @@ define(["storymaps/utils/Helper",
 			}
 		}
 
-		function onListSelect(item)
+		function onListSelect(item,sameItem)
 		{
-			if(_map){
+			if(_map && !sameItem){
 				_map.select(item);
+			}
+			if(_mobile && sameItem){
+				_mobileLayout.hideList();
 			}
 		}
 
@@ -167,15 +182,24 @@ define(["storymaps/utils/Helper",
 			_list.update(graphics);
 		}
 
+		// Mobile events
+		function onMobileListOpen()
+		{
+			if(_map){
+				_map.resizeMap();
+			}
+		}
+
 		function updateText(title,subtitle,description)
 		{
 			var descriptionText = configOptions.description || description || "";
-			$("#title").html(configOptions.title || title || "");
-			$("#subtitle").html(configOptions.subtitle || subtitle || "");
+			document.title = configOptions.title || title || "";
+			$(".title-text").html(configOptions.title || title || "");
+			$(".subtitle-text").html(configOptions.subtitle || subtitle || "");
 			$("#description").html(descriptionText);
 
 			if (descriptionText){
-				$("#info-pane").addClass("show-description");
+				$("body").addClass("show-description");
 			}
 			else{
 				$("#side-pane-controls .toggle-description").hide();
@@ -206,20 +230,20 @@ define(["storymaps/utils/Helper",
 
 		function addSidePaneEvents()
 		{
-			$("#side-pane-controls .playlist-control").click(function(){
+			$(".playlist-control").click(function(){
 				if ($(this).hasClass("toggle-side-pane")){
 					$("#side-pane").toggleClass("minimized");
 				}
 				else if ($(this).hasClass("toggle-legend")){
-					$("#info-pane").toggleClass("show-legend");
-					if ($("#info-pane").hasClass("show-description")){
-						$("#info-pane").removeClass("show-description");
+					$("body").toggleClass("show-legend");
+					if ($("body").hasClass("show-description")){
+						$("body").removeClass("show-description");
 					}
 				}
 				else if ($(this).hasClass("toggle-description")){
-					$("#info-pane").toggleClass("show-description");
-					if ($("#info-pane").hasClass("show-legend")){
-						$("#info-pane").removeClass("show-legend");
+					$("body").toggleClass("show-description");
+					if ($("body").hasClass("show-legend")){
+						$("body").removeClass("show-legend");
 					}
 				}
 				Helper.resetRegionLayout();

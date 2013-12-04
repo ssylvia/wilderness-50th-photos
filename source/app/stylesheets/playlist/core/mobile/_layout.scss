@@ -1,0 +1,192 @@
+@import "compass/css3/box-shadow";
+@import "compass/css3/border-radius";
+
+#mobile-share{
+	display: none;
+	position: absolute;
+	background: {
+		color: $white;
+	}
+	right: 0;
+	border-left: 2px solid $darker-gray;
+	border-bottom: 2px solid $darker-gray;
+	z-index: 101;
+
+	p{
+		color: $darker-gray;
+		line-height: 1em;
+		font: {
+			size: 1.3em;
+		}
+		margin: 0;
+		padding: 10px;
+	}
+
+	hr{
+		margin: 0;
+	}
+}
+
+#mobile-info{
+	display: none;
+	padding: 15px 15px 0;
+
+	#title-info{
+		line-height: 1.3em;
+	}
+
+	#subtitle-info{
+		color: $gray;
+		font: {
+			family: $body-font;
+			style: italic;
+		}
+	}
+}
+
+.mobile-explore{
+	text-align: center;
+	display: none;
+	margin: 15px 0;
+}
+
+#mobile-swipe-toggle{
+	display: none;
+	position: absolute;
+	bottom: 0;
+	background-color: $darker-gray;
+	color: $white;
+	padding: .5em;
+	font: {
+		size: 2em;
+	}
+	z-index: 1;
+	@include border-top-right-radius(2em);
+	@include border-bottom-right-radius(2em);
+}
+
+#mobile-controls{
+	display: none;
+	color: $white;
+	font: {
+		size: 1.3em;
+	}
+	line-height: 2;
+
+	.icon-share{
+		padding: 9px 15px 9px 7px;
+	}
+
+	.icon-list-2{
+		padding: 9px 7px 9px 7px;
+	}
+
+	.icon-open-book{
+		padding: 9px 7px 9px 7px;
+	}
+}
+
+.back-button{
+	display: none;
+	margin: 9px 15px;
+	color: $white;
+	font: {
+		size: 1.3em;
+	}
+
+	span{
+		font: {
+			size: 0.8em;
+		}
+		vertical-align: top;
+	}
+}
+
+.touch{	
+	
+	#content{
+		@include box-shadow(0px 0px 18px 0px $black);
+	}
+
+	#side-pane{
+		@include box-shadow(none);
+		z-index: 0;
+	}
+
+	#side-pane-buffer, .toggle-side-pane{
+		display: none;
+	}
+
+	#info-pane{
+		max-height: 200px;
+	}
+
+	#map{
+		z-index: 1;
+	}
+
+	#map-blind{
+		position: absolute;	
+		height: 100%;
+		width: 100%;
+		z-index: 0;
+	}
+
+	#mobile-swipe-toggle{
+		display: block;
+	}
+
+	@media all and (max-width: 768px) {
+
+		#banner{
+			height: 43px;
+		}
+
+		#title{
+			margin: 9px 15px;
+			font: {
+				weight: normal;
+			}
+		}
+
+		#subtitle, #branding-wrapper, #side-pane-controls, #side-pane-controls .toggle-legend, #side-pane-controls .toggle-description{
+			display: none;
+		}
+
+		#mobile-controls, #mobile-info, .mobile-explore{
+			display: block;
+		}
+
+		#info-pane{
+			display: none;
+			position: absolute;
+			height: 100%;
+			max-height: none;
+			background:{
+				color: $white;
+			}
+			z-index: 100;
+		}
+
+		&.show-description #info-pane, &.show-legend #info-pane, &.show-description .back-button, &.show-legend .back-button{
+			display: block;
+		}
+
+		.mobile-explore .btn{
+			display: inline;
+		}
+
+		&.show-description .playlist-control, &.show-legend .playlist-control{
+			display: none;
+		}
+	}
+
+}
+
+.touch.snapjs-left, .touch.snapjs-right{
+	
+	#map-blind{
+		z-index: 100;
+	}
+
+}
