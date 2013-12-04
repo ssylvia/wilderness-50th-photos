@@ -20,7 +20,7 @@ define(["dojo/has",
 		*/
 
 		var _embed = (top != self) ? true : false,
-		_mobile = true || has("touch"),
+		_mobile = has("touch"),
 		_mobileLayout,
 		_readyState = {
 			map: false,
