@@ -1,4 +1,4 @@
-.playlist-item{
+.playlist-item {
 	position: relative;
 	height: 80px;
 	border: {
@@ -20,20 +20,36 @@
 	display: none;
 }
 
-.playlist-item .marker, .playlist-item .thumbnail-container, .playlist-item .item-title{
-	position: absolute;
-	top: 5px;
+.playlist-item table{
+	table-layout: fixed;
+}
+
+.playlist-item td{
+	padding: 5px 5px 0 0;
+
+	&.marker-cell{
+		padding-left: 15px;
+		width: 22px;
+		vertical-align: top;
+	}
+
+	&.thumbnail-cell{
+		width: 70px;
+	}
+
+	&.title-cell{
+		text-align: left;
+		padding-right: 15px;
+	}
 }
 
 .playlist-item .marker{
 	width: 22px;
-	left: 15px;
 }
 
 .playlist-item .thumbnail-container{
 	height: 70px;
 	width: 70px;
-	left: 42px;
 	background: {
 		size: cover;
 		repeat: no-repeat;
@@ -43,24 +59,14 @@
 }
 
 .playlist-item .item-title{
-	left: 117px;
-	top: 19px;
-	height: 42px;
-	max-width: 155px;
 	font: {
 		weight: bold;
+		size: 14px;
 	}
 	line-height: 1.5;
+	max-height: 42px;
 	margin-bottom: 0;
 	overflow: hidden;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-}
-
-.playlist-item.no-image .item-title{
-	left: 42px;
-	max-width: 230px;
 }
 
 .ui-helper-hidden-accessible{

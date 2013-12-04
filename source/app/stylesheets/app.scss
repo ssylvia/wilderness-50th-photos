@@ -1,6 +1,11 @@
+// Commor Styles
 @import "base/base";
 @import "base/storymaps";
 
+// Core Styles
 @import "playlist/ui/sidePane";
 @import "playlist/ui/map";
 @import "playlist/ui/list";
+
+// Mobile Styles
+@import "playlist/core/mobile/layout";
