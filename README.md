@@ -9,7 +9,7 @@ The playlist app is a storytelling template that organizes point data sets, usua
 [User Download (source code not included)](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist.zip) |
 [Developer Download](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist_DeveloperDownload.zip)
 
-**Latest release is version 2.0**, if you want to be informed of new releases, we recommend you to watch this repository.
+**Latest release is version 2.1**, if you want to be informed of new releases, we recommend you to watch this repository.
 
 This help will guide you through the steps for publishing playlist apps like:
 - [Top 10 National Parks in New South Wales, Australia](http://downloads.esri.com/agol/pub/nsw10/index.html)
@@ -100,6 +100,12 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 
 ## What's new?
 
+#### Playlist 2.1 released on 12/4/2013
+
+- Responsive UI to support tablets and smartphones
+- Click to copy Bitly link
+- Various bug fixes
+
 #### Playlist 2.0 released on 11/22/2013
 
 - Supports feature layers and shapefiles
@@ -112,16 +118,39 @@ Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, 
 
 ## Developer guide
 
-This developer guide is intended to developer that wants to modify behavior or add new functionalities to the Map Tour application. If you only need to customize look and feel of the Map Tour, you should be able to do so using the User download.
+This developer guide is intended to developer that wants to modify behavior or add new functionalities to the playlist application. If you only need to customize look and feel of the playlist, you should be able to do so using the User download.
 It requires basic knowledge of HTML, Javascript and CSS languages.
 
-Download and unzip the [Developer download](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist_DeveloperDownload.zip) or clone the repo. All changes should be made in the **source/** folder of the source code.
+Download and unzip the [Developer download](https://github.com/Esri/playlist-storytelling-template-js/raw/master/Playlist_DeveloperDownload.zip) or fork the repo (recommended). All changes should be made in the **source/** folder of the source code.
 
-### Set up machine
+### Set up your local machine
 
-1. Install [Git](https://help.github.com/articles/set-up-git), [Ruby](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), [Ruby Dev Kit](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), and [Node](http://nodejs.org/)
+#### Software
+
+Download and install the following software
+
+- [Git](https://help.github.com/articles/set-up-git), [Ruby](http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe?direct), [Ruby Dev Kit](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe), [Node](http://nodejs.org/)
+
+#### Steps
+
+1. Start by installing Ruby 1.9.3. As you step through the install make sure the following is selected
+	- [x] Add Ruby executables to PATH
+2. When the installation is finished, verify Ruby was installed correctly by opening up a command prompt and running `irb` to run the Interactive Ruby shell. You should see: `irb(main):001:0>` in the console.  Simply type `exit` to close **irb**, and then close the command prompt window.
+3. Next, install the Ruby Development Kit. This download is just a self extracting archive, so pick a permanent place you want to extract the files to. (e.g. C:\rubydev\)
+4. After the Ruby Development Kit has been extracted, open another command prompt window and change the directory to the location you extracted the files to: (e.g. C:\rubydev\)
+5. We will be running two commands to setup the Development Kit to work with your Ruby installation:
+	- `ruby dk.rb init` to set up the install configuration
+	- `ruby dk.rb install` to link up the development kit to your Ruby location.
+6. While still in the command prompt window, the Bundler (http://gembundler.com/) gem will have to be installed so the project can run and download all the needed dependencies.  Type `gem install bundler` and Ruby will install the gem.
+7. Now install GitHub, and step through the installation process.
+8. Now install Node JS.
+	- Make sure to include the Node Package Manager (NPM) in your installation.
+9. If you haven't created your own fork of the playlist app, do so now by clicking on the **Fork** button in the upper left.
+10. You will now want to clone your forked repo to your local machine.
 
 ### Setup project folder
+
+In order to modify pages locally on your machine you will have to set up GitHub and the development environment on your machine.
 
 1. Open git shell/bash at project folder
 2. Run `bundle install`
