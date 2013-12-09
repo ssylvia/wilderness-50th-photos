@@ -139,6 +139,20 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					onSelect(item);
 				});
 
+				on(popup,"selection-change",function(){
+					var graphic = popup.getSelectedFeature();
+
+					if (graphic){						
+						onRemoveSelection();
+						var item = {
+							layerId: (graphic.getLayer() ? graphic.getLayer().id : _tempLayerId),
+							objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId)
+						};
+
+						onSelect(item);
+					}
+				});
+
 			});
 		};
 
