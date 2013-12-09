@@ -15,7 +15,8 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer",
 	"esri/tasks/query",
-	"esri/dijit/HistogramTimeSlider"], 
+	"esri/dijit/HistogramTimeSlider",
+	"dojo/_base/sniff"], 
 	function(MapConfig,
 		Map,
 		arcgisUtils,
@@ -519,7 +520,9 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					var titleAttr = _titleFields[event.graphic.getLayer().id];
 					_lastHightlighedGraphic = event.graphic;
 					event.graphic.setSymbol(newSym);
-					event.graphic.getDojoShape().moveToFront();
+					if (!has("ie")){
+						event.graphic.getDojoShape().moveToFront();
+					}
 					_map.setCursor("pointer");
 
 					showMapTip(event.graphic,titleAttr);
@@ -539,7 +542,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 					hideMapTip();
 
 					onRemoveHighlight(item);
-			});
+				});
 
 			}
 		}
