@@ -81,13 +81,13 @@ define(["dojo/_base/array",
 			var iconURL;
 
 			if(graphic.attributes[colorAttr]){
-				if (graphic.attributes[colorAttr].toLowerCase === "b" || graphic.attributes[colorAttr].toLowerCase === "blue"){
+				if (graphic.attributes[colorAttr].toLowerCase() === "b" || graphic.attributes[colorAttr].toLowerCase() === "blue"){
 					iconURL = "resources/images/markers/indexed/blue/NumberIconb" + (index + 1) + ".png";
 				}
-				else if (graphic.attributes[colorAttr].toLowerCase === "g" || graphic.attributes[colorAttr].toLowerCase === "green"){
+				else if (graphic.attributes[colorAttr].toLowerCase() === "g" || graphic.attributes[colorAttr].toLowerCase() === "green"){
 					iconURL = "resources/images/markers/indexed/green/NumberIcong" + (index + 1) + ".png";
 				}
-				else if (graphic.attributes[colorAttr].toLowerCase === "p" || graphic.attributes[colorAttr].toLowerCase === "purple"){
+				else if (graphic.attributes[colorAttr].toLowerCase() === "p" || graphic.attributes[colorAttr].toLowerCase() === "purple"){
 					iconURL = "resources/images/markers/indexed/purple/IconPurple" + (index + 1) + ".png";
 				}
 				else{
