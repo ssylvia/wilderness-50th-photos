@@ -9,7 +9,7 @@ The playlist app is a storytelling template that organizes point data sets, usua
 [User Download (source code not included)](http://bit.ly/1cImr14) |
 [Developer Download](http://bit.ly/1h7LzUy)
 
-**Latest release is version 2.1**, if you want to be informed of new releases, we recommend you to watch this repository.
+**Latest release is version 2.1.1**, if you want to be informed of new releases, we recommend you to watch this repository.
 
 This help will guide you through the steps for publishing playlist apps like:
 - [Top 10 National Parks in New South Wales, Australia](http://downloads.esri.com/agol/pub/nsw10/index.html)
@@ -99,6 +99,11 @@ Yes, but you will need to install a proxy server on your web server to make sure
 Yes, by using Portal for ArcGIS. When deployed on a Portal for ArcGIS instance, the Map Tour doesn't require any external service to function. But by default the template will still include the header social buttons and template publishers are able to import pictures from the some online pictures hosting services
 
 ## What's new?
+
+#### Playlist 2.1.1 released on 12/12/2013
+
+- Update JavaScript API to version 3.8
+- Minor Bug Fixes
 
 #### Playlist 2.1 released on 12/4/2013
 
