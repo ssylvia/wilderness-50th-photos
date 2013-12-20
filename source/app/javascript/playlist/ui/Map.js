@@ -8,6 +8,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 	"dojo/dom-style",
 	"dojo/query",
 	"dojo/dom-geometry",
+	"esri/geometry/ScreenPoint",
 	"dojo/on",
 	"dojo/has",
 	"dojo/_base/array",
@@ -28,6 +29,7 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 		domStyle,
 		query,
 		domGeom,
+		ScreenPoint,
 		on,
 		has,
 		array,
@@ -187,7 +189,9 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				}
 
 				if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
-					openPopup(graphic);
+					var mapPos = domGeom.position(dom.byId(mapSelector));
+					var point = new ScreenPoint(domGeom.position(graphic.getNode()).x - mapPos.x, domGeom.position(graphic.getNode()).y - mapPos.y + _mapConfig.getMarkerPosition().height);
+					openPopup(graphic,_map.toMap(point));
 				}
 				else{
 					on.once(_map,"extent-change",function(){
@@ -195,6 +199,10 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						openPopup(graphic);
 					});
 					panMapToGraphic(graphic.geometry);
+				}
+
+				if (!has("ie")){
+					graphic.getDojoShape().moveToFront();
 				}				
 			});
 		};
@@ -219,7 +227,9 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
 						
 						graphic.setSymbol(newSym);
-						graphic.getDojoShape().moveToFront();
+						if (!has("ie")){
+							graphic.getDojoShape().moveToFront();
+						}
 
 						showMapTip(graphic,titleAttr);
 					}
@@ -596,10 +606,16 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 			}
 		}
 
-		function openPopup(graphic)
+		function openPopup(graphic,newLocation)
 		{
+			var location = graphic.geometry;
+
+			if (newLocation){
+				location = newLocation;
+			}
+
 			_map.infoWindow.setFeatures([graphic]);
-			_map.infoWindow.show(graphic.geometry);
+			_map.infoWindow.show(location);
 		}
 
 		function showMapTip(graphic,titleAttr)
