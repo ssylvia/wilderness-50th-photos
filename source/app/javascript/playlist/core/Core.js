@@ -1,10 +1,12 @@
 define(["dojo/has",
+	"esri/tasks/GeometryService",
 	"storymaps/utils/Helper",
 	"storymaps/playlist/core/mobile/Layout",
 	"storymaps/playlist/ui/Map",
 	"storymaps/playlist/ui/List",
 	"lib/jquery/jquery-1.10.2.min"],
 	function(has,
+		GeometryService,
 		Helper,
 		MobileLayout,
 		Map,
@@ -49,6 +51,10 @@ define(["dojo/has",
 			if (configOptions.geometryServiceUrl && location.protocol === "https:"){
 				configOptions.geometryServiceUrl = configOptions.geometryServiceUrl.replace('http:', 'https:');
 			}
+
+			esri.arcgis.utils.arcgisUrl = configOptions.sharingUrl;
+			esri.config.defaults.io.proxyUrl = configOptions.proxyUrl;
+			esri.config.defaults.geometryServiceUrl = new GeometryService(configOptions.geometryServiceUrl);
 
 			var urlObject = esri.urlToObject(document.location.href);
 			urlObject.query = urlObject.query || {};

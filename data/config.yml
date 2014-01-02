@@ -86,4 +86,4 @@ proxyUrl: ""
 # Specify the url to a geometry service
 geometryServiceUrl: "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
 # Modify this to point to your sharing service URL if you are using the portal
-sharingUrl: http://www.arcgis.com/sharing/rest/content/items
+sharingUrl: "http://www.arcgis.com/sharing/rest/content/items"
