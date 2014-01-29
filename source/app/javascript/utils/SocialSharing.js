@@ -12,6 +12,7 @@ define(["dojo/has","lib/ZeroClipboard.min","lib/jquery/jquery-1.10.2.min"],
 		summary: encodeURIComponent($("meta[property='og:description']").attr("content")),
 		url: encodeURIComponent($("meta[property='og:url']").attr("content")),
 		thumbnail: encodeURIComponent($("meta[property='og:image']").attr("content")),
+		twitterText: encodeURIComponent($("meta[name='twitter:title']").attr("content")),
 		twitterHandle: encodeURIComponent($("meta[name='twitter:site']").attr("content").replace("@",""))
 	};
 
@@ -20,7 +21,7 @@ define(["dojo/has","lib/ZeroClipboard.min","lib/jquery/jquery-1.10.2.min"],
 		summary: _page.summary,
 		url: _page.url,
 		thumbnail: _page.thumbnail,
-		twitterText: _page.title,
+		twitterText: _page.twitterText,
 		twitterHandle: _page.twitterHandle,
 		hashtags: 'storymap'
 	};

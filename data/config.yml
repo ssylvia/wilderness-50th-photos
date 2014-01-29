@@ -22,6 +22,8 @@ metaSocialURL: http://storymaps.esri.com
 metaThumbnailURL: http://sample.com/thumbnail.png
 # Website/Organization's name to be used in sharing to Facebook and Twitter
 metaSiteName: Esri
+# Default text to be used while sharing app on Twitter
+metaTwitterText: Playlist
 # Twitter Handle to be used while sharing app on Twitter
 metaTwitterHandle: EsriStoryMaps
 # Favicon URL
