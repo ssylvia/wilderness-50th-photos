@@ -44,7 +44,7 @@ description: ""
 
 # LEGEND AND DESCRIPTION
 
-playlistLegendVisible: false
+playlistLegendVisible: true
 
 # Playlist layer title
 playlistTitle: Playlist Layer
