@@ -175,9 +175,9 @@ In order to modify pages locally on your machine you will have to set up GitHub 
 
 We would love to hear from you!
 - [Vist the story maps forum](http://forums.arcgis.com/forums/264-Story-Maps)
-- [StoryMaps Website](http://storymaps.esri.com/home/)
+- [Story Maps Website](http://storymaps.arcgis.com/)
 - [@EsriStoryMaps](http://twitter.com/EsriStoryMaps)
-- [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+- [Story Maps Blog](http://blogs.esri.com/esri/arcgis/category/story-maps/)
 
 ## Issues
 
