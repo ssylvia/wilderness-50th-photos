@@ -59,10 +59,15 @@
 
 	.icon-left-arrow{
 		float: right;
+		display: inline;
 	}
 
 	.toggle-description{
 		padding-right: 0;
+	}
+
+	.toggle-description, .toggle-legend{
+		float: left;
 	}
 
 	.icon-right-arrow{
@@ -224,7 +229,7 @@ body{
 	}
 
 	.icon-left-arrow{
-		display: none;
+		display: none !important;;
 	}
 
 	.icon-right-arrow{
