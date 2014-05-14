@@ -81,7 +81,7 @@ define(["dojo/has",
 		function onMapLoad(item)
 		{
 			if (!_readyState.map){
-				updateText(item.title,item.snippet,item.description);
+				updateText();
 				_readyState.map = true;
 				if (_layersReady === _map.getLayerCount()){
 					_readyState.list = true;

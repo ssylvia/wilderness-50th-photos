@@ -1,4 +1,5 @@
-define(["storymaps/playlist/config/MapConfig","esri/map",
+define(["storymaps/playlist/config/MapConfig",
+	"esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Legend",
 	"esri/dijit/Popup",
@@ -73,28 +74,19 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 
 			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
 
-			arcgisUtils.createMap(webmapId,mapSelector,{
-				mapOptions: {
-					sliderPosition: "top-right",
-					infoWindow: popup
-				},
-				geometryServiceURL: geometryServiceURL,
-				bingMapsKey: bingMapsKey
-			}).then(function(response){
+			_map = new Map(mapSelector,{
+				basemap: 'national-geographic',
+				sliderPosition: "top-right",
+				infoWindow: popup,
+				center: [-95, 39],
+				zoom: 5
+			});
 
-				setTimeout(function(){
-					if(onLoad && !_mapReady){
-						_mapReady = true;
-						console.log("Timeout error: map did not fully load");
-						onLoad(response.itemInfo.item);
-					}
-				},10000);
-				
-				_mapResponse = response;
-				_map = response.map;
+			on.once(_map,"load",function(){
+				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 
-				// ADD HOME BUTTON TO ZOOM SLIDER
 				on.once(_map,"extent-change",function(){
+					// ADD HOME BUTTON TO ZOOM SLIDER
 					var homeExtent = _map.extent;
 					array.forEach(query(".esriSimpleSliderIncrementButton"),function(node){
 						var homeButton = domConstruct.place('<div class="esriSimpleSliderIncrementButton homeExtentButton icon-home"></div>', node ,"after");
@@ -103,48 +95,40 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 						});
 					});
 				});
-				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 
-				if(_map.loaded){
-					getPointLayers(response.itemInfo.itemData.operationalLayers);
+				// TODO GET POINT LAYER
+				// getPointLayers(response.itemInfo.itemData.operationalLayers);
+			});
+
+			on.once(_map,"update-end",function(){
+				if(onLoad && !_mapReady){
+					_mapReady = true;
+					onLoad();
 				}
-				else{
-					on(_map,"loaded",function(){
-						getPointLayers(response.itemInfo.itemData.operationalLayers);
-					});
-				}
+			});
 
-				on.once(_map,"update-end",function(){
-					if(onLoad && !_mapReady){
-						_mapReady = true;
-						onLoad(response.itemInfo.item);
-					}
-				});
+			on(popup,"hide",function(){
+				_highlightEnabled = true;
+				onRemoveSelection();
+			});
 
-				on(popup,"hide",function(){
-					_highlightEnabled = true;
+			on(popup,"show",function(){
+				hideMapTip();
+				_highlightEnabled = false;
+			});
+
+			on(popup,"selection-change",function(){
+				var graphic = popup.getSelectedFeature();
+
+				if (graphic){						
 					onRemoveSelection();
-				});
+					var item = {
+						layerId: (graphic.getLayer() ? graphic.getLayer().id : _tempLayerId),
+						objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId)
+					};
 
-				on(popup,"show",function(){
-					hideMapTip();
-					_highlightEnabled = false;
-				});
-
-				on(popup,"selection-change",function(){
-					var graphic = popup.getSelectedFeature();
-
-					if (graphic){						
-						onRemoveSelection();
-						var item = {
-							layerId: (graphic.getLayer() ? graphic.getLayer().id : _tempLayerId),
-							objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId)
-						};
-
-						onSelect(item);
-					}
-				});
-
+					onSelect(item);
+				}
 			});
 		};
 
@@ -308,6 +292,17 @@ define(["storymaps/playlist/config/MapConfig","esri/map",
 				}
 			});
 		};
+
+		function mapLoadEvent()
+		{
+			var homeExtent = _map.extent;
+			array.forEach(query(".esriSimpleSliderIncrementButton"),function(node){
+				var homeButton = domConstruct.place('<div class="esriSimpleSliderIncrementButton homeExtentButton icon-home"></div>', node ,"after");
+				on(homeButton,"click",function(){
+					_map.setExtent(homeExtent);
+				});
+			});
+		}
 
 		function getSidePanelWidth()
 		{

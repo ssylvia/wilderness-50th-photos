@@ -35,9 +35,9 @@ metaShortcutURL: //resources.esri.com/favicon.ico
 # BANNER CONFIGURATION
 
 # App title, leave black to use webmap title
-title: ""
+title: "Wilderness"
 # App subtitle, leave black to use webmap subtitle
-subtitle: ""
+subtitle: "Test"
 # App description, leave black to use webmap description
 description: ""
 
