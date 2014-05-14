@@ -1,0 +1,91 @@
+# GOOGLE ANALYTICS
+
+# Include Google Analytics
+includeAnalytics: false
+# Google Analytics Tracking ID
+trackingId: UA-26529417-1
+
+
+# META & OPENGRAPH TAGS
+
+# title of story map
+metaTitle: Playlist
+# Author of story map
+metaAuthor: Esri
+# Keywords to define story map
+metaKeywords: Story Map
+# Description of story map
+metaDescription: Add description for app
+# Permanent URL of app. Will be used as default URL when shared on Facebook and Twitter
+metaSocialURL: http://storymaps.esri.com
+# Permanent URL of app thumbnail. This is the thumbnail to be used when app is shared to Facebook and Twitter
+metaThumbnailURL: http://sample.com/thumbnail.png
+# Website/Organization's name to be used in sharing to Facebook and Twitter
+metaSiteName: Esri
+# Default text to be used while sharing app on Twitter
+metaTwitterText: Playlist
+# Twitter Handle to be used while sharing app on Twitter
+metaTwitterHandle: EsriStoryMaps
+# Favicon URL
+metaFaviconURL: //resources.esri.com/favicon.ico
+# Shortcut URL to be used for iOS webapp
+metaShortcutURL: //resources.esri.com/favicon.ico
+
+
+# BANNER CONFIGURATION
+
+# App title, leave black to use webmap title
+title: ""
+# App subtitle, leave black to use webmap subtitle
+subtitle: ""
+# App description, leave black to use webmap description
+description: ""
+
+
+# LEGEND AND DESCRIPTION
+
+playlistLegendVisible: true
+
+# Playlist layer title
+playlistTitle: Playlist Layer
+
+# Legend names for playlist markers
+playlistRedIcon: Red
+playlistBlueIcon: Blue
+playlistGreenIcon: Green
+playlistPurpleIcon: Purple
+
+# Legend visibility for playlist markers
+playlistRedIconVisible: true
+playlistBlueIconVisible: true
+playlistGreenIconVisible: true
+playlistPurpleIconVisible: true
+
+# Legend icon URL for playlist markers
+playlistRedIconURL: resources/images/markers/indexed/red/NumberIcon1.png
+playlistBlueIconURL: resources/images/markers/indexed/blue/NumberIconb1.png
+playlistGreenIconURL: resources/images/markers/indexed/green/NumberIcong1.png
+playlistPurpleIconURL: resources/images/markers/indexed/purple/IconPurple1.png
+
+# MAPS AND DATA CONFIGURATION
+
+# The web map id
+webmap: 225d8fdebb1440db80165645dcd16b91
+# Choose name field
+nameField: ""
+# Choose image field
+imageField: ""
+# Choose color field
+colorField: ""
+# Choose order field
+orderField: ""
+# Choose filter field
+filterField: ""
+# If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
+bingMapsKey: ""
+# Specify a proxy for custom deployment
+proxyUrl: ""
+# Specify the url to a geometry service
+geometryServiceUrl: "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
+# Modify this to point to your sharing service URL if you are using the portal
+sharingUrl: "http://www.arcgis.com/sharing/rest/content/items"

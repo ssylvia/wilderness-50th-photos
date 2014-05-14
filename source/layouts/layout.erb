@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9,IE=10">
+
+	<title><%= data.config.metaTitle ? data.config.metaTitle : data.advancedSettings.appName + " | An Esri Story Maps" %></title>
+
+	<meta name="author" content="<%= data.config.metaAuthor ? data.config.metaAuthor : "Esri" %>">
+	<meta name="keywords" content="<%= data.config.metaKeywords ? data.config.metaKeywords : "Story Map" %>">
+	<meta name="description" content="<%= data.config.metaDescription ? data.config.metaDescription : data.config.subtitle %>">
+
+	<!--Facebook Open Graph-->
+	<meta property="og:title" content="<%= data.config.metaTitle ? data.config.metaTitle : data.advancedSettings.appName + " | An Esri Story Maps" %>" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="<%= data.config.metaSocialURL ? data.config.metaSocialURL : "" %>" />
+	<meta property="og:image" content="<%= data.config.metaThumbnailURL ? data.config.metaThumbnailURL : "" %>" />
+	<meta property="og:site_name" content="<%= data.config.metaSiteName ? data.config.metaSiteName : "" %>" />
+	<meta property="og:description" content="<%= data.config.metaDescription ? data.config.metaDescription : data.config.subtitle %>"/>
+	<meta property="fb:app_id" content="<%= data.advancedSettings.FacebookAppId ? data.advancedSettings.FacebookAppId : "" %>" />
+	<!--End Facebook-->
+
+	<!--Twitter Card Data-->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@<%= data.config.metaTwitterHandle ? data.config.metaTwitterHandle : "EsriStoryMaps" %>">
+	<meta name="twitter:url" content="<%= data.config.metaSocialURL ? data.config.metaSocialURL : "" %>">
+	<meta name="twitter:title" content="<%= data.config.metaTwitterText ? data.config.metaTwitterText : data.advancedSettings.appName + " | An Esri Story Maps" %>">
+	<meta name="twitter:description" content="<%= data.config.metaDescription ? data.config.metaDescription : data.config.subtitle %>">
+	<meta name="twitter:image" content="<%= data.config.metaThumbnailURL ? data.config.metaThumbnailURL : "" %>">
+	<!--Twitter Card Data-->
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, user-scalable=no">
+
+	<link type="image/ico" rel="shortcut icon" href="<%= data.config.metaShortcutURL ? data.config.metaShortcutURL : "//resources.esri.com/favicon.ico" %>">
+	<link type="image/ico" rel="icon" href="<%= data.config.metaFaviconURL ? data.config.metaFaviconURL : "//resources.esri.com/favicon.ico" %>">
+
+	<!-- load Avenir from fonts.com  this is will only work on localhost, arcgis.com or esri.com domains -->
+	<%= stylesheet_link_tag "//fast.fonts.com/cssapi/4a60d16b-c9e4-404d-89d3-809adb97d65c.css" %>
+	<% if data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme %>
+	<%= stylesheet_link_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/js/dojo/dijit/themes/" + data.advancedSettings.dijitsTheme + "/" + data.advancedSettings.dijitsTheme + ".css" %>
+	<% end %>
+	<%= stylesheet_link_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/js/esri/css/esri.css" %>
+	<%= stylesheet_link_tag "arcgis.min.css" %>
+	<%= stylesheet_link_tag "app" %>
+
+	<!--[if lt IE 9]>
+	<% if isProduction %>
+	<script src="app/javascript/oldIE-min.js" type="text/javascript"></script>
+	<% else %>
+	<script src="lib/oldIE/selectivizr-min.js" type="text/javascript"></script>
+	<script src="lib/oldIE/html5shiv.js" type="text/javascript"></script>
+	<% end %>
+	<![endif]-->
+	<!--[if lt IE 8]>
+	<script type="text/javascript">window.location = "http://browsehappy.com/"</script>
+	<![endif]-->
+
+</head>
+<body class="<%= data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme ? data.advancedSettings.dijitsTheme : "" %>">
+	
+	<div id="app-load-screen">
+		<div id="loader"></div>
+		<h4 id="loading-message">Loading <%= data.advancedSettings.appName %></h4>
+	</div>
+
+	<div id="bitly-overlay" class="modal bitly-modal">
+		<a class="icon-close right" onclick="$('.bitly-modal').removeClass('visible');"></a>		
+		<h4>Bitly link to share</h4>
+		<br>
+		<a id="bitly-link" target="_blank"></a>
+		<br>
+		<div id="bitly-copy" class="btn primary">Copy</div>
+		<div id="bitly-close" class="btn primary" onclick="$('.bitly-modal').removeClass('visible');">Close</div>
+	</div>
+
+	<% if data.advancedSettings.builder %>
+	<%= partial "layouts/builderMenu" %>
+	<% end %>	
+
+	<div id="app-content" class="region-center">
+		<%= yield %>
+	</div>
+	
+	<% if data.config.includeAnalytics && data.config.trackingId %>
+	<!--Google Analytics Start-->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', '<%= data.config.trackingId %>']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	<!--Google Analytics End-->
+	<% end %>
+	<script type="text/javascript">
+		var dojoConfig = {
+			parseOnLoad: true,
+			isDebug: false,
+			useDeferredInstrumentation: true,
+			packages: [
+			{
+				name: 'storymaps',
+				location: location.pathname.replace(/\/[^/]+$/, '/') + 'app/javascript'
+			},
+			{
+				name: 'lib',
+				location: location.pathname.replace(/\/[^/]+$/, '/') + 'lib'
+			}//,
+			// {
+			// 	name: 'esriTemplate',
+			// 	location: location.pathname.replace(/\/[^/]+$/, '/') + 'resources'
+			// }
+			]
+		};
+	</script>
+	<%= javascript_include_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/" %>
+	<script type="text/javascript">
+
+		var configOptions = {
+			// The web map id
+			webmap: "<%= data.config.webmap %>",
+			// Enter a title, if no title is specified, the webmap's title is used.
+			title: "<%= data.config.title %>",
+			// Enter a subtitle, if not specified the ArcGIS.com web map's summary is used
+			subtitle: "<%= data.config.subtitle %>",
+			// Enter a description, if not specified the ArcGIS.com web map's description is used
+			description: "<%= data.config.description %>",
+			// Choose data fields
+			dataFields: {
+				// Change name field to match data
+				nameField: "<%= data.config.nameField %>",
+				// Change thumbnail field to match data
+				imageField: "<%= data.config.imageField %>",
+				// Change color field to match data
+				colorField: "<%= data.config.colorField %>",
+				// Change order field to match data
+				orderField: "<%= data.config.orderField %>",
+				// Change name filter to match data
+				filterField: "<%= data.config.filterField %>"
+			},
+			// Legend names for playlist markers
+			playlistLegend: {
+				// Add a name for your playlist point layer to be used in the legend.
+				"layerTitle": "<%= data.config.playlistTitle %>",
+				// Choose to display your playlist point layer in the legend (true or false).
+				"visible": <%= data.config.playlistLegendVisible %>,
+				"items": {
+					"redIcon": {
+						// Choose to display icon in the legend (true or false).
+						"visible": <%= data.config.playlistRedIconVisible %>,
+						// Choose the display name in the legend.
+						"name": "<%= data.config.playlistRedIcon %>",
+						"iconURL": "<%= data.config.playlistRedIconURL %>"
+					},
+					"blueIcon": {
+						// Choose to display icon in the legend (true or false).
+						"visible": <%= data.config.playlistBlueIconVisible %>,
+						// Choose the display name in the legend.
+						"name": "<%= data.config.playlistBlueIcon %>",
+						"iconURL": "<%= data.config.playlistBlueIconURL %>"
+					},
+					"greenIcon": {
+						// Choose to display icon in the legend (true or false).
+						"visible": <%= data.config.playlistGreenIconVisible %>,
+						// Choose the display name in the legend.
+						"name": "<%= data.config.playlistGreenIcon %>",
+						"iconURL": "<%= data.config.playlistGreenIconURL %>"
+					},
+					"purpleIcon": {
+						// Choose to display icon in the legend (true or false).
+						"visible": <%= data.config.playlistPurpleIconVisible %>,
+						// Choose the display name in the legend.
+						"name": "<%= data.config.playlistPurpleIcon %>",
+						"iconURL": "<%= data.config.playlistPurpleIconURL %>"
+					}
+				}
+			},
+			// Add the layer names of valid point layers that should be excluded from the playlist and used as reference layers
+			excludedLayers: [],
+			// If the webmap uses Bing Maps data, you will need to provided your Bing Maps Key
+			bingMapsKey: "<%= data.config.bingMapsKey %>",
+			// Specify a proxy for custom deployment
+			proxyUrl: "<%= data.config.proxyUrl %>",
+			// Specify the url to a geometry service
+			geometryServiceUrl: "<%= data.config.geometryServiceUrl %>",
+			// Modify this to point to your sharing service URL if you are using the portal
+			sharingUrl: "<%= data.config.sharingUrl %>"
+		};
+
+	<% if isProduction %>
+		require(["app/javascript/<%= data.advancedSettings.appIdentifier %>-viewer.min.js"]);
+	<% else %>
+		require(["storymaps/playlist/core/Core"],function(Core){
+			Core.init();
+		});
+	<% end %>
+	</script>
+</body>
+</html>
