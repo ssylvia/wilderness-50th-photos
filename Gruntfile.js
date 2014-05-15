@@ -15,7 +15,8 @@ module.exports = function(grunt) {
 
 			build: ['deploy/app/javascript/*'],
 			jsLib: ['deploy/lib'],
-			buildTools: ['deploy/resources/buildTools']
+			buildTools: ['deploy/resources/buildTools'],
+			tempData: ['source/resources/buildTools/data/tempData']
 
 		},
 
@@ -89,6 +90,26 @@ module.exports = function(grunt) {
 					}
 				]
 			}
+		},
+
+		convert: {
+			options: {
+				explicitArray: false
+			},
+			wilderness: {
+				src: ['source/resources/buildTools/data/wildernesses.csv'],
+				dest: 'source/resources/buildTools/data/tempData/wildernesses.json'
+			},
+			photos: {
+				src: ['source/resources/buildTools/data/photos.csv'],
+				dest: 'source/resources/buildTools/data/tempData/photos.json'
+			}
+		},
+
+		exec: {
+			json2amd: {
+				cmd: 'node source/resources/buildTools/data/json2amd.js'
+			}
 		}
 
 	});
@@ -101,12 +122,19 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks('grunt-convert');
+	grunt.loadNpmTasks('grunt-exec');
 
 	// Default task(s).
 	grunt.registerTask('default', [
 
 		'jshint',
 		'clean:build',
+
+		//Update Data
+		'convert',
+		'exec',
+		'clean:tempData',
 
 		// Concat external libraries
 		'concat:libIE',
@@ -125,6 +153,12 @@ module.exports = function(grunt) {
 		// Zip downloads
 		'compress'
 
+	]);
+
+	grunt.registerTask('updateData', [
+		'convert',
+		'exec',
+		'clean:tempData'
 	]);
 
 };
