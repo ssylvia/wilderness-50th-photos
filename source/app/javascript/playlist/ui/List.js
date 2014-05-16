@@ -1,10 +1,12 @@
 define(["dojo/_base/array",
 	"dojo/has",
+	"storymaps/playlist/core/Data",
 	"lib/jquery/jquery-1.10.2.min",
 	"lib/jquery.autoellipsis-1.0.10.min",
 	"lib/jquery-ui-1.10.3.custom.min"], 
 	function(array,
-		has){
+		has,
+		Data){
 	/**
 	* Playlist List
 	* @class Playlist List
@@ -13,6 +15,9 @@ define(["dojo/_base/array",
 	*
 	* Dependencies: Jquery 1.10.2
 	*/
+
+	var titleField = 'photographer';
+	var photoField = "photoUrl";
 
 	return function List(selector,searchSelector,filterSelector,dataFields,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight,onSearch)
 	{
@@ -134,51 +139,55 @@ define(["dojo/_base/array",
 				};
 				onGetTitleField(titleAttr);
 				array.forEach(items,function(item){
-					var objId = item.graphic.attributes[item.objectIdField];
-					var itemStr = "";
-					if (attr.thumbnail){
-						itemStr = '\
-							<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-								<table>\
-									<tbody>\
-										<tr>\
-											<td class="marker-cell">\
-												<img src=' + item.iconURL + ' alt="" class="marker" />\
-											</td>\
-											<td class="thumbnail-cell">\
-												<div class="thumbnail-container" style="background-image: url(' + item.graphic.attributes[attr.thumbnail] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
-											</td>\
-											<td class="title-cell">\
-												<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
-											</td>\
-										</tr>\
-									</tbody>\
-								</table>\
-							</div>\
-						';
-					}
-					else{
-						itemStr = '\
-							<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-								<table>\
-									<tbody>\
-										<tr>\
-											<td class="marker-cell">\
-												<img src=' + item.iconURL + ' alt="" class="marker" />\
-											</td>\
-											<td class="title-cell">\
-												<h6 class="item-title">' + item.graphic.attributes[attr.title] + '</h6>\
-											</td>\
-										</tr>\
-									</tbody>\
-								</table>\
-							</div>\
-						';
-					}
-					if ($.inArray(item.filter,_filterSet) < 0){
-						addNewFilter(item.filter);
-					}
-					_listEl.append(itemStr);
+					array.forEach(Data.photos,function(photoObj){
+						if(photoObj.wilderness === item.graphic.attributes.wilderness){
+							var objId = item.graphic.attributes[item.objectIdField];
+							var itemStr = "";
+							if (true || attr.thumbnail){
+								itemStr = '\
+									<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
+										<table>\
+											<tbody>\
+												<tr>\
+													<td class="marker-cell">\
+														<img src=' + item.iconURL + ' alt="" class="marker" />\
+													</td>\
+													<td class="thumbnail-cell">\
+														<div class="thumbnail-container" style="background-image: url(' + photoObj[photoField] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
+													</td>\
+													<td class="title-cell">\
+														<h6 class="item-title">' + photoObj[titleField] + '</h6>\
+													</td>\
+												</tr>\
+											</tbody>\
+										</table>\
+									</div>\
+								';
+							}
+							else{
+								itemStr = '\
+									<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
+										<table>\
+											<tbody>\
+												<tr>\
+													<td class="marker-cell">\
+														<img src=' + item.iconURL + ' alt="" class="marker" />\
+													</td>\
+													<td class="title-cell">\
+														<h6 class="item-title">' + photoObj[titleField] + '</h6>\
+													</td>\
+												</tr>\
+											</tbody>\
+										</table>\
+									</div>\
+								';
+							}
+							if ($.inArray(item.filter,_filterSet) < 0){
+								addNewFilter(item.filter);
+							}
+							_listEl.append(itemStr);
+						}
+					});
 				});			
 			}
 			$(".item-title").ellipsis();

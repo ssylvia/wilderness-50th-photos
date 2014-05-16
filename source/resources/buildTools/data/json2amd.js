@@ -5,9 +5,7 @@ var data = {
 var outputStr = "define([],\
 	function(){\
 		var appData = " + JSON.stringify(data) + ";\
-		return {\
-			data: appData\
-		};\
+		return appData;\
 	});"
 
 var fs = require('fs');
