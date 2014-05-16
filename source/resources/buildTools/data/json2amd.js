@@ -1,5 +1,4 @@
 var data = {
-	'wildernesses': require("./tempData/wildernesses.json"),
 	'photos': require("./tempData/photos.json")
 }
 

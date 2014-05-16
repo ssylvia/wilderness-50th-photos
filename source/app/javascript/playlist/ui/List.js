@@ -124,6 +124,7 @@ define(["dojo/_base/array",
 
 		function buildList(lyrItems)
 		{
+			console.log(lyrItems);
 			for (var layerId in lyrItems){
 				var items = lyrItems[layerId];
 				var attr = getAttributeNames(items[0].graphic.attributes);

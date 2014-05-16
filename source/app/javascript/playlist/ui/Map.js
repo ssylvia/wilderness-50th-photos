@@ -1,4 +1,6 @@
 define(["storymaps/playlist/config/MapConfig",
+	"storymaps/playlist/core/Data",
+	"esri/layers/CSVLayer",
 	"esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Legend",
@@ -20,6 +22,8 @@ define(["storymaps/playlist/config/MapConfig",
 	"esri/dijit/HistogramTimeSlider",
 	"dojo/_base/sniff"], 
 	function(MapConfig,
+		Data,
+		CSVLayer,
 		Map,
 		arcgisUtils,
 		Legend,
@@ -95,9 +99,13 @@ define(["storymaps/playlist/config/MapConfig",
 						});
 					});
 				});
+			});
 
-				// TODO GET POINT LAYER
-				// getPointLayers(response.itemInfo.itemData.operationalLayers);
+			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
+			_map.addLayer(wildernesses);
+
+			on.once(_map,'layer-add',function(){
+				getPointLayers(wildernesses);
 			});
 
 			on.once(_map,"update-end",function(){
@@ -319,65 +327,24 @@ define(["storymaps/playlist/config/MapConfig",
 			return center;
 		}
 
-		function getPointLayers(layers)
+		function getPointLayers(layer)
 		{
 			var layerIds = [];
 			var playlistLayers = [];
-			array.forEach(layers,function(layer){
-				if (layer.featureCollection && layer.featureCollection.layers.length > 0){
-					array.forEach(layer.featureCollection.layers,function(l){
-						if (l.layerDefinition.geometryType === "esriGeometryPoint" && l.visibility && checkExcluded(l.layerObject.name)){
-							var playlistLyr = l.layerObject;
-							playlistLayers.push(playlistLyr);
-							var lyrProp = {
-								layerId: playlistLyr.id,
-								objectIdField: playlistLyr.objectIdField,
-								supportsDefinitionExpression: false,
-								defaultExpression: false
-							};
-							_playlistLayers.push(lyrProp);
-							setRenderer(playlistLyr);
-							addLayerEvents(playlistLyr);
-							layerIds.push(playlistLyr.id);
-						}
-					});
-				}
-				else if(layer.url && layer.resourceInfo.type === "Feature Layer" && layer.resourceInfo.geometryType === "esriGeometryPoint" && layer.visibility && checkExcluded(layer.layerObject.name)){
-					var playlistLyr = layer.layerObject;
-					playlistLayers.push(playlistLyr);
-					playlistLyr.mode = 0;
-					addLayerEvents(playlistLyr);
-					on.once(playlistLyr, "update-end", function(){
-						var query = new Query();
-						query.where = "1=1";
-						query.outFields = ["*"];
-						query.returnGeometry = true;
-						playlistLyr.queryFeatures(query).then(function(results){
-							var features = results.features.slice(0,_mapConfig.getMaxAllowablePoints());
-							playlistLyr.setDefinitionExpression(results.objectIdFieldName + "<=" + (features[features.length - 1].attributes[results.objectIdFieldName]));
-							var lyrProp = {
-								layerId: playlistLyr.id,
-								objectIdField: playlistLyr.objectIdField,
-								supportsDefinitionExpression: true,
-								defaultExpression: (results.objectIdFieldName + "<=" + (features[features.length - 1].attributes[results.objectIdFieldName]))
-							};
-							_playlistLayers.push(lyrProp);
 
-							// Create Temporary layer object to get first 99 features from a feature layer
-							var layer = {
-								type: "Feature Layer",
-								graphics: features,
-								layerObject: playlistLyr
-							};
-							setRenderer(layer);
-						});
+			playlistLayers.push(layer);
+			layerIds.push(layer.id);
+			var lyrProp = {
+				layerId: layer.id,
+				objectIdField: layer.objectIdField,
+				supportsDefinitionExpression: false,
+				defaultExpression: false
+			};
+			_playlistLayers.push(lyrProp);
+			setRenderer(layer);
+			addLayerEvents(layer);
 
-					});
-					layerIds.push(playlistLyr.id);
-				}
-			});
-			buildLegend(layerIds);			
-			initTime(playlistLayers);
+			buildLegend(layerIds);
 		}
 
 		function checkExcluded(name)
