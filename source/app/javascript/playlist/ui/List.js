@@ -16,8 +16,9 @@ define(["dojo/_base/array",
 	* Dependencies: Jquery 1.10.2
 	*/
 
-	var titleField = 'photographer';
+	var titleField = "photographer";
 	var photoField = "photoUrl";
+	var photoIdField = "id";
 
 	return function List(selector,searchSelector,filterSelector,dataFields,onLoad,onGetTitleField,onSelect,onHighlight,onRemoveHightlight,onSearch)
 	{
@@ -48,7 +49,7 @@ define(["dojo/_base/array",
 
 		this.select = function(item)
 		{
-			var element = $(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "]");
+			var element = $(".playlist-item[layer-id=" + item.layerId + "][object-id=" + item.objectId + "][photo-id=" + item.photoId + "]");
 			if (element.length > 0){
 				var itemTop = element.position().top;
 				$(".playlist-element").removeClass("selected");
@@ -129,7 +130,6 @@ define(["dojo/_base/array",
 
 		function buildList(lyrItems)
 		{
-			console.log(lyrItems);
 			for (var layerId in lyrItems){
 				var items = lyrItems[layerId];
 				var attr = getAttributeNames(items[0].graphic.attributes);
@@ -142,46 +142,25 @@ define(["dojo/_base/array",
 					array.forEach(Data.photos,function(photoObj){
 						if(photoObj.wilderness === item.graphic.attributes.wilderness){
 							var objId = item.graphic.attributes[item.objectIdField];
-							var itemStr = "";
-							if (true || attr.thumbnail){
-								itemStr = '\
-									<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-										<table>\
-											<tbody>\
-												<tr>\
-													<td class="marker-cell">\
-														<img src=' + item.iconURL + ' alt="" class="marker" />\
-													</td>\
-													<td class="thumbnail-cell">\
-														<div class="thumbnail-container" style="background-image: url(' + photoObj[photoField] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
-													</td>\
-													<td class="title-cell">\
-														<h6 class="item-title">' + photoObj[titleField] + '</h6>\
-													</td>\
-												</tr>\
-											</tbody>\
-										</table>\
-									</div>\
-								';
-							}
-							else{
-								itemStr = '\
-									<div class="playlist-item no-image" layer-id="' + layerId + '" object-id="' + objId + '" data-filter="' + item.filter + '">\
-										<table>\
-											<tbody>\
-												<tr>\
-													<td class="marker-cell">\
-														<img src=' + item.iconURL + ' alt="" class="marker" />\
-													</td>\
-													<td class="title-cell">\
-														<h6 class="item-title">' + photoObj[titleField] + '</h6>\
-													</td>\
-												</tr>\
-											</tbody>\
-										</table>\
-									</div>\
-								';
-							}
+							var itemStr = '\
+								<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" photo-id="' + photoObj[photoIdField] + '" data-filter="' + item.filter + '">\
+									<table>\
+										<tbody>\
+											<tr>\
+												<td class="marker-cell">\
+													<img src=' + item.iconURL + ' alt="" class="marker" />\
+												</td>\
+												<td class="thumbnail-cell">\
+													<div class="thumbnail-container" style="background-image: url(' + photoObj[photoField] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
+												</td>\
+												<td class="title-cell">\
+													<h6 class="item-title">' + photoObj[titleField] + '</h6>\
+												</td>\
+											</tr>\
+										</tbody>\
+									</table>\
+								</div>\
+							';
 							if ($.inArray(item.filter,_filterSet) < 0){
 								addNewFilter(item.filter);
 							}
@@ -228,7 +207,8 @@ define(["dojo/_base/array",
 					$(this).addClass("selected");
 					var item = {
 						layerId: $(this).attr("layer-id"),
-						objectId: $(this).attr("object-id")
+						objectId: $(this).attr("object-id"),
+						photoId: $(this).attr("photo-id")
 					};
 					onSelect(item,false);
 				}

@@ -63,7 +63,8 @@ define(["storymaps/playlist/config/MapConfig",
 		_titleFields = {},
 		_lastHightlighedGraphic,
 		_tempLayerId,
-		_tempObjectId;
+		_tempObjectId,
+		_photoSelection;
 
 		this.init = function(){
 
@@ -73,7 +74,9 @@ define(["storymaps/playlist/config/MapConfig",
 				popup = new PopupMobile(null,domConstruct.create("div"));
 			}
 			else{
-				popup = new Popup(null,domConstruct.create("div"));
+				popup = new Popup(null,domConstruct.create("div"),{
+					highlight: false
+				});
 			}
 
 			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
@@ -83,7 +86,7 @@ define(["storymaps/playlist/config/MapConfig",
 				sliderPosition: "top-right",
 				infoWindow: popup,
 				center: [-95, 39],
-				zoom: 5
+				zoom: 4
 			});
 
 			on.once(_map,"load",function(){
@@ -115,6 +118,10 @@ define(["storymaps/playlist/config/MapConfig",
 				}
 			});
 
+			on(wildernesses,"click",function(event){
+				openPopup(event.graphic);
+			});
+
 			on(popup,"hide",function(){
 				_highlightEnabled = true;
 				onRemoveSelection();
@@ -132,7 +139,8 @@ define(["storymaps/playlist/config/MapConfig",
 					onRemoveSelection();
 					var item = {
 						layerId: (graphic.getLayer() ? graphic.getLayer().id : _tempLayerId),
-						objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId)
+						objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId),
+						photoId: _photoSelection
 					};
 
 					onSelect(item);
@@ -183,12 +191,12 @@ define(["storymaps/playlist/config/MapConfig",
 				if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
 					var mapPos = domGeom.position(dom.byId(mapSelector));
 					var point = new ScreenPoint(domGeom.position(graphic.getNode()).x - mapPos.x, domGeom.position(graphic.getNode()).y - mapPos.y + _mapConfig.getMarkerPosition().height);
-					openPopup(graphic,_map.toMap(point));
+					openPopup(graphic,item.photoId,_map.toMap(point));
 				}
 				else{
 					on.once(_map,"extent-change",function(){
 						_map.infoWindow.hide();
-						openPopup(graphic);
+						openPopup(graphic,item.photoId);
 					});
 					panMapToGraphic(graphic.geometry);
 				}
@@ -568,16 +576,45 @@ define(["storymaps/playlist/config/MapConfig",
 			}
 		}
 
-		function openPopup(graphic,newLocation)
+		function openPopup(graphic,photoId,newLocation)
 		{
 			var location = graphic.geometry;
+			var content = getPopupContent(graphic);
 
 			if (newLocation){
 				location = newLocation;
 			}
 
+			if(photoId){
+				_photoSelection = photoId;
+			}
+			else{
+				_photoSelection = content.photoId;
+			}
+
 			_map.infoWindow.setFeatures([graphic]);
 			_map.infoWindow.show(location);
+			_map.infoWindow.setContent(content.html);
+		}
+
+		function getPopupContent(graphic)
+		{
+			var htmlString = '<h3>Photographers</h3><hr>';
+			var photoId;
+
+			array.forEach(Data.photos,function(photo){
+				if (photo.wilderness === graphic.attributes.wilderness){
+					if (!photoId){
+						photoId = photo.id;
+					}
+					htmlString = htmlString + '<p>' + photo.photographer + '</p>';
+				}
+			});
+
+			return {
+				'photoId': photoId,
+				'html': htmlString
+			}
 		}
 
 		function showMapTip(graphic,titleAttr)

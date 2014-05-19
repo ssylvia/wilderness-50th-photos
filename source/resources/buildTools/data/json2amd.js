@@ -2,6 +2,10 @@ var data = {
 	'photos': require("./tempData/photos.json")
 }
 
+for(var i = 0; i < data.photos.length; i++){
+	data.photos[i].id = i;
+}
+
 var outputStr = "define([],\
 	function(){\
 		var appData = " + JSON.stringify(data) + ";\
