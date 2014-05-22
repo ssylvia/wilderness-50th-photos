@@ -39,9 +39,7 @@
 	<!-- load Avenir from fonts.com  this is will only work on localhost, arcgis.com or esri.com domains -->
 	<link href="//fast.fonts.com/cssapi/4a60d16b-c9e4-404d-89d3-809adb97d65c.css" media="screen" rel="stylesheet" type="text/css" />
 	
-	<link href="//js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css" media="screen" rel="stylesheet" type="text/css" />
-	
-	<link href="//js.arcgis.com/3.8/js/esri/css/esri.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="//jsdev.arcgis.com/3.10/js/esri/css/esri.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="app/stylesheets/arcgis.min.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="app/stylesheets/app.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -55,7 +53,7 @@
 	<![endif]-->
 
 </head>
-<body class="tundra">
+<body class="">
 	
 	<div id="app-load-screen">
 		<div id="loader"></div>
@@ -91,8 +89,8 @@
 		<div id="side-pane-content" class="region-center">
 			<div id="info-pane" class="region-top">
 				<div id="mobile-info">
-					<h3 id="title-info" class="title-text"></h3>
-					<h4 id="subtitle-info" class="subtitle-text"></h4>
+					<h3 id="title-info" class="title-text">Wilderness</h3>
+					<h4 id="subtitle-info" class="subtitle-text">Test</h4>
 					<hr>
 				</div>
 				<div id="description"></div>
@@ -145,8 +143,8 @@
 
 		<div id="header-text" class="region-center">
 			<h1 class="back-button icon-left-arrow"><span>Explore Map</span></h1>
-			<h1 id="title" class="title-text"></h1>
-			<h2 id="subtitle" class="subtitle-text"></h2>
+			<h1 id="title" class="title-text">Wilderness</h1>
+			<h2 id="subtitle" class="subtitle-text">Test</h2>
 		</div><!--/header-text-->
 
 		<div id="branding-wrapper" class="region-right">
@@ -209,16 +207,16 @@
 			]
 		};
 	</script>
-	<script src="//js.arcgis.com/3.8/" type="text/javascript"></script>
+	<script src="//jsdev.arcgis.com/3.10/" type="text/javascript"></script>
 	<script type="text/javascript">
 
 		var configOptions = {
 			// The web map id
 			webmap: "225d8fdebb1440db80165645dcd16b91",
 			// Enter a title, if no title is specified, the webmap's title is used.
-			title: "",
+			title: "Wilderness",
 			// Enter a subtitle, if not specified the ArcGIS.com web map's summary is used
-			subtitle: "",
+			subtitle: "Test",
 			// Enter a description, if not specified the ArcGIS.com web map's description is used
 			description: "",
 			// Choose data fields

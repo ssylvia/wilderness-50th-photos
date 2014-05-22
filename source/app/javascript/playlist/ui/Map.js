@@ -6,6 +6,7 @@ define(["storymaps/playlist/config/MapConfig",
 	"esri/dijit/Legend",
 	"esri/dijit/Popup",
 	"esri/dijit/PopupMobile",
+	"esri/InfoTemplate",
 	"dojo/dom",
 	"dojo/dom-class",
 	"dojo/dom-style",
@@ -19,7 +20,6 @@ define(["storymaps/playlist/config/MapConfig",
 	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer",
 	"esri/tasks/query",
-	"esri/dijit/HistogramTimeSlider",
 	"dojo/_base/sniff"], 
 	function(MapConfig,
 		Data,
@@ -29,6 +29,7 @@ define(["storymaps/playlist/config/MapConfig",
 		Legend,
 		Popup,
 		PopupMobile,
+		InfoTemplate,
 		dom,
 		domClass,
 		domStyle,
@@ -41,8 +42,7 @@ define(["storymaps/playlist/config/MapConfig",
 		domConstruct,
 		PictureMarkerSymbol,
 		UniqueValueRenderer,
-		Query,
-		HistogramTimeSlider){
+		Query){
 	/**
 	* Playlist Map
 	* @class Playlist Map
@@ -74,9 +74,9 @@ define(["storymaps/playlist/config/MapConfig",
 				popup = new PopupMobile(null,domConstruct.create("div"));
 			}
 			else{
-				popup = new Popup(null,domConstruct.create("div"),{
+				popup = new Popup({
 					highlight: false
-				});
+				},domConstruct.create("div"));
 			}
 
 			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
@@ -86,7 +86,7 @@ define(["storymaps/playlist/config/MapConfig",
 				sliderPosition: "top-right",
 				infoWindow: popup,
 				center: [-95, 39],
-				zoom: 4
+				zoom: 5
 			});
 
 			on.once(_map,"load",function(){
@@ -107,7 +107,10 @@ define(["storymaps/playlist/config/MapConfig",
 			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
 			_map.addLayer(wildernesses);
 
-			on.once(_map,'layer-add',function(){
+			var infoTemplate = new InfoTemplate("","");
+			wildernesses.setInfoTemplate(infoTemplate);
+
+			on.once(wildernesses,'update-end',function(){
 				getPointLayers(wildernesses);
 			});
 
@@ -118,8 +121,11 @@ define(["storymaps/playlist/config/MapConfig",
 				}
 			});
 
-			on(wildernesses,"click",function(event){
-				openPopup(event.graphic);
+			on(popup,'set-features',function(){
+				var graphic = popup.getSelectedFeature();
+				if(popup._title.innerHTML !== "&nbsp;"){
+					openPopup(graphic);
+				}
 			});
 
 			on(popup,"hide",function(){
@@ -309,17 +315,6 @@ define(["storymaps/playlist/config/MapConfig",
 			});
 		};
 
-		function mapLoadEvent()
-		{
-			var homeExtent = _map.extent;
-			array.forEach(query(".esriSimpleSliderIncrementButton"),function(node){
-				var homeButton = domConstruct.place('<div class="esriSimpleSliderIncrementButton homeExtentButton icon-home"></div>', node ,"after");
-				on(homeButton,"click",function(){
-					_map.setExtent(homeExtent);
-				});
-			});
-		}
-
 		function getSidePanelWidth()
 		{
 			return domGeom.position(query(sidePaneSelector)[0]).w;
@@ -353,24 +348,6 @@ define(["storymaps/playlist/config/MapConfig",
 			addLayerEvents(layer);
 
 			buildLegend(layerIds);
-		}
-
-		function checkExcluded(name)
-		{
-			var excluded = false;
-
-			array.forEach(excludedLayers,function(lyr){
-				if (name.toLowerCase().search(lyr.toLowerCase()) >= 0){
-					excluded = true;
-				}
-			});
-
-			if (excluded){
-				return false;
-			}
-			else{
-				return true;
-			}
 		}
 
 		function setRenderer(lyr)
@@ -595,11 +572,12 @@ define(["storymaps/playlist/config/MapConfig",
 			_map.infoWindow.setFeatures([graphic]);
 			_map.infoWindow.show(location);
 			_map.infoWindow.setContent(content.html);
+			_map.infoWindow.setTitle("");
 		}
 
 		function getPopupContent(graphic)
 		{
-			var htmlString = '<h3>Photographers</h3><hr>';
+			var htmlString = '<h1>Photographers</h1><hr>';
 			var photoId;
 
 			array.forEach(Data.photos,function(photo){
@@ -614,7 +592,7 @@ define(["storymaps/playlist/config/MapConfig",
 			return {
 				'photoId': photoId,
 				'html': htmlString
-			}
+			};
 		}
 
 		function showMapTip(graphic,titleAttr)
@@ -656,15 +634,6 @@ define(["storymaps/playlist/config/MapConfig",
 				display: "none"
 			});
 
-		}
-
-		function initTime(layers)
-		{
-			if (_mapResponse.itemInfo.itemData.widgets && _mapResponse.itemInfo.itemData.widgets.timeSlider){
-				console.log(_mapResponse.itemInfo.itemData.widgets.timeSlider);
-				console.log(layers);
-				console.log(HistogramTimeSlider);
-			}
 		}
 	};
 

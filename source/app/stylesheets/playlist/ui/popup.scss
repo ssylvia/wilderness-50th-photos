@@ -1,0 +1,24 @@
+.esriPopup .pointer, .esriPopup .outerPointer {
+	background-color: black;
+}
+
+.esriPopup .esriPopupWrapper{
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	-o-box-shadow: none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-o-border-radius: 3px;
+}
+
+.esriPopup .titlePane, .esriPopup .actionsPane{
+	display: none;
+}
+
+.esriPopup .contentPane{
+	background-color: black;
+	color: white;
+	padding: 15px;
+}

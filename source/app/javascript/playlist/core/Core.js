@@ -78,7 +78,7 @@ define(["dojo/has",
 			_map.init();
 		}
 
-		function onMapLoad(item)
+		function onMapLoad()
 		{
 			if (!_readyState.map){
 				updateText();
