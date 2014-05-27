@@ -166,7 +166,8 @@ html, body{
 	color: $white;
 	font: {
 		size: 1.3em;
-		weight: bold;
+		weight: normal;
+		family: "adobe-caslon-pro",serif;
 	}
 	text-overflow: ellipsis;
 	overflow: hidden;

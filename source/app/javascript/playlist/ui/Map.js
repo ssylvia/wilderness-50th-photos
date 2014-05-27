@@ -1,5 +1,6 @@
 define(["storymaps/playlist/config/MapConfig",
 	"storymaps/playlist/core/Data",
+	"storymaps/playlist/ui/PopupGallery",
 	"esri/layers/CSVLayer",
 	"esri/map",
 	"esri/arcgis/utils",
@@ -23,6 +24,7 @@ define(["storymaps/playlist/config/MapConfig",
 	"dojo/_base/sniff"], 
 	function(MapConfig,
 		Data,
+		PopupGallery,
 		CSVLayer,
 		Map,
 		arcgisUtils,
@@ -64,7 +66,8 @@ define(["storymaps/playlist/config/MapConfig",
 		_lastHightlighedGraphic,
 		_tempLayerId,
 		_tempObjectId,
-		_photoSelection;
+		_photoSelection,
+		_popupGallery;
 
 		this.init = function(){
 
@@ -85,8 +88,8 @@ define(["storymaps/playlist/config/MapConfig",
 				basemap: 'national-geographic',
 				sliderPosition: "top-right",
 				infoWindow: popup,
-				center: [-95, 39],
-				zoom: 5
+				center: [-120, 52],
+				zoom: 4
 			});
 
 			on.once(_map,"load",function(){
@@ -102,29 +105,25 @@ define(["storymaps/playlist/config/MapConfig",
 						});
 					});
 				});
+
+				_popupGallery = new PopupGallery(_map,onSelect,onRemoveSelection);
 			});
 
 			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
 			_map.addLayer(wildernesses);
 
-			var infoTemplate = new InfoTemplate("","");
-			wildernesses.setInfoTemplate(infoTemplate);
-
 			on.once(wildernesses,'update-end',function(){
 				getPointLayers(wildernesses);
+				var infoTemplate = new InfoTemplate("",function(){
+					return _popupGallery.setContent(_photoSelection);
+				});
+				wildernesses.setInfoTemplate(infoTemplate);
 			});
 
 			on.once(_map,"update-end",function(){
 				if(onLoad && !_mapReady){
 					_mapReady = true;
 					onLoad();
-				}
-			});
-
-			on(popup,'set-features',function(){
-				var graphic = popup.getSelectedFeature();
-				if(popup._title.innerHTML !== "&nbsp;"){
-					openPopup(graphic);
 				}
 			});
 
@@ -139,18 +138,9 @@ define(["storymaps/playlist/config/MapConfig",
 			});
 
 			on(popup,"selection-change",function(){
-				var graphic = popup.getSelectedFeature();
 
-				if (graphic){						
-					onRemoveSelection();
-					var item = {
-						layerId: (graphic.getLayer() ? graphic.getLayer().id : _tempLayerId),
-						objectId: (graphic.getLayer() ? graphic.attributes[graphic.getLayer().objectIdField] : _tempObjectId),
-						photoId: _photoSelection
-					};
+				_popupGallery.initGallery();
 
-					onSelect(item);
-				}
 			});
 		};
 
@@ -556,43 +546,20 @@ define(["storymaps/playlist/config/MapConfig",
 		function openPopup(graphic,photoId,newLocation)
 		{
 			var location = graphic.geometry;
-			var content = getPopupContent(graphic);
 
 			if (newLocation){
 				location = newLocation;
 			}
 
-			if(photoId){
+			if (photoId){
 				_photoSelection = photoId;
 			}
 			else{
-				_photoSelection = content.photoId;
+				_photoSelection = null;
 			}
-
-			_map.infoWindow.setFeatures([graphic]);
+			
 			_map.infoWindow.show(location);
-			_map.infoWindow.setContent(content.html);
-			_map.infoWindow.setTitle("");
-		}
-
-		function getPopupContent(graphic)
-		{
-			var htmlString = '<h1>Photographers</h1><hr>';
-			var photoId;
-
-			array.forEach(Data.photos,function(photo){
-				if (photo.wilderness === graphic.attributes.wilderness){
-					if (!photoId){
-						photoId = photo.id;
-					}
-					htmlString = htmlString + '<p>' + photo.photographer + '</p>';
-				}
-			});
-
-			return {
-				'photoId': photoId,
-				'html': htmlString
-			};
+			_map.infoWindow.setFeatures([graphic]);
 		}
 
 		function showMapTip(graphic,titleAttr)

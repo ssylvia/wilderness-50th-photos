@@ -36,8 +36,8 @@
 	<link type="image/ico" rel="shortcut icon" href="<%= data.config.metaShortcutURL ? data.config.metaShortcutURL : "//resources.esri.com/favicon.ico" %>">
 	<link type="image/ico" rel="icon" href="<%= data.config.metaFaviconURL ? data.config.metaFaviconURL : "//resources.esri.com/favicon.ico" %>">
 
-	<!-- load Avenir from fonts.com  this is will only work on localhost, arcgis.com or esri.com domains -->
-	<%= stylesheet_link_tag "//fast.fonts.com/cssapi/4a60d16b-c9e4-404d-89d3-809adb97d65c.css" %>
+	<script type="text/javascript" src="//use.typekit.net/tao2fhp.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<% if data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme %>
 	<%= stylesheet_link_tag "//js" + (data.advancedSettings.useDevAPI ? "dev" : "") + ".arcgis.com/" + data.advancedSettings.apiVersion + "/js/dojo/dijit/themes/" + data.advancedSettings.dijitsTheme + "/" + data.advancedSettings.dijitsTheme + ".css" %>
 	<% end %>
