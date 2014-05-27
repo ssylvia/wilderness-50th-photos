@@ -1,34 +1,38 @@
 define(["dojo/_base/array",
 	"storymaps/playlist/core/Data",
+	"storymaps/playlist/ui/ModalGallery",
 	'lib/unslider.js'], 
 	function(array,
-		Data){
+		Data,
+		ModalGallery){
 
 	return function PopupGallery(map,onSelect,onRemoveSelection)
 	{
 		var _popup = map.infoWindow,
 			_currentGraphic,
 			_photoSelection,
-			_slider;
+			_slider,
+			_modalGallery = new ModalGallery();
 
-		$('.esriPopup .contentPane').click(function(){
+		$('.esriPopup .contentPane, #modal-background').click(function(){
 			$('body').toggleClass('modal-gallery');
 		});
 		
 		this.setContent = function(photoSelection){
 
 			var graphic = _popup.getSelectedFeature();
+			var features = [];
 			_currentGraphic = graphic;
 
 			var sliderContent = "";
 			var photoId = photoSelection;
 
 			array.forEach(Data.photos,function(photo){
-				console.log(photo);
 				if (photo.wilderness === graphic.attributes.wilderness){
 					if (photoId === undefined){
 						photoId = photo.id;
 					}
+					features.push(photo);
 					sliderContent = sliderContent + '<li><img src="resources/images/contest-photos/' + photo.photo + '" alt="" /></li>';
 				}
 			});
@@ -45,6 +49,7 @@ define(["dojo/_base/array",
 			</div>';
 
 			selectPhoto();
+			_modalGallery.setFeatures(features);
 			
 			return sliderStr;
 
