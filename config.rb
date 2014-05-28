@@ -1,5 +1,7 @@
 # Middleman Config
 
+require "arcgis-framework"
+
 module GruntJS
     class << self
         def registered(app)

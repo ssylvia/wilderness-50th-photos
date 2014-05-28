@@ -85,7 +85,7 @@ define(["storymaps/playlist/config/MapConfig",
 			_mapTip = domConstruct.place('<div class="map-tip"></div>',dom.byId(mapSelector),"first");
 
 			_map = new Map(mapSelector,{
-				basemap: 'national-geographic',
+				basemap: 'topo',
 				sliderPosition: "top-right",
 				infoWindow: popup,
 				center: [-120, 52],

@@ -1,4 +1,6 @@
 // Commor Styles
+@import "arcgis";
+
 @import "base/base";
 @import "base/storymaps";
 
@@ -14,4 +16,8 @@
 
 h1,h2,h3,h4,h5,h6,a,p,li,div{
 	font-family: "open-sans",sans-serif;
+}
+
+.map{
+	min-width: 200px !important;
 }

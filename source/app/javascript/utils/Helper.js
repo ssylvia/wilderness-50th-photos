@@ -62,6 +62,11 @@ define(["dojo/_base/array",
 		});
 
 		$("#filter-content").css("max-height", $("#playlist").height() - 50);
+
+		$("#modal-gallery-pane").css({
+			"height": $("#map").height() * 0.9,
+			"top":  ($("#map").height() * 0.05) + $("#banner").height()
+		});
 	}
 
 	return {
