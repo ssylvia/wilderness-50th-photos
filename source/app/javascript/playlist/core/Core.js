@@ -201,7 +201,7 @@ define(["dojo/has",
 		{
 			var descriptionText = configOptions.description || description || "";
 			document.title = configOptions.title || title || "";
-			$(".title-text").html(configOptions.title || title || "");
+			// $(".title-text").html(configOptions.title || title || "");
 			$(".subtitle-text").html(configOptions.subtitle || subtitle || "");
 			$("#description").html(descriptionText);
 

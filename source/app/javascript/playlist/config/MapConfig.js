@@ -1,9 +1,11 @@
 define(["dojo/_base/array",
 	"esri/symbols/PictureMarkerSymbol",
-	"esri/renderers/UniqueValueRenderer"], 
+	"esri/renderers/UniqueValueRenderer",
+	"storymaps/playlist/core/Data",], 
 	function(array,
 		PictureMarkerSymbol,
-		UniqueValueRenderer){
+		UniqueValueRenderer,
+		Data){
 	/**
 	* Playlist List
 	* @class Playlist List
@@ -16,20 +18,20 @@ define(["dojo/_base/array",
 
 		var useDefaultRenderer = true;
 
-		var maxAllowablePoints = 99;
+		var maxAllowablePoints = 1000;
 
 		var markerPostionDefault = {
-			height: 28,
-			width: 22,
-			xOffset: 3,
-			yOffset: 8
+			height: 32,
+			width: 30,
+			xOffset: -15,
+			yOffset: 16
 		};
 
 		var markerPostionHighlight = {
-			height: 34,
-			width: 27,
-			xOffset: 3,
-			yOffset: 10
+			height: 38,
+			width: 35,
+			xOffset: -17,
+			yOffset: 19
 		};
 
 		var _tempRendererField;
@@ -54,17 +56,21 @@ define(["dojo/_base/array",
 
 				_tempRendererField = layer.objectIdField;
 				
-				var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/indexed/red/NumberIcon1.png", markerPostionDefault.width, markerPostionDefault.height).setOffset(markerPostionDefault.xOffset,markerPostionDefault.yOffset);
+				var defaultSymbol = new PictureMarkerSymbol("resources/images/markers/wilderness/IconPurple1.png", markerPostionDefault.width, markerPostionDefault.height).setOffset(markerPostionDefault.xOffset,markerPostionDefault.yOffset);
 				var renderer = new UniqueValueRenderer(defaultSymbol, _tempRendererField);
 
 				array.forEach(features,function(grp,i){
 					if (i < maxAllowablePoints){
 
-						if (!isNaN(grp.attributes[orderAttr]) && isFinite(grp.attributes[orderAttr]) && grp.attributes[orderAttr] % 1 === 0){
-							i = grp.attributes[orderAttr] - 1;
-						}
+						var category;
+
+						array.forEach(Data.photos,function(photo){
+							if (grp.attributes.wilderness == photo.wilderness){
+								category = photo.photoCategory;
+							}
+						});
 						
-						var symbol = getSymbolForDefaultRenderer(grp,colorAttr,i);
+						var symbol = getSymbol(category);
 						renderer.addValue(grp.attributes[_tempRendererField], symbol);
 					}
 				});
@@ -76,26 +82,23 @@ define(["dojo/_base/array",
 			}
 		};
 
-		function getSymbolForDefaultRenderer(graphic,colorAttr,index)
+		function getSymbol(category)
 		{
 			var iconURL;
 
-			if(graphic.attributes[colorAttr]){
-				if (graphic.attributes[colorAttr].toLowerCase() === "b" || graphic.attributes[colorAttr].toLowerCase() === "blue"){
-					iconURL = "resources/images/markers/indexed/blue/NumberIconb" + (index + 1) + ".png";
+			if(category){
+				if (category.toLowerCase() === 'wildlife'){
+					iconURL = "resources/images/markers/wilderness/IconOrange1.png";
 				}
-				else if (graphic.attributes[colorAttr].toLowerCase() === "g" || graphic.attributes[colorAttr].toLowerCase() === "green"){
-					iconURL = "resources/images/markers/indexed/green/NumberIcong" + (index + 1) + ".png";
-				}
-				else if (graphic.attributes[colorAttr].toLowerCase() === "p" || graphic.attributes[colorAttr].toLowerCase() === "purple"){
-					iconURL = "resources/images/markers/indexed/purple/IconPurple" + (index + 1) + ".png";
-				}
-				else{
-					iconURL = "resources/images/markers/indexed/red/NumberIcon" + (index + 1) + ".png";
-				}
-			}
-			else{
-				iconURL = "resources/images/markers/indexed/red/NumberIcon" + (index + 1) + ".png";
+				// else if (graphic.attributes[colorAttr].toLowerCase() === "g" || graphic.attributes[colorAttr].toLowerCase() === "green"){
+				// 	iconURL = "resources/images/markers/indexed/green/NumberIcong" + (index + 1) + ".png";
+				// }
+				// else if (graphic.attributes[colorAttr].toLowerCase() === "p" || graphic.attributes[colorAttr].toLowerCase() === "purple"){
+				// 	iconURL = "resources/images/markers/indexed/purple/IconPurple" + (index + 1) + ".png";
+				// }
+				// else{
+				// 	iconURL = "resources/images/markers/indexed/red/NumberIcon" + (index + 1) + ".png";
+				// }
 			}
 
 			var symbol = new PictureMarkerSymbol(iconURL, markerPostionDefault.width, markerPostionDefault.height).setOffset(markerPostionDefault.xOffset,markerPostionDefault.yOffset);

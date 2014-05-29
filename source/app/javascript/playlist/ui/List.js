@@ -16,7 +16,7 @@ define(["dojo/_base/array",
 	* Dependencies: Jquery 1.10.2
 	*/
 
-	var titleField = "photographer";
+	var titleField = "title";
 	var photoField = "photo";
 	var photoIdField = "id";
 
@@ -151,7 +151,7 @@ define(["dojo/_base/array",
 													<img src=' + item.iconURL + ' alt="" class="marker" />\
 												</td>\
 												<td class="thumbnail-cell">\
-													<div class="thumbnail-container" style="background-image: url(resources/images/contest-photos/' + photoObj[photoField] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale");"></div>\
+													<div class="thumbnail-container" style="background-image: url(resources/images/contest-photos/' + photoObj[photoField] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale"); background-position: ' + photoObj.thumbnailPosition + '"></div>\
 												</td>\
 												<td class="title-cell">\
 													<h6 class="item-title">' + photoObj[titleField] + '</h6>\

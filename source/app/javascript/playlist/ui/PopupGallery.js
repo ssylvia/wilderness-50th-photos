@@ -14,7 +14,7 @@ define(["dojo/_base/array",
 			_slider,
 			_modalGallery = new ModalGallery();
 
-		$('.esriPopup .contentPane, #modal-background').click(function(){
+		$('.esriPopup .contentPane, #modal-background, #gallery-close').click(function(){
 			$('body').toggleClass('modal-gallery');
 		});
 		

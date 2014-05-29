@@ -72,9 +72,13 @@
 
 		<div id="header-text" class="region-center">
 			<h1 class="back-button icon-left-arrow"><span>Explore Map</span></h1>
-			<h1 id="title" class="title-text"><%= data.config.title ? data.config.title : "Add title here" %></h1>
+			<h1 id="title" class="title-text">W<span class="smaller">ilderness Forever</span></h1>
 			<h2 id="subtitle" class="subtitle-text"><%= data.config.subtitle ? data.config.subtitle : "Add subtitle here" %></h2>
 		</div><!--/header-text-->
+
+		<div id="secondary-header" class="region-right">
+			<h1>Explore the photos</h1>
+		</div>
 
 		<div id="branding-wrapper" class="region-right">
 			<div id="social">
@@ -113,9 +117,12 @@
 
 	<div id="modal-background"></div>
 	<div id="modal-gallery-pane">
+		<i id="gallery-close" class="icon-close"></i>
 		<div id="gallery-content" class="region-center">
+			<div id="gallery-spacer" class="region-top"></div>
 			<div id="modal-image-slider" class="region-center">
-				
+				<ul>
+				</ul>
 			</div>
 			<div id="bottom-content" class="region-bottom">
 				<div id="gallery-divider" class="region-top">
@@ -125,9 +132,16 @@
 
 					<div id="left-details" class="region-left">
 						<div id="modal-gallery-map" class="map"></div>
+						<div id="modal-text-display">
+							<div id="winner-category"></div>
+							<div id="wilderness-name"></div>
+							<div id="photographer-name"></div>
+							<div id="hometown"></div>
+						</div>
 					</div>
 					<div id="modal-description-pane" class="region-center">
 						<div id="photo-description"></div>
+						<div id="photo-settings"></div>
 					</div>
 					
 				</div>

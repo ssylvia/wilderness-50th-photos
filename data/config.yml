@@ -35,11 +35,11 @@ metaShortcutURL: //resources.esri.com/favicon.ico
 # BANNER CONFIGURATION
 
 # App title, leave black to use webmap title
-title: "WILDERNESS FOREVER"
+title: "Wilderness Forever"
 # App subtitle, leave black to use webmap subtitle
 subtitle: "Test"
 # App description, leave black to use webmap description
-description: ""
+description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quos, ullam, voluptas consequatur corrupti alias sequi porro tempora soluta dolore optio aliquam voluptatibus fuga dolor maiores nisi voluptates dolores est."
 
 
 # LEGEND AND DESCRIPTION
@@ -47,10 +47,10 @@ description: ""
 playlistLegendVisible: true
 
 # Playlist layer title
-playlistTitle: Playlist Layer
+playlistTitle: Photo Categories
 
 # Legend names for playlist markers
-playlistRedIcon: Red
+playlistRedIcon: Grand Prize
 playlistBlueIcon: Blue
 playlistGreenIcon: Green
 playlistPurpleIcon: Purple
