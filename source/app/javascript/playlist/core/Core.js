@@ -63,7 +63,7 @@ define(["dojo/has",
 				configOptions.webmap = urlObject.query.webmap;
 			}
 
-			_map = new Map(_mobile,configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection),
+			_map = new Map(_mobile,configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection,onFilterTogglesReady),
 			_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 			loadMap();
@@ -128,6 +128,13 @@ define(["dojo/has",
 		{
 			if(_list){
 				_list.removeSelection();
+			}
+		}
+
+		function onFilterTogglesReady()
+		{
+			if(_list){
+				_list.initFilter();
 			}
 		}
 

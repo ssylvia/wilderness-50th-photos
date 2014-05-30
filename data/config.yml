@@ -49,24 +49,6 @@ playlistLegendVisible: true
 # Playlist layer title
 playlistTitle: Photo Categories
 
-# Legend names for playlist markers
-playlistRedIcon: Grand Prize
-playlistBlueIcon: Blue
-playlistGreenIcon: Green
-playlistPurpleIcon: Purple
-
-# Legend visibility for playlist markers
-playlistRedIconVisible: true
-playlistBlueIconVisible: true
-playlistGreenIconVisible: true
-playlistPurpleIconVisible: true
-
-# Legend icon URL for playlist markers
-playlistRedIconURL: resources/images/markers/indexed/red/NumberIcon1.png
-playlistBlueIconURL: resources/images/markers/indexed/blue/NumberIconb1.png
-playlistGreenIconURL: resources/images/markers/indexed/green/NumberIcong1.png
-playlistPurpleIconURL: resources/images/markers/indexed/purple/IconPurple1.png
-
 # MAPS AND DATA CONFIGURATION
 
 # The web map id

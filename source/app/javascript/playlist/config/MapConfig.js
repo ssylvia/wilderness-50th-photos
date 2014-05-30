@@ -88,7 +88,7 @@ define(["dojo/_base/array",
 
 			if(category){
 				if (category.toLowerCase() === 'wildlife'){
-					iconURL = "resources/images/markers/wilderness/IconOrange1.png";
+					iconURL = "resources/images/markers/wilderness/IconTerra1.png";
 				}
 				// else if (graphic.attributes[colorAttr].toLowerCase() === "g" || graphic.attributes[colorAttr].toLowerCase() === "green"){
 				// 	iconURL = "resources/images/markers/indexed/green/NumberIcong" + (index + 1) + ".png";

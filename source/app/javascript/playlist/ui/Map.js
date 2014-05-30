@@ -52,7 +52,7 @@ define(["storymaps/playlist/config/MapConfig",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(isMobile,geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection)
+	return function PlaylistMap(isMobile,geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection,onFilterTogglesReady)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -440,13 +440,16 @@ define(["storymaps/playlist/config/MapConfig",
 
 				for (var obj in playlistLegendConfig.items){
 					if (playlistLegendConfig.items[obj].visible){
-						playlistStr = playlistStr + '<tr><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
+						playlistStr = playlistStr + '<tr class="filterRow" data-filter="' + playlistLegendConfig.items[obj].filter + '"><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
 					}
 				}
 
 				playlistStr = playlistStr + '</tbody></table>';
 
 				domConstruct.place(playlistStr,dom.byId(playlistLegendSelector),"first");
+
+				onFilterTogglesReady();
+
 			}
 			else{
 				domStyle.set(dom.byId(playlistLegendSelector),{

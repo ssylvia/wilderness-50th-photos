@@ -40,7 +40,7 @@
 	&.title-cell{
 		text-align: left;
 		padding-right: 15px;
-		color: white;
+		color: $lighter-gray;
 	}
 }
 
@@ -67,6 +67,12 @@
 	max-height: 42px;
 	margin-bottom: 0;
 	overflow: hidden;
+}
+
+.playlist-item .item-photographer{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .ui-helper-hidden-accessible{

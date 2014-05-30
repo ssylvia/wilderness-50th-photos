@@ -69,6 +69,11 @@ define(["dojo/_base/array",
 			$(".playlist-item").removeClass("selected");
 		};
 
+		this.initFilter = function()
+		{
+			addFilterEvents();
+		};
+
 		function addSearchEvents()
 		{
 			if (searchSelector){
@@ -143,7 +148,7 @@ define(["dojo/_base/array",
 						if(photoObj.wilderness === item.graphic.attributes.wilderness){
 							var objId = item.graphic.attributes[item.objectIdField];
 							var itemStr = '\
-								<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" photo-id="' + photoObj[photoIdField] + '" data-filter="' + item.filter + '">\
+								<div class="playlist-item" layer-id="' + layerId + '" object-id="' + objId + '" photo-id="' + photoObj[photoIdField] + '" data-filter="' + photoObj.photoCategory + '">\
 									<table>\
 										<tbody>\
 											<tr>\
@@ -155,6 +160,7 @@ define(["dojo/_base/array",
 												</td>\
 												<td class="title-cell">\
 													<h6 class="item-title">' + photoObj[titleField] + '</h6>\
+													<h6 class="item-photographer">' + photoObj.photographer + '</h6>\
 												</td>\
 											</tr>\
 										</tbody>\
@@ -241,6 +247,32 @@ define(["dojo/_base/array",
 				else{
 					$(".filter-select input").prop("checked", false);
 					$(".playlist-item").addClass("hidden-filter");
+				}
+				setItemResults();
+			});
+		}
+
+		function addFilterEvents()
+		{
+			$('.filterRow').click(function(){
+				$(this).toggleClass('items-off');
+				if ($(this).hasClass('items-off')){
+					$(".playlist-item[data-filter='" + $(this).attr('data-filter') + "']").addClass("hidden-filter");
+				}
+				else{
+					$(".playlist-item[data-filter='" + $(this).attr('data-filter') + "']").removeClass("hidden-filter");
+				}
+				setItemResults();
+			});
+
+			$('#filterAll').click(function(){
+				if ($('.filterRow.items-off').length < $('.filterRow').length){
+					$('.filterRow').addClass('items-off');
+					$(".playlist-item").addClass("hidden-filter");
+				}
+				else{
+					$('.filterRow').removeClass('items-off');
+					$(".playlist-item").removeClass("hidden-filter");
 				}
 				setItemResults();
 			});
