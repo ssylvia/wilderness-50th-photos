@@ -96,13 +96,13 @@ module.exports = function(grunt) {
 			options: {
 				explicitArray: false
 			},
-			wilderness: {
-				src: ['source/resources/buildTools/data/wildernesses.csv'],
-				dest: 'source/resources/buildTools/data/tempData/wildernesses.json'
-			},
 			photos: {
 				src: ['source/resources/buildTools/data/photos.csv'],
 				dest: 'source/resources/buildTools/data/tempData/photos.json'
+			},
+			wildernessText: {
+				src: ['source/resources/buildTools/data/wildernessDescription.csv'],
+				dest: 'source/resources/buildTools/data/tempData/wildernessDescriptions.json'
 			}
 		},
 
@@ -128,13 +128,13 @@ module.exports = function(grunt) {
 	// Default task(s).
 	grunt.registerTask('default', [
 
-		'jshint',
-		'clean:build',
-
 		//Update Data
 		'convert',
 		'exec',
 		'clean:tempData',
+
+		'jshint',
+		'clean:build',
 
 		// Concat external libraries
 		'concat:libIE',
@@ -151,7 +151,7 @@ module.exports = function(grunt) {
 		'clean:buildTools',
 
 		// Zip downloads
-		'compress'
+		// 'compress'
 
 	]);
 

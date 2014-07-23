@@ -45,6 +45,11 @@
 	<%= stylesheet_link_tag "app" %>
 
 	<!--[if lt IE 9]>
+		<style type="text/css">
+			.gradient {
+				filter: none;
+			}
+		</style>
 	<% if isProduction %>
 	<script src="app/javascript/oldIE-min.js" type="text/javascript"></script>
 	<% else %>
@@ -57,7 +62,7 @@
 	<![endif]-->
 
 </head>
-<body class="<%= data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme ? data.advancedSettings.dijitsTheme : "" %> show-legend show-description">
+<body class="<%= data.advancedSettings.includeDijitCSS && data.advancedSettings.dijitsTheme ? data.advancedSettings.dijitsTheme : "" %> show-legend show-description" <% if isProduction %>oncontextmenu="return false;"<% end %>>
 	
 	<div id="app-load-screen">
 		<div id="loader"></div>
@@ -158,13 +163,13 @@
 						"filter": "Grand Prize",
 						"iconURL": "resources/images/markers/wilderness/IconPurple1.png"
 					},
-					"wildlife": {
+					"inspiration": {
 						// Choose to display icon in the legend (true or false).
 						"visible": true,
 						// Choose the display name in the legend.
-						"name": "Wildlife",
-						"filter": "Wildlife",
-						"iconURL": "resources/images/markers/wilderness/IconTerra1.png"
+						"name": "Most Inspirational Moment",
+						"filter": "Most Inspirational Moment",
+						"iconURL": "resources/images/markers/wilderness/IconRed1.png"
 					},
 					"peopleInWilderness": {
 						// Choose to display icon in the legend (true or false).
@@ -174,14 +179,6 @@
 						"filter": "People in Wilderness",
 						"iconURL": "resources/images/markers/wilderness/IconBlue1.png"
 					},
-					"inspiration": {
-						// Choose to display icon in the legend (true or false).
-						"visible": true,
-						// Choose the display name in the legend.
-						"name": "Most Inspirational Moment",
-						"filter": "Most Inspirational Moment",
-						"iconURL": "resources/images/markers/wilderness/IconRed1.png"
-					},
 					"senic": {
 						// Choose to display icon in the legend (true or false).
 						"visible": true,
@@ -189,6 +186,14 @@
 						"name": "Scenic Landscape",
 						"filter": "Scenic Landscape",
 						"iconURL": "resources/images/markers/wilderness/IconOchre1.png"
+					},
+					"wildlife": {
+						// Choose to display icon in the legend (true or false).
+						"visible": true,
+						// Choose the display name in the legend.
+						"name": "Wildlife",
+						"filter": "Wildlife",
+						"iconURL": "resources/images/markers/wilderness/IconTerra1.png"
 					}
 				}
 			},

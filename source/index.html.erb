@@ -122,36 +122,54 @@
 	<div id="modal-background"></div>
 	<div id="modal-gallery-pane">
 		<i id="gallery-close" class="icon-close"></i>
-		<div id="gallery-content" class="region-center">
-			<div id="gallery-spacer" class="region-top"></div>
-			<div id="modal-image-slider" class="region-center">
-				<ul>
-				</ul>
+		<div id="gallery-top-buffer" class="region-top"></div>
+		<div id="gallery-vertical-position" class="region-center">
+			<div id="gallery-left-buffer" class="region-left">
+				<table>
+					<tr>
+						<td><i class="icon-left-arrow photo-nav"></i></td>
+					</tr>
+				</table>
 			</div>
-			<div id="bottom-content" class="region-bottom">
-				<div id="gallery-divider" class="region-top">
-					<hr>
-				</div>
-				<div id="modal-photo-detail" class="region-center">
+			<div id="gallery-content" class="region-center">
 
-					<div id="left-details" class="region-left">
-						<div id="modal-gallery-map" class="map"></div>
-						<div id="modal-text-display">
-							<div id="winner-category"></div>
-							<div id="wilderness-name"></div>
-							<div id="photographer-name"></div>
-							<div id="hometown"></div>
-						</div>
+				<div id="left-details" class="region-left">
+					<h6 id="winner-category"></h6>
+					<h3 id="photo-title"></h3>
+					<p id="photographer-name"></p>
+					<p id="hometown"></p>
+					<div id="photo-description"></div>
+					<p id="photo-settings"></p>
+					<h4 id="wilderness-name"></h4>
+					<div id="modal-gallery-map" class="map"></div>
+					<div id="wilderness-info"></div>
+					<div id="scroll-indicator">
+						<div class="scroll-gradient gradient"></div>
+						<div class="scroll-content">Scroll to Read More</div>
 					</div>
-					<div id="modal-description-pane" class="region-center">
-						<div id="photo-description"></div>
-						<div id="photo-settings"></div>
-					</div>
-					
 				</div>
-				
+
+				<div id="photo-content-pane" class="region-center">
+					<div id="photo-buffer" class="region-left">
+						<div id="left-photo-buffer" class="region-left"></div>
+						<div id="right-image-buffer" class="region-center"></div>
+					</div>
+					<div id="modal-image-pane" class="region-center">
+						<div id="modal-image" class="region-center"></div>
+					</div>
+				</div>
+
+			</div>
+			<div id="gallery-right-buffer" class="region-right">
+				<table>
+					<tr>
+						<td><i class="icon-right-arrow photo-nav"></i></td>
+					</tr>
+				</table>
 			</div>
 		</div>
+		<div id="gallery-bottom-buffer" class="region-bottom"></div>
+		
 	</div>
 
 </div><!--/content-->

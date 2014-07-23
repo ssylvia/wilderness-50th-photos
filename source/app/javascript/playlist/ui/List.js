@@ -153,10 +153,10 @@ define(["dojo/_base/array",
 										<tbody>\
 											<tr>\
 												<td class="marker-cell">\
-													<img src=' + item.iconURL + ' alt="" class="marker" />\
+													<img src="' + getIcon(photoObj.photoCategory) + '" alt="" class="marker" />\
 												</td>\
 												<td class="thumbnail-cell">\
-													<div class="thumbnail-container" style="background-image: url(resources/images/contest-photos/' + photoObj[photoField] + '); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + item.graphic.attributes[attr.thumbnail] + '", sizingMethod="scale"); background-position: ' + photoObj.thumbnailPosition + '"></div>\
+													<div class="thumbnail-container" style="background-image: url(resources/images/contest-photos/' + photoObj[photoField] + '); background-position: ' + photoObj.thumbnailPosition + '; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/contest-photos/' + photoObj[photoField] + '", sizingMethod="scale");"></div>\
 												</td>\
 												<td class="title-cell">\
 													<h6 class="item-title">' + photoObj[titleField] + '</h6>\
@@ -296,6 +296,31 @@ define(["dojo/_base/array",
 				}
 			}
 			onSearch(items);
+		}
+
+		function getIcon(category)
+		{
+			var iconURL;
+
+			if(category){
+				if (category.toLowerCase() === 'wildlife'){
+					iconURL = "resources/images/markers/wilderness/IconTerra1.png";
+				}
+				else if (category.toLowerCase() === 'people in wilderness'){
+					iconURL = "resources/images/markers/wilderness/IconBlue1.png";
+				}
+				else if (category.toLowerCase() === 'most inspirational moment'){
+					iconURL = "resources/images/markers/wilderness/IconRed1.png";
+				}
+				else if (category.toLowerCase() === 'scenic landscape'){
+					iconURL = "resources/images/markers/wilderness/IconOchre1.png";
+				}
+				else{
+					iconURL = "resources/images/markers/wilderness/IconPurple1.png";
+				}
+			}
+
+			return iconURL;
 		}
 
 		function getAttributeNames(obj)

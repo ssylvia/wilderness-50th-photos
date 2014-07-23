@@ -10,7 +10,7 @@
 	background-color: black;
 	color: white;
 	padding: 15px;
-	max-height: 500px;
+	max-height: 600px;
 	overflow: visible;
 	cursor: pointer;
 }
@@ -34,12 +34,4 @@
 .esriPopup .expand-button p{
 	text-align: center;
 	margin-top: 24px;
-}
-
-// Photo app specific
-.esriPopup h1{
-	max-width: 205px;
-	font-size: 18px;
-	color: #dadada;
-	margin-bottom: 10px;
 }

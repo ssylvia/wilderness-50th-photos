@@ -1,7 +1,8 @@
 define(["dojo/_base/array",
 	"lib/spin.min.js",
 	"lib/jquery/jquery-1.10.2.min",
-	"storymaps/utils/SocialSharing"], 
+	"storymaps/utils/SocialSharing",
+	"storymaps/utils/IdleTimer"], 
 	function(array){
 	/**
 	* Helper

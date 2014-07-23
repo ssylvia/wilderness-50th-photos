@@ -1,0 +1,33 @@
+// Photo app specific
+.esriPopup{
+
+	h1{
+		max-width: 205px;
+		font-size: 18px;
+		color: #dadada;
+		margin-bottom: 10px;
+	}
+
+	li{
+		float: left;
+	}
+
+	.slider{
+		position: relative;
+	}
+
+	.popup-nav-wrapper{
+		padding: 6px 4px 6px 2px;
+		background-color: black;
+		position: absolute;
+		top: 50%;
+		font-size: 28px;
+		margin-top: -18px;
+		z-index: 100;
+		opacity: 0.7;
+	}
+
+	.popup-next-wrapper{
+		right: 0;
+	}
+}

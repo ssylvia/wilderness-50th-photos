@@ -1,39 +1,109 @@
 define(["esri/map",
 	"dojo/_base/array",
+	"dojo/on",
+	"storymaps/playlist/core/Data",
+	"storymaps/utils/Helper",
+	"esri/layers/ArcGISTiledMapServiceLayer",
+	"esri/layers/FeatureLayer",
+	"esri/symbols/SimpleFillSymbol",
+	"esri/symbols/SimpleLineSymbol",
+	"esri/Color",
+	"esri/renderers/SimpleRenderer",
 	'lib/unslider.js'], 
 	function(Map,
-		array){
+		array,
+		on,
+		Data,
+		Helper,
+		ArcGISTiledMapServiceLayer,
+		FeatureLayer,
+		SimpleFillSymbol,
+		SimpleLineSymbol,
+		Color,
+		SimpleRenderer){
 
-	var _features,
-		_map;
-
-	return function ModalGallery()
-	{
+	var _features = Data.photos,
+		_map,
+		_mainMap,
+		_locations,
+		_wildernessHighlight,
+		_currentIndex = 0,
+		_zoomToWilderness,
+		_currentWID,
+		_slideToPhoto;
 
 		createMap();
+
+	$("#gallery-right-buffer").click(function(){
+		nextPhoto();
+	});
+
+	$("#gallery-left-buffer").click(function(){
+		prevPhoto();
+	});
+
+	$("#modal-gallery-map, #modal-background, #gallery-close").click(function(){
+		$('body').toggleClass('modal-gallery');
+	});
+
+	$("#left-details").scroll(function(){
+		$("#scroll-indicator").css({
+			"bottom": -$("#left-details").scrollTop()
+		});
+		if ($("#left-details").scrollTop() > 0){
+			$("#scroll-indicator").fadeOut();
+		}
+	});
+
+	return function ModalGallery(mainMap,locations,slideToPhoto)
+	{
+		_locations = locations;
+		_mainMap = mainMap;
+		_slideToPhoto = slideToPhoto;
 		
 		this.setFeatures = function(features){
 			_features = features;
-			buildImageSlider(0)
-			updateGallery(0);
+			highlightInMap(_features[0].wilderness);
+			if (features.length > 1){
+				$("#modal-gallery-pane").removeClass('single-photo');
+			}
+			else{
+				$("#modal-gallery-pane").addClass('single-photo');
+			}
+		};
+
+		this.setPhoto = function(photoId){
+			if (photoId && photoId != _features[_currentIndex].id){
+				var index;
+				array.forEach(_features,function(ftr,i){
+					if (ftr.id === photoId){
+						index = i;
+					}
+				});
+				updateGallery(index);
+			}
 		};
 	};
 
-	function buildImageSlider(index){
-		var photo = _features[index];
-		var photoUrl = 'resources/images/contest-photos/' + photo.photo;
-		var htmlString = '<li style="background-image: url(' + photoUrl + ')"></li>'
-		$("#modal-image-slider ul").html(htmlString);
-	}
-
 	function updateGallery(index){
 		var photo = _features[index];
+		_currentIndex = index;
 		$("#winner-category").html(photo.winnerType + " in " + photo.photoCategory + ": " + photo.photographerCategory);
+		$("#photo-title").html(photo.titleFull);
 		$("#wilderness-name").html(photo.wildernessFull);
-		$("#photographer-name").html("By " + photo.photographer);
+		$("#photographer-name").html("By " + photo.photographer + getAge(photo.age));
 		$("#hometown").html(photo.photographerLocation);
 		$("#photo-description").html(photo.text);
+		$("#modal-image").css({
+			'background-image': 'url(resources/images/contest-photos/' + photo.photo + ')'
+		});
 		$("#photo-settings").html(photo.photoInfo);
+		$("#wilderness-info").html(getWildernessInfo(photo.wilderness));
+		$("#left-details").scrollTop(0);
+		if ($("#left-details").prop('scrollHeight') > $("#left-details").height()){
+			$("#scroll-indicator").show();
+		}
+		_slideToPhoto(photo.id);
 	}
 
 	function createMap(){
@@ -41,17 +111,111 @@ define(["esri/map",
 			basemap: 'topo',
 			center: [-120, 52],
 			zoom: 4,
+			maxZoom: 11,
 			logo: false,
 			showAttribution: false,
 			slider: false
 		});
 
-		_map.on('load',function(){
+		var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://wilderness.storymaps.esri.com/arcgis/rest/services/Wilderness/app_one_cache/MapServer');
+		_map.addLayer(wildernessesTiles);
+
+		_wildernessHighlight = new FeatureLayer("http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/Wilderness1/FeatureServer/1",{
+			mode: FeatureLayer.MODE_SNAPSHOT
+		});
+		_map.addLayer(_wildernessHighlight);
+
+		on.once(_map,'load',function(){
+			Helper.resetRegionLayout();
 			_map.disableMapNavigation();
 			_map.resize();
 			_map.reposition();
+
+			var sym = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL,
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+				new Color([255,0,0]), 2)
+			);
+			var renderer = new SimpleRenderer(sym);
+			_wildernessHighlight.setRenderer(renderer);
 		});
 
+		on(_map,'update-end',function(){
+			if (_zoomToWilderness){
+				var extent;
+				if (_wildernessHighlight.graphics.length < 2){
+					extent = _wildernessHighlight.graphics[0]._extent;
+				}
+				else{
+					array.forEach(_wildernessHighlight.graphics,function(grp){
+						if (!extent){
+							extent = grp._extent;
+						}
+						else if (grp.attributes.WID === _currentWID){
+							extent = extent.union(grp._extent);
+						}
+					});
+				}
+				_zoomToWilderness = false;
+				_map.setExtent(extent,true);
+			}			
+		});
+
+	}
+
+	function getWildernessInfo(wilderness){
+		var text;
+		array.forEach(Data.wildernessDescriptions,function(area){
+			if (area.wilderness === wilderness){
+				text = area.description;
+			}
+		});
+		return text;
+	}
+
+	function getAge(age){
+		if (age !== 'null'){
+			return ', ' + age;
+		}
+		else{
+			return '';
+		}
+	}
+
+	function highlightInMap(wilderness){
+		var newWID = false;
+		array.forEach(_locations,function(loc){
+			if (loc.attributes.wilderness === wilderness && _currentIndex != loc.attributes.WID){
+				_currentWID = loc.attributes.WID;
+				newWID = true;
+			}
+		});
+
+		if (newWID){
+			_zoomToWilderness = true;
+			_wildernessHighlight.setDefinitionExpression("WID = " + _currentWID);
+		}
+	}
+
+	function nextPhoto(){
+		if (!_zoomToWilderness){
+			if (_currentIndex === _features.length -1){
+				updateGallery(0);
+			}
+			else{
+				updateGallery(_currentIndex + 1);
+			}
+		}
+	}
+
+	function prevPhoto(){
+		if (!_zoomToWilderness){
+			if (_currentIndex === 0){
+				updateGallery(_features.length - 1);
+			}
+			else{
+				updateGallery(_currentIndex - 1);
+			}
+		}
 	}
 
 });

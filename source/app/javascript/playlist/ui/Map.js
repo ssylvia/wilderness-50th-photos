@@ -8,6 +8,7 @@ define(["storymaps/playlist/config/MapConfig",
 	"esri/dijit/Popup",
 	"esri/dijit/PopupMobile",
 	"esri/InfoTemplate",
+	"esri/layers/ArcGISTiledMapServiceLayer",
 	"dojo/dom",
 	"dojo/dom-class",
 	"dojo/dom-style",
@@ -32,6 +33,7 @@ define(["storymaps/playlist/config/MapConfig",
 		Popup,
 		PopupMobile,
 		InfoTemplate,
+		ArcGISTiledMapServiceLayer,
 		dom,
 		domClass,
 		domStyle,
@@ -89,11 +91,13 @@ define(["storymaps/playlist/config/MapConfig",
 				sliderPosition: "top-right",
 				infoWindow: popup,
 				center: [-120, 52],
-				zoom: 4
+				zoom: 4,
+				maxZoom: 11
 			});
 
 			on.once(_map,"load",function(){
 				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
+				_map.disableKeyboardNavigation();
 
 				on.once(_map,"extent-change",function(){
 					// ADD HOME BUTTON TO ZOOM SLIDER
@@ -105,19 +109,22 @@ define(["storymaps/playlist/config/MapConfig",
 						});
 					});
 				});
-
-				_popupGallery = new PopupGallery(_map,onSelect,onRemoveSelection);
 			});
 
 			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
 			_map.addLayer(wildernesses);
 
+			var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://wilderness.storymaps.esri.com/arcgis/rest/services/Wilderness/app_one_cache/MapServer');
+			_map.addLayer(wildernessesTiles);
+
 			on.once(wildernesses,'update-end',function(){
 				getPointLayers(wildernesses);
 				var infoTemplate = new InfoTemplate("",function(){
-					return _popupGallery.setContent(_photoSelection);
+					return _popupGallery.setContent();
 				});
 				wildernesses.setInfoTemplate(infoTemplate);
+				var locations = _map.getLayer(_playlistLayers[0].layerId).graphics;
+				_popupGallery = new PopupGallery(_map,locations,onSelect,onRemoveSelection);
 			});
 
 			on.once(_map,"update-end",function(){
@@ -139,7 +146,7 @@ define(["storymaps/playlist/config/MapConfig",
 
 			on(popup,"selection-change",function(){
 
-				_popupGallery.initGallery();
+				_popupGallery.initGallery(_photoSelection);
 
 			});
 		};
@@ -299,9 +306,13 @@ define(["storymaps/playlist/config/MapConfig",
 								g.hide();
 							}
 						});
+
 					}
 					layerObj.show();
 				}
+				var renderer = _mapConfig.getRenderer(layerObj,layerObj.graphics);
+				layerObj.setRenderer(renderer);
+				layerObj.redraw();
 			});
 		};
 
@@ -440,7 +451,7 @@ define(["storymaps/playlist/config/MapConfig",
 
 				for (var obj in playlistLegendConfig.items){
 					if (playlistLegendConfig.items[obj].visible){
-						playlistStr = playlistStr + '<tr class="filterRow" data-filter="' + playlistLegendConfig.items[obj].filter + '"><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
+						playlistStr = playlistStr + '<tr class="filterRow" data-filter="' + playlistLegendConfig.items[obj].filter + '"><td class="marker-cell"><img class="marker" src="' + playlistLegendConfig.items[obj].iconURL + '" alt="" /></td><td class="checkboxes"><i class="icon-checked"></i><i class="icon-unchecked"></i></td><td class="label-cell">' + playlistLegendConfig.items[obj].name + '</td></tr>';
 					}
 				}
 
@@ -449,6 +460,10 @@ define(["storymaps/playlist/config/MapConfig",
 				domConstruct.place(playlistStr,dom.byId(playlistLegendSelector),"first");
 
 				onFilterTogglesReady();
+
+				$('#filterAll, .filterRow').click(function(){
+					_map.infoWindow.hide();
+				});
 
 			}
 			else{

@@ -1,9 +1,9 @@
 GIT
   remote: git@github.com:ArcGIS/arcgis-for-developers-css.git
-  revision: 4a8f25cbfee29ac7102d0544e892ee8e5095db21
-  tag: 0.1.6
+  revision: 94e3ced010e9a0661405e72acb43e2faac55fdce
+  tag: v0.1.6
   specs:
-    arcgis-framework (0.1.4.beta)
+    arcgis-framework (0.1.6)
       compass (~> 0.12.2)
 
 GEM

@@ -1,5 +1,6 @@
 var data = {
-	'photos': require("./tempData/photos.json")
+	'photos': require("./tempData/photos.json"),
+	'wildernessDescriptions': require("./tempData/wildernessDescriptions.json")
 }
 
 for(var i = 0; i < data.photos.length; i++){

@@ -130,6 +130,23 @@ body{
 		}
 	}
 
+	.checkboxes{
+		padding-right: 10px;
+
+		.icon-unchecked{
+			display:none;
+		}
+	}
+
+	.items-off .checkboxes{
+		.icon-checked{
+			display: none;
+		}
+		.icon-unchecked{
+			display: block !important;
+		}
+	}
+
 }
 
 .playlist-no-layer-message{

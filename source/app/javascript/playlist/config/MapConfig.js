@@ -1,7 +1,7 @@
 define(["dojo/_base/array",
 	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer",
-	"storymaps/playlist/core/Data",], 
+	"storymaps/playlist/core/Data"], 
 	function(array,
 		PictureMarkerSymbol,
 		UniqueValueRenderer,
@@ -50,7 +50,7 @@ define(["dojo/_base/array",
 			return markerPostionHighlight;
 		};
 
-		this.getRenderer = function(layer,features,colorAttr,orderAttr)
+		this.getRenderer = function(layer,features)
 		{
 			if (useDefaultRenderer){
 
@@ -65,13 +65,20 @@ define(["dojo/_base/array",
 						var category;
 
 						array.forEach(Data.photos,function(photo){
-							if (grp.attributes.wilderness == photo.wilderness){
-								category = photo.photoCategory;
+							if (!$(".filterRow[data-filter='" + photo.photoCategory + "']").hasClass('items-off')){
+								if (grp.attributes.wilderness === photo.wilderness && photo.photoCategory === 'Grand Prize'){
+									category = photo.photoCategory;
+								}
+								else if (!category && grp.attributes.wilderness === photo.wilderness){
+									category = photo.photoCategory;
+								}
 							}
 						});
 						
 						var symbol = getSymbol(category);
-						renderer.addValue(grp.attributes[_tempRendererField], symbol);
+						if (category){
+							renderer.addValue(grp.attributes[_tempRendererField], symbol);
+						}
 					}
 				});
 
@@ -87,18 +94,21 @@ define(["dojo/_base/array",
 			var iconURL;
 
 			if(category){
-				if (category.toLowerCase() === 'wildlife'){
+				if (category.toLowerCase() === 'grand prize' && !$(".filterRow[data-filter='Grand Prize']").hasClass('items-off')){
+					iconURL = "resources/images/markers/wilderness/IconPurple1.png";
+				}
+				else if (category.toLowerCase() === 'most inspirational moment' && !$(".filterRow[data-filter='Most Inspirational Moment']").hasClass('items-off')){
+					iconURL = "resources/images/markers/wilderness/IconRed1.png";
+				}
+				else if (category.toLowerCase() === 'people in wilderness' && !$(".filterRow[data-filter='People in Wilderness']").hasClass('items-off')){
+					iconURL = "resources/images/markers/wilderness/IconBlue1.png";
+				}
+				else if (category.toLowerCase() === 'scenic landscape' && !$(".filterRow[data-filter='Scenic Landscape']").hasClass('items-off')){
+					iconURL = "resources/images/markers/wilderness/IconOchre1.png";
+				}
+				else if (category.toLowerCase() === 'wildlife' && !$(".filterRow[data-filter='Wildlife']").hasClass('items-off')){
 					iconURL = "resources/images/markers/wilderness/IconTerra1.png";
 				}
-				// else if (graphic.attributes[colorAttr].toLowerCase() === "g" || graphic.attributes[colorAttr].toLowerCase() === "green"){
-				// 	iconURL = "resources/images/markers/indexed/green/NumberIcong" + (index + 1) + ".png";
-				// }
-				// else if (graphic.attributes[colorAttr].toLowerCase() === "p" || graphic.attributes[colorAttr].toLowerCase() === "purple"){
-				// 	iconURL = "resources/images/markers/indexed/purple/IconPurple" + (index + 1) + ".png";
-				// }
-				// else{
-				// 	iconURL = "resources/images/markers/indexed/red/NumberIcon" + (index + 1) + ".png";
-				// }
 			}
 
 			var symbol = new PictureMarkerSymbol(iconURL, markerPostionDefault.width, markerPostionDefault.height).setOffset(markerPostionDefault.xOffset,markerPostionDefault.yOffset);

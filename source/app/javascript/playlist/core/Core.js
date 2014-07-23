@@ -4,7 +4,8 @@ define(["dojo/has",
 	"storymaps/playlist/core/mobile/Layout",
 	"storymaps/playlist/ui/Map",
 	"storymaps/playlist/ui/List",
-	"lib/jquery/jquery-1.10.2.min"],
+	"lib/jquery/jquery-1.10.2.min",
+	"lib/jquery.waitforimages.js"],
 	function(has,
 		GeometryService,
 		Helper,
@@ -22,11 +23,12 @@ define(["dojo/has",
 		*/
 
 		var _embed = (top != self) ? true : false,
-		_mobile = has("touch"),
+		_mobile = false/*has("touch")*/,
 		_mobileLayout,
 		_readyState = {
 			map: false,
-			list: false
+			list: false,
+			images: false
 		},
 		_layersReady = 0,
 		_map,
@@ -145,6 +147,13 @@ define(["dojo/has",
 		{
 			if (!_readyState.list){
 				_layersReady++;
+				$(".playlist-item .thumbnail-container").waitForImages({
+					finished: function(){
+						_readyState.images = true;
+						checkReadyState();
+					},
+					waitForAll: true
+				});
 				if (_layersReady === _map.getLayerCount()){
 					_readyState.list = true;
 					checkReadyState();
