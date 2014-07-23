@@ -70,6 +70,7 @@ define(["esri/map",
 			else{
 				$("#modal-gallery-pane").addClass('single-photo');
 			}
+			updateGallery(0);
 		};
 
 		this.setPhoto = function(photoId){
@@ -197,7 +198,7 @@ define(["esri/map",
 	}
 
 	function nextPhoto(){
-		if (!_zoomToWilderness){
+		if (!_zoomToWilderness && _features.length > 1){
 			if (_currentIndex === _features.length -1){
 				updateGallery(0);
 			}
@@ -208,7 +209,7 @@ define(["esri/map",
 	}
 
 	function prevPhoto(){
-		if (!_zoomToWilderness){
+		if (!_zoomToWilderness && _features.length > 1){
 			if (_currentIndex === 0){
 				updateGallery(_features.length - 1);
 			}
