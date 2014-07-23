@@ -69,7 +69,9 @@ define(["storymaps/playlist/config/MapConfig",
 		_tempLayerId,
 		_tempObjectId,
 		_photoSelection,
-		_popupGallery;
+		_popupGallery,
+		_resetCenter = false,
+		_initExtent;
 
 		this.init = function(){
 
@@ -128,9 +130,44 @@ define(["storymaps/playlist/config/MapConfig",
 			});
 
 			on.once(_map,"update-end",function(){
+				_initExtent = _map.extent;
 				if(onLoad && !_mapReady){
 					_mapReady = true;
 					onLoad();
+				}
+			});
+
+			on(_map,"extent-change",function(){
+				if (!_resetCenter && _initExtent){
+					var center = _map.extent.getCenter();
+					if (center.x < _initExtent.xmin && center.y < _initExtent.ymin){
+						_map.centerAt({x:_initExtent.xmin,y:_initExtent.ymin});
+					}
+					else if (center.x < _initExtent.xmin && center.y > _initExtent.ymax){
+						_map.centerAt({x:_initExtent.xmin,y:_initExtent.ymax});
+					}
+					else if (center.x > _initExtent.xmax && center.y > _initExtent.ymax){
+						_map.centerAt({x:_initExtent.xmax,y:_initExtent.ymax});
+					}
+					else if (center.x > _initExtent.xmax && center.y < _initExtent.ymin){
+						_map.centerAt({x:_initExtent.xmax,y:_initExtent.ymin});
+					}
+					else if (center.x < _initExtent.xmin){
+						_map.centerAt({x:_initExtent.xmin,y:center.y});
+					}
+					else if (center.x > _initExtent.xmax){
+						_map.centerAt({x:_initExtent.xmax,y:center.y});
+					}
+					else if (center.y > _initExtent.ymax){
+						_map.centerAt({x:center.x,y:_initExtent.ymax});
+					}
+					else if (center.y < _initExtent.ymin){
+						_map.centerAt({x:center.x,y:_initExtent.ymin});
+					}
+					_resetCenter = true;
+				}
+				else{
+					_resetCenter = false;
 				}
 			});
 
