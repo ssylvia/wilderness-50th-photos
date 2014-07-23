@@ -94,7 +94,8 @@ define(["storymaps/playlist/config/MapConfig",
 				infoWindow: popup,
 				center: [-120, 52],
 				zoom: 4,
-				maxZoom: 11
+				maxZoom: 11,
+				minZoom: 3
 			});
 
 			on.once(_map,"load",function(){
