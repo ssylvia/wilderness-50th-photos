@@ -5,6 +5,7 @@ define(["esri/map",
 	"storymaps/utils/Helper",
 	"esri/layers/ArcGISTiledMapServiceLayer",
 	"esri/layers/FeatureLayer",
+	"esri/tasks/query",
 	"esri/symbols/SimpleFillSymbol",
 	"esri/symbols/SimpleLineSymbol",
 	"esri/Color",
@@ -17,6 +18,7 @@ define(["esri/map",
 		Helper,
 		ArcGISTiledMapServiceLayer,
 		FeatureLayer,
+		Query,
 		SimpleFillSymbol,
 		SimpleLineSymbol,
 		Color,
@@ -28,7 +30,6 @@ define(["esri/map",
 		_locations,
 		_wildernessHighlight,
 		_currentIndex = 0,
-		_zoomToWilderness,
 		_currentWID,
 		_slideToPhoto;
 
@@ -122,7 +123,7 @@ define(["esri/map",
 		_map.addLayer(wildernessesTiles);
 
 		_wildernessHighlight = new FeatureLayer("http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/Wilderness1/FeatureServer/1",{
-			mode: FeatureLayer.MODE_SNAPSHOT
+			mode: FeatureLayer.MODE_ONDEMAND
 		});
 		_map.addLayer(_wildernessHighlight);
 
@@ -140,25 +141,10 @@ define(["esri/map",
 			_wildernessHighlight.setRenderer(renderer);
 		});
 
-		on(_map,'update-end',function(){
-			if (_zoomToWilderness){
-				var extent;
-				if (_wildernessHighlight.graphics.length < 2){
-					extent = _wildernessHighlight.graphics[0]._extent;
-				}
-				else{
-					array.forEach(_wildernessHighlight.graphics,function(grp){
-						if (!extent){
-							extent = grp._extent;
-						}
-						else if (grp.attributes.WID === _currentWID){
-							extent = extent.union(grp._extent);
-						}
-					});
-				}
-				_zoomToWilderness = false;
-				_map.setExtent(extent,true);
-			}			
+		on.once(_map,'update-end',function(){
+			Helper.resetRegionLayout();
+			_map.resize();
+			_map.reposition();
 		});
 
 	}
@@ -192,13 +178,22 @@ define(["esri/map",
 		});
 
 		if (newWID){
-			_zoomToWilderness = true;
+			var query = new Query();
+			query.where = "WID = " + _currentWID;
 			_wildernessHighlight.setDefinitionExpression("WID = " + _currentWID);
+			if (_currentWID == 5){
+				_map.centerAndZoom([-174.23,52.40],4);
+			}
+			else{
+				_wildernessHighlight.queryExtent(query,function(result){
+					_map.setExtent(result.extent,true);
+				});
+			}
 		}
 	}
 
 	function nextPhoto(){
-		if (!_zoomToWilderness && _features.length > 1){
+		if (_features.length > 1){
 			if (_currentIndex === _features.length -1){
 				updateGallery(0);
 			}
@@ -209,7 +204,7 @@ define(["esri/map",
 	}
 
 	function prevPhoto(){
-		if (!_zoomToWilderness && _features.length > 1){
+		if (_features.length > 1){
 			if (_currentIndex === 0){
 				updateGallery(_features.length - 1);
 			}

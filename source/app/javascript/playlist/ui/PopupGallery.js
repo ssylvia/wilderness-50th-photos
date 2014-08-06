@@ -34,7 +34,7 @@ define(["dojo/_base/array",
 						photoId = photo.id;
 					}
 					features.push(photo);
-					sliderContent = sliderContent + '<li><img src="resources/images/contest-photos/' + photo.photo + '" alt="" /></li>';
+					sliderContent = sliderContent + '<li><img src="resources/images/contest-photos/small/' + photo.photo + '" alt="" /></li>';
 				}
 			});
 

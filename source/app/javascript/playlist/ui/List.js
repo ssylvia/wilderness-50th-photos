@@ -156,7 +156,7 @@ define(["dojo/_base/array",
 													<img src="' + getIcon(photoObj.photoCategory) + '" alt="" class="marker" />\
 												</td>\
 												<td class="thumbnail-cell">\
-													<div class="thumbnail-container" style="background-image: url(resources/images/contest-photos/' + photoObj[photoField] + '); background-position: ' + photoObj.thumbnailPosition + '; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/contest-photos/' + photoObj[photoField] + '", sizingMethod="scale");"></div>\
+													<div class="thumbnail-container" style="background-image: url(resources/images/contest-photos/small/' + photoObj[photoField] + '); background-position: ' + photoObj.thumbnailPosition + '; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/contest-photos/' + photoObj[photoField] + '", sizingMethod="scale");"></div>\
 												</td>\
 												<td class="title-cell">\
 													<h6 class="item-title">' + photoObj[titleField] + '</h6>\

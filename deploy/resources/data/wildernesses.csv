@@ -1,61 +1,1 @@
-WID,wilderness,wildernessFull,wildernessLocation,lat,long
-574,stMarks,St. Marks Wilderness,Florida,30.11,-84.17
-153,denali,Denali Wilderness,Alaska,63.43,-150.12
-66,bosqueDelApache,Bosque del Apache Wilderness,New Mexico,33.7882,-106.831
-341,marjStoneDoug,Marjory Stoneman Douglas Wilderness,Florida,25.1239,-80.6718
-206,glacierBay,Glacier Bay Wilderness,Alaska,58.834,-136.855
-373,mtEvans,Mount Evans Wilderness,Colorado,39.5352,-105.65
-182,otisPike,Otis Pike Fire Island High Dune Wilderness,New York,40.7237,-72.896
-428,olympic,Olympic Wilderness,Washington,47.792,-123.61
-290,katmai,Katmai Wilderness,Alaska,58.4188,-154.855
-444,paria,Paria Canyon-Vermilion Cliffs Wilderness,Arizona,36.7402,-111.928
-275,jedediahSmith,Jedediah Smith Wilderness,Wyoming,43.8263,-110.916
-344,maroonBells,Maroon Bells-Snowmass Wilderness,Colorado,39.1774,-107.139
-50,bisti,Bisti/De-Na-Zin Wilderness,New Mexico,36.3032,-108.116
-278,johnMuir,John Muir Wilderness,California,37.2476,-118.873
-160,dollySods,Dolly Sods Wilderness,West Virginia,39.017,-79.3562
-529,sangreDeCristo,Sangre de Cristo Wilderness,Colorado,38.134,-105.668
-374,mtHood,Mount Hood Wilderness,Oregon,45.3729,-121.745
-8,alpineLakes,Alpine Lakes Wilderness,Washington,47.5705,-121.163
-602,threeSisters,Three Sisters Wilderness,Oregon,44.0412,-121.9
-221,greatSandDunes,Great Sand Dunes Wilderness,Colorado,37.7676,-105.567
-279,joshuaTree,Joshua Tree Wilderness,California,34.015,-115.39
-12,anselAdams,Ansel Adams Wilderness,California,37.9221,-119.241
-662,yosemite,Yosemite Wilderness,California,37.9734,-119.599
-605,terror,Tracy Arm-Ford's Terror Wilderness,Alaska,57.439,-133.001
-280,joyceKilmerSlickrock,Joyce Kilmer Slickrock Wilderness,North Carolina,35.4166,-84.0002
-64,bobMarshall,Bob Marshall Wilderness,Montana,47.6803,-113.174
-745,rockyMountain,Rocky Mountain National Park Wilderness,Colorado,40.2875,-105.705
-207,glacierPeak,Glacier Peak Wilderness,Washington,48.2014,-121.02
-70,boundaryWaters,Boundary Waters Canoe Area Wilderness,Minnesota,47.8537,-91.4409
-384,mtSneffels,Mount Sneffels Wilderness,Colorado,38.0116,-107.874
-577,stephenMather,Stephen Mather Wilderness,Washington,48.8308,-121.328
-755,zion,Zion Wilderness,Utah,37.2831,-113.006
-187,flatside,Flatside Wilderness,Arkansas,34.8596,-92.9312
-677,gaylordNelson,Gaylord Nelson Wilderness,Wisconsin,46.9381,-90.5833
-24,badlands,Badlands Wilderness,South Dakota,43.8376,-102.348
-382,mtRainier,Mount Rainier Wilderness,Washington,46.872,-121.82
-371,mtBaker,Mount Baker Wilderness,Washington,48.7885,-121.761
-543,sequoiaKings,Sequoia-Kings Canyon Wilderness,California,36.5988,-118.849
-307,lakeClark,Lake Clark Wilderness,Alaska,60.6363,-153.34
-313,lavaBeds,Lava Beds Wilderness,California,41.7679,-121.486
-430,oregonIslands,Oregon Islands Wilderness,Oregon,44.507,-124.122
-194,frankChurch,Frank Church-River of no Return Wilderness,Idaho,44.7431,-114.752
-199,gatesArctic,Gates of the Arctic Wilderness,Alaska,67.7652,-153.394
-5,aleutianIslands,Aleutian Islands Wilderness,Alaska,52.9025,172.886
-386,mtTimpanogos,Mount Timpanogos Wilderness,Utah,40.3906,-111.638
-350,medicineLake,Medicine Lake Wilderness,Montana,48.4628,-104.405
-308,lakeWoodruff,Lake Woodruff Wilderness,Florida,29.0979,-81.477
-270,jnDingDarling,JN Ding Darling Wilderness,Florida,26.4582,-82.1069
-36,beringSea,Bering Sea Wilderness,Alaska,60.3721,-172.647
-660,wrangell,Wrangell-Saint Elias Wilderness,Alaska,60.9892,-143.443
-234,hawaiiVolcanoes,Hawaii Volcanoes Wilderness,Hawaii,19.2611,-155.32
-454,petrifiedForest,Petrified Forest National Wilderness,Arizona,35.1234,-109.814
-342,hatfield,Mark O Hatfield Wilderness,Oregon,45.6149,-121.835
-508,sacatar,Sacatar Trail Wilderness,California,35.9132,-117.96
-375,mtJefferson,Mount Jefferson Wilderness,Oregon,44.5905,-121.834
-151,deathValley,Death Valley Wilderness,Nevada,36.4501,-117.339
-78,bridger,Bridger Wilderness,Wyoming,42.8861,-109.483
-450,pemigewasset,Pemigewasset Wilderness,New Hampshire,44.1208,-71.525
-583,superstition,Superstition Wilderness,Arizona,33.4771,-111.24
-536,sawtooth,Sawtooth Wilderness,Idaho,44.0028,-115.064
+WID,wilderness,wildernessFull,wildernessLocation,lat,long574,stMarks,St. Marks Wilderness,Florida,30.11,-84.17153,denali,Denali Wilderness,Alaska,63.43,-150.1266,bosqueDelApache,Bosque del Apache Wilderness,New Mexico,33.7882,-106.831341,marjStoneDoug,Marjory Stoneman Douglas Wilderness,Florida,25.1239,-80.6718206,glacierBay,Glacier Bay Wilderness,Alaska,58.834,-136.855373,mtEvans,Mount Evans Wilderness,Colorado,39.5352,-105.65182,otisPike,Otis Pike Fire Island High Dune Wilderness,New York,40.7237,-72.896428,olympic,Olympic Wilderness,Washington,47.792,-123.61290,katmai,Katmai Wilderness,Alaska,58.4188,-154.855444,paria,Paria Canyon-Vermilion Cliffs Wilderness,Arizona,36.7402,-111.928275,jedediahSmith,Jedediah Smith Wilderness,Wyoming,43.8263,-110.916344,maroonBells,Maroon Bells-Snowmass Wilderness,Colorado,39.1774,-107.13950,bisti,Bisti/De-Na-Zin Wilderness,New Mexico,36.3032,-108.116278,johnMuir,John Muir Wilderness,California,37.2476,-118.873160,dollySods,Dolly Sods Wilderness,West Virginia,39.017,-79.3562529,sangreDeCristo,Sangre de Cristo Wilderness,Colorado,38.134,-105.668374,mtHood,Mount Hood Wilderness,Oregon,45.3729,-121.7458,alpineLakes,Alpine Lakes Wilderness,Washington,47.5705,-121.163602,threeSisters,Three Sisters Wilderness,Oregon,44.0412,-121.9221,greatSandDunes,Great Sand Dunes Wilderness,Colorado,37.7676,-105.567279,joshuaTree,Joshua Tree Wilderness,California,34.015,-115.3912,anselAdams,Ansel Adams Wilderness,California,37.9221,-119.241662,yosemite,Yosemite Wilderness,California,37.9734,-119.599605,terror,Tracy Arm-Ford's Terror Wilderness,Alaska,57.439,-133.001280,joyceKilmerSlickrock,Joyce Kilmer Slickrock Wilderness,North Carolina,35.4166,-84.000264,bobMarshall,Bob Marshall Wilderness,Montana,47.6803,-113.174745,rockyMountain,Rocky Mountain National Park Wilderness,Colorado,40.2875,-105.705207,glacierPeak,Glacier Peak Wilderness,Washington,48.2014,-121.0270,boundaryWaters,Boundary Waters Canoe Area Wilderness,Minnesota,47.8537,-91.4409384,mtSneffels,Mount Sneffels Wilderness,Colorado,38.0116,-107.874577,stephenMather,Stephen Mather Wilderness,Washington,48.8308,-121.328755,zion,Zion Wilderness,Utah,37.2831,-113.006187,flatside,Flatside Wilderness,Arkansas,34.8596,-92.9312677,gaylordNelson,Gaylord Nelson Wilderness,Wisconsin,46.9381,-90.583324,badlands,Badlands Wilderness,South Dakota,43.8376,-102.348382,mtRainier,Mount Rainier Wilderness,Washington,46.872,-121.82371,mtBaker,Mount Baker Wilderness,Washington,48.7885,-121.761543,sequoiaKings,Sequoia-Kings Canyon Wilderness,California,36.5988,-118.849307,lakeClark,Lake Clark Wilderness,Alaska,60.6363,-153.34313,lavaBeds,Lava Beds Wilderness,California,41.7679,-121.486430,oregonIslands,Oregon Islands Wilderness,Oregon,44.507,-124.122194,frankChurch,Frank Church-River of no Return Wilderness,Idaho,44.7431,-114.752199,gatesArctic,Gates of the Arctic Wilderness,Alaska,67.7652,-153.3945,aleutianIslands,Aleutian Islands Wilderness,Alaska,51.768,-177.953386,mtTimpanogos,Mount Timpanogos Wilderness,Utah,40.3906,-111.638350,medicineLake,Medicine Lake Wilderness,Montana,48.4628,-104.405308,lakeWoodruff,Lake Woodruff Wilderness,Florida,29.0979,-81.477270,jnDingDarling,JN Ding Darling Wilderness,Florida,26.4582,-82.106936,beringSea,Bering Sea Wilderness,Alaska,60.3721,-172.647660,wrangell,Wrangell-Saint Elias Wilderness,Alaska,60.9892,-143.443234,hawaiiVolcanoes,Hawaii Volcanoes Wilderness,Hawaii,19.2611,-155.32454,petrifiedForest,Petrified Forest National Wilderness,Arizona,35.1234,-109.814342,hatfield,Mark O Hatfield Wilderness,Oregon,45.6149,-121.835508,sacatar,Sacatar Trail Wilderness,California,35.9132,-117.96375,mtJefferson,Mount Jefferson Wilderness,Oregon,44.5905,-121.834151,deathValley,Death Valley Wilderness,Nevada,36.4501,-117.33978,bridger,Bridger Wilderness,Wyoming,42.8861,-109.483450,pemigewasset,Pemigewasset Wilderness,New Hampshire,44.1208,-71.525583,superstition,Superstition Wilderness,Arizona,33.4771,-111.24536,sawtooth,Sawtooth Wilderness,Idaho,44.0028,-115.064

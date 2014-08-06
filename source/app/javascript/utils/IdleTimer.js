@@ -16,7 +16,7 @@ var idleState = false;
             idleTimer = setTimeout(function () {
 
                 // Idle Event
-                location.reload();
+                window.location = 'http://storymaps.esri.com/stories/2014/wilderness-start-page/';
 
                 idleState = true; }, idleWait);
         });

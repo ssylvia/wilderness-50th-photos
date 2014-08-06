@@ -69,6 +69,10 @@ define(["dojo/has",
 			_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 			loadMap();
+
+			$("#startOver").click(function(){
+				window.location = "http://storymaps.esri.com/stories/2014/wilderness-start-page/";
+			});
 		}
 
 

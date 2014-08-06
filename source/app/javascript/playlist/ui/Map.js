@@ -90,7 +90,7 @@ define(["storymaps/playlist/config/MapConfig",
 
 			_map = new Map(mapSelector,{
 				basemap: 'topo',
-				sliderPosition: "top-right",
+				sliderPosition: "top-left",
 				infoWindow: popup,
 				center: [-120, 52],
 				zoom: 4,
