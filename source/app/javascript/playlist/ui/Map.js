@@ -70,7 +70,6 @@ define(["storymaps/playlist/config/MapConfig",
 		_tempObjectId,
 		_photoSelection,
 		_popupGallery,
-		_resetCenter = false,
 		_initExtent;
 
 		this.init = function(){
@@ -94,7 +93,7 @@ define(["storymaps/playlist/config/MapConfig",
 				infoWindow: popup,
 				center: [-120, 52],
 				zoom: 4,
-				maxZoom: 11,
+				maxZoom: 9,
 				minZoom: 3
 			});
 
@@ -139,36 +138,25 @@ define(["storymaps/playlist/config/MapConfig",
 			});
 
 			on(_map,"extent-change",function(){
-				if (!_resetCenter && _initExtent){
-					var center = _map.extent.getCenter();
-					if (center.x < _initExtent.xmin && center.y < _initExtent.ymin){
-						_map.centerAt({x:_initExtent.xmin,y:_initExtent.ymin});
-					}
-					else if (center.x < _initExtent.xmin && center.y > _initExtent.ymax){
-						_map.centerAt({x:_initExtent.xmin,y:_initExtent.ymax});
-					}
-					else if (center.x > _initExtent.xmax && center.y > _initExtent.ymax){
-						_map.centerAt({x:_initExtent.xmax,y:_initExtent.ymax});
-					}
-					else if (center.x > _initExtent.xmax && center.y < _initExtent.ymin){
-						_map.centerAt({x:_initExtent.xmax,y:_initExtent.ymin});
-					}
-					else if (center.x < _initExtent.xmin){
-						_map.centerAt({x:_initExtent.xmin,y:center.y});
-					}
-					else if (center.x > _initExtent.xmax){
-						_map.centerAt({x:_initExtent.xmax,y:center.y});
-					}
-					else if (center.y > _initExtent.ymax){
-						_map.centerAt({x:center.x,y:_initExtent.ymax});
-					}
-					else if (center.y < _initExtent.ymin){
-						_map.centerAt({x:center.x,y:_initExtent.ymin});
-					}
-					_resetCenter = true;
+				var center = _map.extent.getCenter();
+				var reCenter;
+				if (_initExtent && center.x < _initExtent.xmin){
+					reCenter = true;
+				}
+				else if (_initExtent && center.x > _initExtent.xmax){
+					reCenter = true;
+				}
+				else if (_initExtent && center.y > _initExtent.ymax){
+					reCenter = true;
+				}
+				else if (_initExtent && center.y < _initExtent.ymin){
+					reCenter = true;
 				}
 				else{
-					_resetCenter = false;
+					reCenter = false;
+				}
+				if (reCenter){
+					_map.setExtent(_initExtent);
 				}
 			});
 
