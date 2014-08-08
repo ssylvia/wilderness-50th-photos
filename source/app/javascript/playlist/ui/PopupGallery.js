@@ -1,8 +1,10 @@
 define(["dojo/_base/array",
+	"dojo/on",
 	"storymaps/playlist/core/Data",
 	"storymaps/playlist/ui/ModalGallery",
 	'lib/unslider.js'], 
 	function(array,
+		on,
 		Data,
 		ModalGallery){
 
@@ -22,40 +24,51 @@ define(["dojo/_base/array",
 		this.setContent = function(photoSelection){
 
 			var graphic = _popup.getSelectedFeature();
-			var features = [];
-			_currentGraphic = graphic;
+			if (graphic.visible){
+				var features = [];
+				_currentGraphic = graphic;
 
-			var sliderContent = "";
-			var photoId = photoSelection;
+				var sliderContent = "";
+				var photoId = photoSelection;
 
-			array.forEach(Data.photos,function(photo){
-				if (photo.wilderness === graphic.attributes.wilderness && !$(".filterRow[data-filter='" + photo.photoCategory + "']").hasClass('items-off')){
-					if (photoId === undefined){
-						photoId = photo.id;
+				array.forEach(Data.photos,function(photo){
+					if (photo.wilderness === graphic.attributes.wilderness && !$(".filterRow[data-filter='" + photo.photoCategory + "']").hasClass('items-off')){
+						if (photoId === undefined){
+							photoId = photo.id;
+						}
+						features.push(photo);
+						sliderContent = sliderContent + '<li><div><img src="resources/images/contest-photos/small/' + photo.photo + '" alt="" /></div></li>';
 					}
-					features.push(photo);
-					sliderContent = sliderContent + '<li><img src="resources/images/contest-photos/small/' + photo.photo + '" alt="" /></li>';
+				});
+
+				_photoSelection = parseInt(photoId,10);
+				_features = features;
+				_modalGallery.setFeatures(features,_photoSelection);
+
+				var sliderStr = '\
+				<div class="expand-button"><p>MORE</p></div>\
+				<h1>' + graphic.attributes.wildernessFull + ', ' + graphic.attributes.wildernessLocation + '</h1>\
+				<div class="slider">\
+					' + (_features.length > 1 ? '<div class="popup-prev-wrapper popup-nav-wrapper"><i class="icon-left-arrow popup-nav"></i></div><div class="popup-next-wrapper popup-nav-wrapper"><i class="icon-right-arrow popup-nav"></i></div>' : '') + '\
+					<ul>\
+						' + sliderContent + '\
+					</ul>\
+				</div>';
+
+				selectPhoto();
+				
+				return sliderStr;
+			}
+			else{
+				if(_popup.isShowing){
+					_popup.hide();
 				}
-			});
-
-			_photoSelection = parseInt(photoId,10);
-			_features = features;
-			_modalGallery.setFeatures(features,_photoSelection);
-
-			var sliderStr = '\
-			<div class="expand-button"><p>MORE</p></div>\
-			<h1>' + graphic.attributes.wildernessFull + ', ' + graphic.attributes.wildernessLocation + '</h1>\
-			<div class="slider">\
-				' + (_features.length > 1 ? '<div class="popup-prev-wrapper popup-nav-wrapper"><i class="icon-left-arrow popup-nav"></i></div><div class="popup-next-wrapper popup-nav-wrapper"><i class="icon-right-arrow popup-nav"></i></div>' : '') + '\
-				<ul>\
-					' + sliderContent + '\
-				</ul>\
-			</div>';
-
-			selectPhoto();
-			
-			return sliderStr;
-
+				else{
+					on.once(_popup,'show',function(){
+						_popup.hide();
+					});
+				}
+			}
 		};
 
 		this.initGallery = function(photoId){		
@@ -97,7 +110,6 @@ define(["dojo/_base/array",
 					objectId: (_currentGraphic.attributes[_currentGraphic.getLayer().objectIdField]),
 					photoId: _photoSelection
 				};
-
 				_modalGallery.setPhoto(_photoSelection);
 				onSelect(item);
 			}
@@ -105,7 +117,7 @@ define(["dojo/_base/array",
 
 		function slideToPhoto(photoId){
 			var index;
-			if (photoId && photoId != _photoSelection){
+			if ((photoId || photoId === 0) && photoId != _photoSelection){
 				_photoSelection = photoId;
 			}
 			array.forEach(_features,function(ftr,i){

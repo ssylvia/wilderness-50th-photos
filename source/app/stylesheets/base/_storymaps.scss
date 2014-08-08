@@ -123,6 +123,26 @@ html, body{
 	}
 }
 
+.small-secondary-header{
+	#secondary-header{
+		width: 500px;
+		
+		h1{
+			font: {
+				size: 18px;
+			}
+			letter-spacing: 6px;
+			margin-top: 26px;
+		}
+	}
+}
+
+.no-secondary-header{
+	#secondary-header{
+		display: none;
+	}
+}
+
 #branding-wrapper{
 	display: none;
 	height: 100%;

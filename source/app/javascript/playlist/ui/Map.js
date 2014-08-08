@@ -94,7 +94,8 @@ define(["storymaps/playlist/config/MapConfig",
 				center: [-120, 52],
 				zoom: 4,
 				maxZoom: 9,
-				minZoom: 3
+				minZoom: 3,
+				logo: false
 			});
 
 			on.once(_map,"load",function(){
@@ -171,9 +172,30 @@ define(["storymaps/playlist/config/MapConfig",
 			});
 
 			on(popup,"selection-change",function(){
-
-				_popupGallery.initGallery(_photoSelection);
-
+				if (popup.features && popup.features.length > 1){
+					var feature;
+					array.forEach(popup.features,function(ftr){
+						if (ftr.visible){
+							feature = ftr;
+						}
+					});
+					if (feature){
+						popup.setFeatures([feature]);
+					}
+					else{
+						popup.setFeatures([]);
+						popup.hide();
+					}
+				}
+				else if(popup.features && popup.features.length === 1){
+					if (popup.getSelectedFeature().visible){
+						_popupGallery.initGallery(_photoSelection);
+					}
+					else{
+						popup.setFeatures([]);
+						popup.hide();
+					}
+				}
 			});
 		};
 
@@ -601,8 +623,12 @@ define(["storymaps/playlist/config/MapConfig",
 			else{
 				_photoSelection = null;
 			}
-			
-			_map.infoWindow.show(location);
+
+			var scrPt = _map.toScreen(location);
+			scrPt.x += 20;
+			scrPt.y -= 15;
+
+			_map.infoWindow.show(_map.toMap(scrPt));
 			_map.infoWindow.setFeatures([graphic]);
 		}
 

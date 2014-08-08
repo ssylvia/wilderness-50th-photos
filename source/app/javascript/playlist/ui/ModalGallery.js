@@ -75,7 +75,7 @@ define(["esri/map",
 		};
 
 		this.setPhoto = function(photoId){
-			if (photoId && photoId != _features[_currentIndex].id){
+			if ((photoId || photoId === 0) && photoId != _features[_currentIndex].id){
 				var index;
 				array.forEach(_features,function(ftr,i){
 					if (ftr.id === photoId){

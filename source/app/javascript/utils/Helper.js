@@ -1,8 +1,7 @@
 define(["dojo/_base/array",
 	"lib/spin.min.js",
 	"lib/jquery/jquery-1.10.2.min",
-	"storymaps/utils/SocialSharing",
-	"storymaps/utils/IdleTimer"], 
+	"storymaps/utils/SocialSharing"], 
 	function(array){
 	/**
 	* Helper
@@ -61,6 +60,20 @@ define(["dojo/_base/array",
 				"width" : $(this).parent().outerWidth() - x
 			});
 		});
+
+		var bodyWidth = $('html,body').width();
+		if (bodyWidth < 1050){
+			$('body').addClass('no-secondary-header');
+			$('body').removeClass('small-secondary-header');
+		}
+		else if (bodyWidth < 1200){
+			$('body').addClass('small-secondary-header');
+			$('body').removeClass('no-secondary-header');
+		}
+		else{
+			$('body').removeClass('small-secondary-header');
+			$('body').removeClass('no-secondary-header');
+		}
 
 		$("#filter-content").css("max-height", $("#playlist").height() - 50);
 
