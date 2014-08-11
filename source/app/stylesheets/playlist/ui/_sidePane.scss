@@ -263,6 +263,13 @@ body{
 	-webkit-overflow-scrolling: touch;
 }
 
+.modal-gallery{
+	#playlist{
+		overflow: hidden;
+		-webkit-overflow-scrolling: auto;
+	}
+}
+
 .minimized{
 
 	.toggle-description, .toggle-legend{

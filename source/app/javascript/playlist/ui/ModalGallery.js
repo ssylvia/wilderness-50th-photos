@@ -43,7 +43,7 @@ define(["esri/map",
 		prevPhoto();
 	});
 
-	$("#modal-gallery-map, #modal-background, #gallery-close").click(function(){
+	$("#modal-background, #gallery-close").click(function(){
 		$('body').toggleClass('modal-gallery');
 	});
 

@@ -53,6 +53,7 @@
 		height: 100%;
 		padding-right: 25px;
 		overflow: auto;
+		-webkit-overflow-scrolling: touch;
 
 		#winner-category{
 			text-transform: uppercase;
