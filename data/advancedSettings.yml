@@ -17,7 +17,7 @@ includeDijitCSS: false
 # Dojo Dijits CSS Theme (Choose: Claro, Tundra, Nihilo, Soria)
 dijitsTheme: tundra
 # Use Development version of ArcGIS JavaScript API
-useDevAPI: true
+useDevAPI: false
 
 
 # SOCIAL MEDIA APP IDS/API KEYS

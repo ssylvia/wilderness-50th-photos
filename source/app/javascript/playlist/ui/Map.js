@@ -66,6 +66,7 @@ define(["storymaps/playlist/config/MapConfig",
 		_highlightEnabled = true,
 		_titleFields = {},
 		_lastHightlighedGraphic,
+		_clickedWilderness,
 		_tempLayerId,
 		_tempObjectId,
 		_photoSelection,
@@ -130,6 +131,10 @@ define(["storymaps/playlist/config/MapConfig",
 				_popupGallery = new PopupGallery(_map,locations,onSelect,onRemoveSelection);
 			});
 
+			on(wildernesses,'click',function(event){
+				_clickedWilderness = event.graphic.attributes.wilderness;
+			});
+
 			on.once(_map,"update-end",function(){
 				_initExtent = _map.extent;
 				if(onLoad && !_mapReady){
@@ -171,30 +176,19 @@ define(["storymaps/playlist/config/MapConfig",
 				_highlightEnabled = false;
 			});
 
-			on(popup,"selection-change",function(){
-				if (popup.features && popup.features.length > 1){
-					var feature;
+			on(popup,'set-features',function(){
+				if (popup.features.length > 1){
 					array.forEach(popup.features,function(ftr){
-						if (ftr.visible){
-							feature = ftr;
+						if (ftr.attributes.wilderness === _clickedWilderness){
+							popup.setFeatures([ftr]);
 						}
 					});
-					if (feature){
-						popup.setFeatures([feature]);
-					}
-					else{
-						popup.setFeatures([]);
-						popup.hide();
-					}
 				}
-				else if(popup.features && popup.features.length === 1){
-					if (popup.getSelectedFeature().visible){
-						_popupGallery.initGallery(_photoSelection);
-					}
-					else{
-						popup.setFeatures([]);
-						popup.hide();
-					}
+			});
+
+			on(popup,"selection-change",function(){
+				if (popup.getSelectedFeature() && popup.getSelectedFeature().visible){
+					_popupGallery.initGallery(_photoSelection);
 				}
 			});
 		};

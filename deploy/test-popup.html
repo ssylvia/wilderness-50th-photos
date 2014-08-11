@@ -18,7 +18,7 @@
         font-family: "Trebuchet MS";
       }
     </style>
-    <script src="http://jsdev.arcgis.com/3.9/"></script>
+    <script src="http://jsdev.arcgis.com/3.10/"></script>
     <script>
       var map, csv;
 
@@ -27,13 +27,14 @@
         "esri/layers/CSVLayer",
         "esri/Color",
         "esri/dijit/Popup",
+        "esri/InfoTemplate",
         "esri/symbols/SimpleMarkerSymbol",
         "esri/renderers/SimpleRenderer",
         "esri/urlUtils",
-  "dojo/dom-construct",
+        "dojo/dom-construct",
         "dojo/domReady!",
       ], function(
-        Map, CSVLayer, Color, Popup, SimpleMarkerSymbol, SimpleRenderer, urlUtils, domConstruct
+        Map, CSVLayer, Color, Popup, InfoTemplate, SimpleMarkerSymbol, SimpleRenderer, urlUtils, domConstruct
       ) {
         var popup = new Popup({
           highlight: false
@@ -51,10 +52,13 @@
         csv.setRenderer(renderer);
         map.addLayer(csv);
 
-        csv.on('click',function(event){
-          map.infoWindow.show(event.graphic.geometry);
-          map.infoWindow.setContent('test');
+        csv.on('update-end',function(event){
+          var infoTemplate = new InfoTemplate("",function(){
+            return 'new content';
+            csv.setInfoTemplate(infoTemplate);
+          });
         });
+
       });
     </script>
   </head>
