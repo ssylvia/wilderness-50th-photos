@@ -2,6 +2,8 @@ define(["storymaps/playlist/config/MapConfig",
 	"storymaps/playlist/core/Data",
 	"storymaps/playlist/ui/PopupGallery",
 	"esri/layers/CSVLayer",
+	"esri/geometry/Extent",
+	"esri/SpatialReference",
 	"esri/map",
 	"esri/arcgis/utils",
 	"esri/dijit/Legend",
@@ -27,6 +29,8 @@ define(["storymaps/playlist/config/MapConfig",
 		Data,
 		PopupGallery,
 		CSVLayer,
+		Extent,
+		SpatialReference,
 		Map,
 		arcgisUtils,
 		Legend,
@@ -92,8 +96,7 @@ define(["storymaps/playlist/config/MapConfig",
 				basemap: 'topo',
 				sliderPosition: "top-left",
 				infoWindow: popup,
-				center: [-120, 52],
-				zoom: 4,
+				extent: new Extent(-205,14,-37,71, new SpatialReference({ wkid:4326 })),
 				maxZoom: 9,
 				minZoom: 3,
 				logo: false
@@ -118,7 +121,7 @@ define(["storymaps/playlist/config/MapConfig",
 			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
 			_map.addLayer(wildernesses);
 
-			var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://wilderness.storymaps.esri.com/arcgis/rest/services/Wilderness/app_one_cache/MapServer');
+			var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://ec2-54-211-170-245.compute-1.amazonaws.com:6080/arcgis/rest/services/Wilderness/app_one_cache/MapServer');
 			_map.addLayer(wildernessesTiles);
 
 			on.once(wildernesses,'update-end',function(){
@@ -568,8 +571,8 @@ define(["storymaps/playlist/config/MapConfig",
 			if (geo.type === "point"){
 				var extent = _map.extent;
 				var sidePaneWidth = getSidePanelWidth() * _map.getResolution();
-				var offsetWidth = (_map.extent.getWidth()/5)*2;
-				var offsetHeight = (_map.extent.getHeight()/5)*2;
+				var offsetWidth = has('touch') ? 0 : ((_map.extent.getWidth()/5)*2);
+				var offsetHeight = has('touch') ? 0 : ((_map.extent.getHeight()/5)*2);
 				var offsetX = 0;
 				var offsetY = 0;
 

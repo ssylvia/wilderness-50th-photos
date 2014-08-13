@@ -23,8 +23,11 @@ define(["dojo/has",
 		*/
 
 		var _embed = (top != self) ? true : false,
-		_mobile = false/*has("touch")*/,
+		_msie = window.navigator.userAgent.indexOf('MSIE '),
+		_trident = window.navigator.userAgent.indexOf('Trident/'),
+		_mobile = has("touch"),
 		_mobileLayout,
+		_kioskMode,
 		_readyState = {
 			map: false,
 			list: false,
@@ -42,6 +45,13 @@ define(["dojo/has",
 			}
 			if (_mobile){
 				_mobileLayout = new MobileLayout(onMobileListOpen);
+			}
+			else{
+				$('body').addClass('desktop');
+			}
+
+			if (_msie > 0 || _trident > 0){
+				$('#title').css('margin-top','24px');
 			}
 
 			Helper.enableRegionLayout();
@@ -61,8 +71,10 @@ define(["dojo/has",
 			var urlObject = esri.urlToObject(document.location.href);
 			urlObject.query = urlObject.query || {};
 
-			if(urlObject.query.webmap){
-				configOptions.webmap = urlObject.query.webmap;
+			if(urlObject.query.kiosk || urlObject.query.kiosk === ''){
+				_kioskMode = true;
+				$('body').addClass('kiosk');
+				Helper.startUpIdleTimer();
 			}
 
 			_map = new Map(_mobile,configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection,onFilterTogglesReady),

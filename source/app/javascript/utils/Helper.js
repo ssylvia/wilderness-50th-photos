@@ -116,6 +116,26 @@ define(["dojo/_base/array",
 					map.setExtent(extent);
 				}
 			});
+		},
+
+		startUpIdleTimer: function()
+		{
+			var idleWait = 300000;
+			var idleTimer = null;
+			var idleState = false;
+			
+			$('*').bind('mousemove keydown scroll',function(){
+				
+				clearTimeout(idleTimer);
+				idleState = false;
+
+				idleTimer = setTimeout(function(){
+					window.location = 'http://storymaps.esri.com/stories/2014/wilderness-start-page/';
+					idleState = true;
+				}, idleWait);
+
+			});
+			$("body").trigger("mousemove");
 		}
 	};
 });

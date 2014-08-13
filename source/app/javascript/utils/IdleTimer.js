@@ -1,4 +1,4 @@
-var idleWait = 300000;
+var idleWait = 5000;
 
 var idleTimer = null;
 var idleState = false;
