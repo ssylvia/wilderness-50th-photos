@@ -58,7 +58,7 @@ define(["storymaps/playlist/config/MapConfig",
 	* Class to define a new map for the playlist template
 	*/
 
-	return function PlaylistMap(isMobile,geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection,onFilterTogglesReady)
+	return function PlaylistMap(isMobile,isKiosk,geometryServiceURL,bingMapsKey,webmapId,excludedLayers,dataFields,displayLegend,playlistLegendConfig,mapSelector,playlistLegendSelector,legendSelector,sidePaneSelector,onLoad,onHideLegend,onListItemRefresh,onHighlight,onRemoveHighlight,onSelect,onRemoveSelection,onFilterTogglesReady)
 	{
 		var _mapConfig = new MapConfig(),
 		_map,
@@ -99,7 +99,7 @@ define(["storymaps/playlist/config/MapConfig",
 				extent: new Extent(-205,14,-37,71, new SpatialReference({ wkid:4326 })),
 				maxZoom: 9,
 				minZoom: 3,
-				logo: false
+				logo: !isKiosk
 			});
 
 			on.once(_map,"load",function(){

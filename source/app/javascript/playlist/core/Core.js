@@ -39,23 +39,6 @@ define(["dojo/has",
 
 		function init ()
 		{
-			if (_embed){
-				$("#banner").hide();
-				$("#side-pane-buffer").hide();
-			}
-			if (_mobile){
-				_mobileLayout = new MobileLayout(onMobileListOpen);
-			}
-			else{
-				$('body').addClass('desktop');
-			}
-
-			if (_msie > 0 || _trident > 0){
-				$('#title').css('margin-top','24px');
-			}
-
-			Helper.enableRegionLayout();
-
 			if (configOptions.sharingUrl && location.protocol === "https:"){
 				configOptions.sharingUrl = configOptions.sharingUrl.replace('http:', 'https:');
 			}
@@ -77,7 +60,24 @@ define(["dojo/has",
 				Helper.startUpIdleTimer();
 			}
 
-			_map = new Map(_mobile,configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection,onFilterTogglesReady),
+			if (_embed){
+				$("#banner").hide();
+				$("#side-pane-buffer").hide();
+			}
+			if (_mobile && !_kioskMode){
+				_mobileLayout = new MobileLayout(onMobileListOpen);
+			}
+			else{
+				$('body').addClass('desktop');
+			}
+
+			if (_msie > 0 || _trident > 0){
+				$('#title').css('margin-top','24px');
+			}
+
+			Helper.enableRegionLayout();
+
+			_map = new Map(_mobile,_kioskMode,configOptions.geometryServiceUrl,configOptions.bingMapsKey,configOptions.webmap,configOptions.excludedLayers,configOptions.dataFields,configOptions.playlistLegend.visible,configOptions.playlistLegend,"map","playlist-legend","legend","#side-pane",onMapLoad,onMapLegendHide,onLayersUpdate,onMarkerOver,onMarkerOut,onMarkerSelect,onMarkerRemoveSelection,onFilterTogglesReady),
 			_list = new List("#playlist","#search","#filter-content",configOptions.dataFields,onListLoad,onListGetTitleAttr,onListSelect,onListHighlight,onListRemoveHighlight,onListSearch);
 
 			loadMap();
