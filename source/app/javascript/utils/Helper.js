@@ -79,7 +79,7 @@ define(["dojo/_base/array",
 
 		$("#modal-gallery-pane").css({
 			"height": $("#map").height() * 0.9,
-			"top":  ($("#map").height() * 0.05) + $("#banner").height()
+			"top":  ($("#map").height() * 0.05) + ($('#banner').is(':visible') ? $("#banner").height() : 0)
 		});
 	}
 

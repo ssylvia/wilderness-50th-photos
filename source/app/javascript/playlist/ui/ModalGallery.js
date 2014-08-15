@@ -106,6 +106,7 @@ define(["esri/map",
 			$("#scroll-indicator").show();
 		}
 		_slideToPhoto(photo.id);
+		Helper.resetRegionLayout();
 	}
 
 	function createMap(){

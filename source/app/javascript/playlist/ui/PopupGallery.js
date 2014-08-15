@@ -96,6 +96,7 @@ define(["dojo/_base/array",
 					_slider.data('unslider').prev();
 				});
 			}
+			map.infoWindow.reposition();
 		};
 
 		this.getPhotoSelection = function(){

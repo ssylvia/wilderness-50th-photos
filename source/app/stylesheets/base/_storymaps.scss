@@ -72,6 +72,7 @@ html, body{
 }
 
 #startOver{
+	display: none;
 	position: absolute;
 	background-color: black;
 	color: white;
@@ -93,6 +94,11 @@ html, body{
 		margin-top: 20px;
 	}
 }
+
+.kiosk #startOver{
+	display: block;
+}
+
 // Hide builder toolbar in view mode
 #header.disabled{
 	display: none;
@@ -111,36 +117,62 @@ html, body{
 	height: 100%;
 	width: 650px;
 	color: white;
+	padding-top: 20px;
+	vertical-align: middle;
 	text-transform: uppercase;
 	
-	h1{
+	.main-text, .social-seperator{
 		font: {
 			size: 25px;
 			weight: bold;
 		}
 		letter-spacing: 8px;
 		margin-top: 21px;
+		vertical-align: text-top;
+	}
+
+	.social-seperator{
+		font-weight: normal;
+		vertical-align: text-bottom;
 	}
 }
 
 .small-secondary-header{
 	#secondary-header{
 		width: 500px;
+		padding: 25px 25px 0 0;
 		
-		h1{
+		.main-text, .social-seperator{
 			font: {
 				size: 18px;
 			}
 			letter-spacing: 6px;
 			margin-top: 26px;
+			vertical-align: middle;
+		}
+
+		.social-seperator{
+			vertical-align: top;
+		}
+
+		#social{
+			vertical-align: middle;
 		}
 	}
 }
 
 .no-secondary-header{
 	#secondary-header{
-		display: none;
+		width: 175px;
+		padding-top: 25px;
+		.main-text, .social-seperator{
+			display: none;
+		}
 	}
+}
+
+.kiosk #social, .kiosk .social-seperator{
+	display: none;
 }
 
 #branding-wrapper{
@@ -160,7 +192,7 @@ html, body{
 #smLink{
 	color: $white;
 	font: {
-		weight: bold;
+		weight: normal;
 		family: $body-font;
 		size: .8em;
 	}
@@ -176,7 +208,7 @@ html, body{
 }
 
 .social-share{
-	color: $light-gray;
+	color: $lightest-gray;
 	cursor: pointer;
 	&:hover{
 		color: $white;

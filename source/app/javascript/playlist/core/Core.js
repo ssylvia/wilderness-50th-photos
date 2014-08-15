@@ -64,7 +64,7 @@ define(["dojo/has",
 				$("#banner").hide();
 				$("#side-pane-buffer").hide();
 			}
-			if (_mobile && !_kioskMode){
+			if (_embed || (_mobile && !_kioskMode)){
 				_mobileLayout = new MobileLayout(onMobileListOpen);
 			}
 			else{
