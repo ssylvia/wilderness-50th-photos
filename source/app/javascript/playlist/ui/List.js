@@ -178,6 +178,11 @@ define(["dojo/_base/array",
 			$(".item-title").ellipsis();
 
 			addEvents();
+
+			$(".playlist-item").sort(function (a, b){
+				return ($(b).data('filter')) < ($(a).data('filter')) ? 1 : -1;    
+			}).appendTo('#playlist');
+			
 		}
 
 		function addNewFilter(filter)

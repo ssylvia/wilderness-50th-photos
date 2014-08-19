@@ -102,6 +102,8 @@ define(["storymaps/playlist/config/MapConfig",
 				logo: !isKiosk
 			});
 
+			window.iw=_map.infoWindow;
+
 			on.once(_map,"load",function(){
 				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 				_map.disableKeyboardNavigation();
@@ -167,6 +169,7 @@ define(["storymaps/playlist/config/MapConfig",
 				if (reCenter){
 					_map.setExtent(_initExtent);
 				}
+				setPopupPosition(popup);
 			});
 
 			on(popup,"hide",function(){
@@ -193,6 +196,7 @@ define(["storymaps/playlist/config/MapConfig",
 				if (popup.getSelectedFeature() && popup.getSelectedFeature().visible){
 					_popupGallery.initGallery(_photoSelection);
 				}
+				setPopupPosition(popup);
 			});
 		};
 
@@ -668,6 +672,44 @@ define(["storymaps/playlist/config/MapConfig",
 				display: "none"
 			});
 
+		}
+
+		function setPopupPosition(popup){
+			if (popup && popup.getSelectedFeature()){
+				var pos = _map.toScreen(popup.getSelectedFeature().geometry);
+				var heightCalc = $('body,html').height()/3;
+				var width = $('body,html').width();
+				var popupWidth = 300;
+				var offset = $('.esriSimpleSlider').position().left - 20;
+
+				$('.esriPopup').removeClass('top-right-pos');
+
+				if ((pos.x < popupWidth + offset) && pos.y < heightCalc){
+					popup.set('anchor','bottom-right');
+				}
+				else if ((pos.x < (width - popupWidth)) && pos.y < heightCalc){
+					popup.set('anchor','bottom');
+				}
+				else if ((pos.x >= (width - popupWidth)) && pos.y < heightCalc){
+					popup.set('anchor','bottom-left');
+					$('.esriPopup').addClass('top-right-pos');
+				}
+				else if ((pos.x < (width - popupWidth)) && pos.y < (heightCalc * 2)){
+					popup.set('anchor','right');
+				}
+				else if ((pos.x >= (width - popupWidth)) && pos.y < (heightCalc * 2)){
+					popup.set('anchor','left');
+				}
+				else if ((pos.x < popupWidth + offset) && pos.y >= (heightCalc * 2)){
+					popup.set('anchor','top-right');
+				}
+				else if ((pos.x < (width - popupWidth)) && pos.y >= (heightCalc * 2)){
+					popup.set('anchor','top');
+				}
+				else{
+					popup.set('anchor','top-left');
+				}
+			}
 		}
 	};
 

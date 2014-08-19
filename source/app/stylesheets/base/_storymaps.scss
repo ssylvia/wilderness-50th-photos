@@ -334,7 +334,7 @@ html, body{
 }
 
 /* Custom Webkit Scrollbar */
-body:not(.touch){
+body{
 	::-webkit-scrollbar {
 		width: 8px;
 		background: $dark-gray;

@@ -9,21 +9,21 @@ trackingId: UA-26529417-1
 # META & OPENGRAPH TAGS
 
 # title of story map
-metaTitle: Playlist
+metaTitle: Wilderness Forever - Explore the Photos
 # Author of story map
 metaAuthor: Esri
 # Keywords to define story map
-metaKeywords: Story Map
+metaKeywords: "Wilderness Act, Story Map, Smithsonian"
 # Description of story map
-metaDescription: Add description for app
+metaDescription: "Smithsonian's Wilderness Forever juried photography exhibition celebrates the 50th anniversary of the Wilderness Act, a cornerstone of American environmental conservation. Browse the winning photographs in the exhibit&mdash;plus additional entries from the Wilderness Forever photography competition."
 # Permanent URL of app. Will be used as default URL when shared on Facebook and Twitter
-metaSocialURL: http://storymaps.esri.com
+metaSocialURL: http://storymaps.esri.com/stories/2014/wilderness-photos/
 # Permanent URL of app thumbnail. This is the thumbnail to be used when app is shared to Facebook and Twitter
-metaThumbnailURL: http://sample.com/thumbnail.png
+metaThumbnailURL: http://storymaps.esri.com/stories/2014/wilderness-photos/resources/images/contest-photos/small/36_RodneyLoughJr_GrandPrize_WonderLake_AK.jpg
 # Website/Organization's name to be used in sharing to Facebook and Twitter
 metaSiteName: Esri
 # Default text to be used while sharing app on Twitter
-metaTwitterText: Playlist
+metaTwitterText: "Discover the photos of Smithsonian's Wilderness Forever exhibition"
 # Twitter Handle to be used while sharing app on Twitter
 metaTwitterHandle: EsriStoryMaps
 # Favicon URL

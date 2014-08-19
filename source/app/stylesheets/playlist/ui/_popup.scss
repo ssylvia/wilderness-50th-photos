@@ -1,5 +1,5 @@
 .esriPopup .pointer, .esriPopup .outerPointer, .esriPopup .pointer.top {
-	background-color: black;
+	background-color: black !important;
 }
 
 .esriPopup .titlePane, .esriPopup .actionsPane{
@@ -29,6 +29,19 @@
 	top: -20px;
 	right: -20px;
 	background-color: #1a6a63;
+}
+
+.esriPopup.top-right-pos .expand-button{
+	right: auto;
+	left: -20px;
+}
+
+.esriPopup.top-right-pos h1{
+	float: right;
+}
+
+.esriPopup .expand-button:hover{
+	background-color: #207b70;
 }
 
 .esriPopup .expand-button p{
