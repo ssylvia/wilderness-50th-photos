@@ -2,7 +2,8 @@ define(["dojo/_base/array",
 	"dojo/on",
 	"storymaps/playlist/core/Data",
 	"storymaps/playlist/ui/ModalGallery",
-	'lib/unslider.js'], 
+	'lib/unslider.js',
+	'lib/jquery.waitforimages.js'], 
 	function(array,
 		on,
 		Data,
@@ -81,6 +82,12 @@ define(["dojo/_base/array",
 					map.infoWindow.reposition();
 					selectPhoto();
 				}
+			});
+			$(".esriPopup .slider").waitForImages({
+				finished: function(){
+					$('.slider').height($('.slider img').eq(_slider.data('unslider').current).height() + 2);
+				},
+				waitForAll: true
 			});
 			if (photoId){
 				_photoSelection = parseInt(photoId,10);
