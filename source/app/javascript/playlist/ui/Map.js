@@ -102,8 +102,6 @@ define(["storymaps/playlist/config/MapConfig",
 				logo: !isKiosk
 			});
 
-			window.iw=_map.infoWindow;
-
 			on.once(_map,"load",function(){
 				_map.centerAt(getOffsetCenter(_map.extent.getCenter()));
 				_map.disableKeyboardNavigation();
