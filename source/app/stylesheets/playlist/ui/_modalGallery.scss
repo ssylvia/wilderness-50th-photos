@@ -50,10 +50,23 @@
 
 	#left-details{
 		width: 28%;
+		min-width: 220px;
 		height: 100%;
 		padding-right: 25px;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
+		::-webkit-scrollbar {
+			width: 8px;
+			background: $dark-gray;
+		}
+
+		::-webkit-scrollbar-track {
+			-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.3);
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: $light-gray;
+		}
 
 		#winner-category{
 			text-transform: uppercase;

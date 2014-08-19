@@ -136,50 +136,50 @@
 		display: block;
 	}
 
-	@media all and (max-width: 768px) {
+	// @media all and (max-width: 768px) {
 
-		#banner{
-			height: 43px;
-		}
+	// 	#banner{
+	// 		height: 43px;
+	// 	}
 
-		#title{
-			margin: 9px 15px;
-			font: {
-				weight: normal;
-			}
-		}
+	// 	#title{
+	// 		margin: 9px 15px;
+	// 		font: {
+	// 			weight: normal;
+	// 		}
+	// 	}
 
-		#subtitle, #branding-wrapper, #side-pane-controls, #side-pane-controls .toggle-legend, #side-pane-controls .toggle-description{
-			display: none;
-		}
+	// 	#subtitle, #branding-wrapper, #side-pane-controls, #side-pane-controls .toggle-legend, #side-pane-controls .toggle-description{
+	// 		display: none;
+	// 	}
 
-		#mobile-controls, #mobile-info, .mobile-explore{
-			display: block;
-		}
+	// 	#mobile-controls, #mobile-info, .mobile-explore{
+	// 		display: block;
+	// 	}
 
-		#info-pane{
-			display: none;
-			position: absolute;
-			height: 100%;
-			max-height: none;
-			background:{
-				color: $white;
-			}
-			z-index: 100;
-		}
+	// 	#info-pane{
+	// 		display: none;
+	// 		position: absolute;
+	// 		height: 100%;
+	// 		max-height: none;
+	// 		background:{
+	// 			color: $white;
+	// 		}
+	// 		z-index: 100;
+	// 	}
 
-		&.show-description #info-pane, &.show-legend #info-pane, &.show-description .back-button, &.show-legend .back-button{
-			display: block;
-		}
+	// 	&.show-description #info-pane, &.show-legend #info-pane, &.show-description .back-button, &.show-legend .back-button{
+	// 		display: block;
+	// 	}
 
-		.mobile-explore .btn{
-			display: inline;
-		}
+	// 	.mobile-explore .btn{
+	// 		display: inline;
+	// 	}
 
-		&.show-description .playlist-control, &.show-legend .playlist-control{
-			display: none;
-		}
-	}
+	// 	&.show-description .playlist-control, &.show-legend .playlist-control{
+	// 		display: none;
+	// 	}
+	// }
 
 }
 

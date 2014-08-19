@@ -18,11 +18,6 @@ define(["storymaps/utils/Helper",
 		$("body").addClass("touch");
 		$("#map").attr("data-snap-ignore","true");
 
-		if ($("body").width() <= 768){
-			$("#info-pane").removeClass("region-top");
-			$("#side-pane-content").prepend($("#info-pane"));
-		}
-
 		moveInfo();
 		enableSwipeList();
 		enableMobileEvents();
@@ -34,14 +29,9 @@ define(["storymaps/utils/Helper",
 
 		function moveInfo()
 		{
-			if ($("body").width() <= 768){
-				$("#info-pane").removeClass("region-top");
-				$("#map-pane").append($("#info-pane"));
-			}
-			else{
-				$("#info-pane").addClass("region-top");
-				$("#side-pane-content").prepend($("#info-pane"));
-			}
+
+			$("#info-pane").addClass("region-top");
+			$("#side-pane-content").prepend($("#info-pane"));
 			Helper.resetRegionLayout();
 		}
 

@@ -81,7 +81,7 @@ define(["storymaps/playlist/config/MapConfig",
 
 			var popup;
 
-			if (has("touch") && domGeom.position(query("body")[0]).w < 768){
+			if (false && has("touch") && domGeom.position(query("body")[0]).w < 768){
 				popup = new PopupMobile(null,domConstruct.create("div"));
 			}
 			else{
