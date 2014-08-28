@@ -121,7 +121,7 @@ define(["storymaps/playlist/config/MapConfig",
 			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
 			_map.addLayer(wildernesses);
 
-			var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://ec2-54-211-170-245.compute-1.amazonaws.com:6080/arcgis/rest/services/Wilderness/app_one_cache/MapServer');
+			var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://ec2-54-167-53-115.compute-1.amazonaws.com:6080/arcgis/rest/services/Wilderness/app_one_cache4/MapServer');
 			_map.addLayer(wildernessesTiles);
 
 			on.once(wildernesses,'update-end',function(){
@@ -148,23 +148,8 @@ define(["storymaps/playlist/config/MapConfig",
 
 			on(_map,"extent-change",function(){
 				var center = _map.extent.getCenter();
-				var reCenter;
-				if (_initExtent && center.x < _initExtent.xmin){
-					reCenter = true;
-				}
-				else if (_initExtent && center.x > _initExtent.xmax){
-					reCenter = true;
-				}
-				else if (_initExtent && center.y > _initExtent.ymax){
-					reCenter = true;
-				}
-				else if (_initExtent && center.y < _initExtent.ymin){
-					reCenter = true;
-				}
-				else{
-					reCenter = false;
-				}
-				if (reCenter){
+				var extent = new Extent(-205,14,-37,71, new SpatialReference({ wkid:4326 }));
+				if (_initExtent && !extent.contains(center)){
 					_map.setExtent(_initExtent);
 				}
 				setPopupPosition(popup);

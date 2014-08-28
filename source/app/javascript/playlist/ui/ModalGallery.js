@@ -120,7 +120,7 @@ define(["esri/map",
 			slider: false
 		});
 
-		var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://ec2-54-211-170-245.compute-1.amazonaws.com:6080/arcgis/rest/services/Wilderness/app_one_cache/MapServer');
+		var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://ec2-54-167-53-115.compute-1.amazonaws.com:6080/arcgis/rest/services/Wilderness/app_one_cache4/MapServer');
 		_map.addLayer(wildernessesTiles);
 
 		_wildernessHighlight = new FeatureLayer("http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/Wilderness1/FeatureServer/1",{
