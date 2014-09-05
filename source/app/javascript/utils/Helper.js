@@ -120,7 +120,7 @@ define(["dojo/_base/array",
 
 		startUpIdleTimer: function()
 		{
-			var idleWait = 300000;
+			var idleWait = 30000;
 			var idleTimer = null;
 			var idleState = false;
 			

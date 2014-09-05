@@ -1,7 +1,7 @@
 # GOOGLE ANALYTICS
 
 # Include Google Analytics
-includeAnalytics: false
+includeAnalytics: true
 # Google Analytics Tracking ID
 trackingId: UA-26529417-1
 
