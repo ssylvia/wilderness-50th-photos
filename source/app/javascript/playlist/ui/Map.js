@@ -24,7 +24,7 @@ define(["storymaps/playlist/config/MapConfig",
 	"esri/symbols/PictureMarkerSymbol",
 	"esri/renderers/UniqueValueRenderer",
 	"esri/tasks/query",
-	"dojo/_base/sniff"], 
+	"dojo/_base/sniff"],
 	function(MapConfig,
 		Data,
 		PopupGallery,
@@ -54,7 +54,7 @@ define(["storymaps/playlist/config/MapConfig",
 	/**
 	* Playlist Map
 	* @class Playlist Map
-	* 
+	*
 	* Class to define a new map for the playlist template
 	*/
 
@@ -121,7 +121,7 @@ define(["storymaps/playlist/config/MapConfig",
 			var wildernesses = new CSVLayer('resources/data/wildernesses.csv');
 			_map.addLayer(wildernesses);
 
-			var wildernessesTiles = new ArcGISTiledMapServiceLayer('http://ec2-54-167-53-115.compute-1.amazonaws.com:6080/arcgis/rest/services/Wilderness/app_one_cache4/MapServer');
+			var wildernessesTiles = new ArcGISTiledMapServiceLayer('//arcgis.storymaps.esri.com/arcgis/rest/services/Wilderness/app_one_cache4/MapServer');
 			_map.addLayer(wildernessesTiles);
 
 			on.once(wildernesses,'update-end',function(){
@@ -238,7 +238,7 @@ define(["storymaps/playlist/config/MapConfig",
 
 				if (!has("ie")){
 					graphic.getDojoShape().moveToFront();
-				}				
+				}
 			});
 		};
 
@@ -258,9 +258,9 @@ define(["storymaps/playlist/config/MapConfig",
 					_lastHightlighedGraphic = graphic;
 
 					if (graphic.getNode() && domGeom.position(graphic.getNode()).x > getSidePanelWidth()){
-						
+
 						var newSym = layer.renderer.getSymbol(graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
-						
+
 						graphic.setSymbol(newSym);
 						if (!has("ie")){
 							graphic.getDojoShape().moveToFront();
@@ -268,7 +268,7 @@ define(["storymaps/playlist/config/MapConfig",
 
 						showMapTip(graphic,titleAttr);
 					}
-					
+
 				});
 			}
 		};
@@ -436,9 +436,9 @@ define(["storymaps/playlist/config/MapConfig",
 			var maxPoints = _mapConfig.getMaxAllowablePoints();
 			array.forEach(lyr.graphics,function(grp,i){
 				if (i < maxPoints){
-					
+
 					var symbol = renderer.getSymbol(grp);
-					
+
 					var item = {
 						layerId: layerObj.id,
 						objectIdField: layerObj.objectIdField,
@@ -511,7 +511,7 @@ define(["storymaps/playlist/config/MapConfig",
 		function addLayerEvents(layer)
 		{
 			if(!has("touch")){
-				
+
 				on(layer,"mouse-over",function(event){
 					var newSym = layer.renderer.getSymbol(event.graphic).setWidth(_mapConfig.getMarkerPositionHighlight().width).setHeight(_mapConfig.getMarkerPositionHighlight().height).setOffset(_mapConfig.getMarkerPositionHighlight().xOffset,_mapConfig.getMarkerPositionHighlight().yOffset);
 					var item = {
